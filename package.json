@@ -9,15 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^5.5.1",
+    "@vercel/postgres": "^0.5.0",
+    "next": "13.5.6",
+    "prisma": "^5.5.1",
     "react": "^18",
     "react-dom": "^18",
-    "next": "13.5.6"
+    "vercel": "^32.5.0"
   },
   "devDependencies": {
     "autoprefixer": "^10",
-    "postcss": "^8",
-    "tailwindcss": "^3",
     "eslint": "^8",
-    "eslint-config-next": "13.5.6"
+    "eslint-config-next": "13.5.6",
+    "postcss": "^8",
+    "tailwindcss": "^3"
   }
 }
