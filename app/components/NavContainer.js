@@ -1,293 +1,208 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/YHzFPSixIir
- */
-import { Button } from "@/components/ui/button"
-import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
-import Link from "next/link"
-import { CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
-import { Input } from "@/components/ui/input"
-
 export default function NavContainer() {
   return (
-    <div key="1" className="grid h-screen min-h-screen w-full overflow-hidden lg:grid-cols-[280px_1fr]">
-      <div className="border-r bg-zinc-100/40 lg:hidden dark:bg-zinc-800/40">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button className="shrink-0 -translate-x-1" size="icon" variant="outline">
-              <svg
-                className=" h-5 w-5"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+    <div>
+      <button
+        data-drawer-target="default-sidebar"
+        data-drawer-toggle="default-sidebar"
+        aria-controls="default-sidebar"
+        type="button"
+        className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+      >
+        <span className="sr-only">Open sidebar</span>
+        <FontAwesomeIcon icon="fa-solid fa-bars" />
+              </button>
+
+      <aside
+        id="default-sidebar"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidenav"
+      >
+        <div className="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <ul className="space-y-2">
+            <li>
+              <a
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <rect height="18" rx="2" ry="2" width="18" x="3" y="3" />
-                <line x1="15" x2="15" y1="3" y2="21" />
-              </svg>
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <div className="flex h-full max-h-screen flex-col gap-2">
-              <div className="flex h-[60px] items-center border-b px-6">
-                <Link className="flex items-center gap-2 font-semibold" href="#">
-                  <svg
-                    className=" h-6 w-6"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
-                    <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
-                    <path d="M12 3v6" />
-                  </svg>
-                  <span className="">DataViz Inc</span>
-                </Link>
-              </div>
-              <div className="flex-1 overflow-auto py-2">
-                <nav className="grid items-start px-4 text-sm font-medium">
-                  <div>
-                    <div className="px-3 py-2 text-zinc-500 dark:text-zinc-400">Category 1</div>
-                    <Link
-                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-500 transition-all hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-                      href="#"
-                    >
-                      <svg
-                        className=" h-4 w-4"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M3 3v18h18" />
-                        <path d="m19 9-5 5-4-4-3 3" />
-                      </svg>
-                      Visualization 1
-                    </Link>
-                    <Link
-                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-500 transition-all hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-                      href="#"
-                    >
-                      <svg
-                        className=" h-4 w-4"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                        <path d="M22 12A10 10 0 0 0 12 2v10z" />
-                      </svg>
-                      Visualization 2
-                    </Link>
-                  </div>
-                  <div>
-                    <div className="px-3 py-2 text-zinc-500 dark:text-zinc-400">Category 2</div>
-                    <Link
-                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-500 transition-all hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-                      href="#"
-                    >
-                      <svg
-                        className=" h-4 w-4"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <line x1="12" x2="12" y1="20" y2="10" />
-                        <line x1="18" x2="18" y1="20" y2="4" />
-                        <line x1="6" x2="6" y1="20" y2="16" />
-                      </svg>
-                      Visualization 3
-                    </Link>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </div>
-      <div className="hidden border-r bg-zinc-100/40 lg:block dark:bg-zinc-800/40">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-[60px] items-center border-b px-6">
-            <Link className="flex items-center gap-2 font-semibold" href="#">
-              <svg
-                className=" h-6 w-6"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+                <span className="ml-3">Overview</span>
+              </a>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                aria-controls="dropdown-pages"
+                data-collapse-toggle="dropdown-pages"
               >
-                <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
-                <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
-                <path d="M12 3v6" />
-              </svg>
-              <span>DataViz Inc</span>
-            </Link>
-            <CollapsibleTrigger asChild>
-              <Button className="ml-auto" size="icon" variant="ghost">
-                <svg
-                  className=" h-6 w-6"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </CollapsibleTrigger>
-          </div>
-          <CollapsibleContent>
-            <div className="flex-1 overflow-auto py-2">
-              <nav className="grid items-start px-4 text-sm font-medium">
-                <div>
-                  <div className="px-3 py-2 text-zinc-500 dark:text-zinc-400">Category 1</div>
-                  <Link
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-500 transition-all hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+                <span className="flex-1 ml-3 text-left whitespace-nowrap">
+                  Pages
+                </span>
+              </button>
+              <ul id="dropdown-pages" className="hidden py-2 space-y-2">
+                <li>
+                  <a
                     href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
-                    <svg
-                      className=" h-4 w-4"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M3 3v18h18" />
-                      <path d="m19 9-5 5-4-4-3 3" />
-                    </svg>
-                    Visualization 1
-                  </Link>
-                  <Link
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-500 transition-all hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+                    Settings
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
-                    <svg
-                      className=" h-4 w-4"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                      <path d="M22 12A10 10 0 0 0 12 2v10z" />
-                    </svg>
-                    Visualization 2
-                  </Link>
-                </div>
-                <div>
-                  <div className="px-3 py-2 text-zinc-500 dark:text-zinc-400">Category 2</div>
-                  <Link
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-zinc-500 transition-all hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+                    Kanban
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
-                    <svg
-                      className=" h-4 w-4"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <line x1="12" x2="12" y1="20" y2="10" />
-                      <line x1="18" x2="18" y1="20" y2="4" />
-                      <line x1="6" x2="6" y1="20" y2="16" />
-                    </svg>
-                    Visualization 3
-                  </Link>
-                </div>
-              </nav>
-            </div>
-          </CollapsibleContent>
+                    Calendar
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                aria-controls="dropdown-sales"
+                data-collapse-toggle="dropdown-sales"
+              >
+                <span className="flex-1 ml-3 text-left whitespace-nowrap">
+                  Sales
+                </span>
+              </button>
+              <ul id="dropdown-sales" className="hidden py-2 space-y-2">
+                <li>
+                  <a
+                    href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Products
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Billing
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Invoice
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ml-3 whitespace-nowrap">Messages</span>
+                <span className="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800">
+                  6
+                </span>
+              </a>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                aria-controls="dropdown-authentication"
+                data-collapse-toggle="dropdown-authentication"
+              >
+                <span className="flex-1 ml-3 text-left whitespace-nowrap">
+                  Authentication
+                </span>
+              </button>
+              <ul
+                id="dropdown-authentication"
+                className="hidden py-2 space-y-2"
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Sign In
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Sign Up
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Forgot Password
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul className="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
+            <li>
+              <a
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+              >
+                <span className="ml-3">Docs</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+              >
+                <span className="ml-3">Components</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+              >
+                <span className="ml-3">Help</span>
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
-      <div className="flex flex-col overflow-auto">
-        <header className="sticky top-0 flex h-[60px] items-center gap-4 border-b bg-zinc-100/40 px-6 dark:bg-zinc-800/40">
-          <div className="w-full flex-1">
-            <form>
-              <div className="relative">
-                <svg
-                  className=" absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500 dark:text-zinc-400"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="m21 21-4.3-4.3" />
-                </svg>
-                <Input
-                  className="w-full appearance-none pl-8 md:w-2/3 lg:w-1/3"
-                  placeholder="Search visualizations..."
-                  type="search"
-                />
-              </div>
-            </form>
+        <div className="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-gray-800 z-20 border-r border-gray-200 dark:border-gray-700">
+          <a
+            href="#"
+            className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+          ></a>
+          <a
+            href="#"
+            data-tooltip-target="tooltip-settings"
+            className="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 dark:hover:text-white hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-600"
+          ></a>
+          <div
+            id="tooltip-settings"
+            role="tooltip"
+            className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip"
+          >
+            Settings page
+            <div className="tooltip-arrow" data-popper-arrow></div>
           </div>
-        </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          <div className="h-20 rounded-lg border border-zinc-200 border-dashed dark:border-zinc-800" />
-          <div className="flex-1 rounded-lg border border-zinc-200 border-dashed border-zinc-200 dark:border-zinc-800 dark:border-zinc-800" />
-        </main>
-      </div>
+        </div>
+      </aside>
     </div>
-  )
+  );
 }
