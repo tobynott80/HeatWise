@@ -5,44 +5,35 @@ import HomeIcon from "./icons/Home";
 import PoundIcon from "./icons/Pound";
 import GraphDown from "./icons/GraphDown";
 
+
+const MenuItem = ({ title, href, icon, isActive }) => {
+  const classes = `flex items-center px-6 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${isActive ? 'border-2 rounded-lg border-gray-200 dark:border-gray-700' : ''}`;
+  return (
+    <Link
+      className={classes}
+      href={href}
+    >
+      {icon}
+      <span className="mx-2 font-medium">{title}</span>
+    </Link>
+  );
+};
+
+
 export default function NavContainer() {
   return (
     <div className="fixed left-0 h-screen w-[300px] flex flex-col bg-white dark:bg-gray-800 overflow-y-auto">
       <div className="flex items-center justify-start h-16 px-6 border-b">
         <MenuIcon />
         <span className="ml-2 text-lg font-semibold text-gray-700 dark:text-gray-200">
-          Menu
+          HeatWise
         </span>
       </div>
-      <nav className="flex flex-col py-4">
-        <Link
-          className="flex items-center px-6 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-          href="/"
-        >
-          <HomeIcon />
-          <span className="mx-4 font-medium">Home</span>
-        </Link>
-        <Link
-          className="flex items-center px-6 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-          href="/demand"
-        >
-          <GlobeIcon />
-          <span className="mx-4 font-medium">Change in Heat Demand</span>
-        </Link>
-        <Link
-          className="flex items-center px-6 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-          href="/costs"
-        >
-          <PoundIcon />
-          <span className="mx-4 font-medium">Energy Efficieny Costs</span>
-        </Link>
-        <Link
-          className="flex items-center px-6 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-          href="/consumption"
-        >
-          <GraphDown />
-          <span className="mx-4 font-medium">Heat Consumption Profile</span>
-        </Link>
+      <nav className="flex flex-col py-4 px-2">
+        <MenuItem title="Home" href="/" icon={<HomeIcon />} isActive={true} />
+        <MenuItem title="Change In Heat Demand" href="/demand" icon={<GlobeIcon />} isActive={false} />
+        <MenuItem title="Energy Efficiency Costs" href="/costs" icon={<PoundIcon />} isActive={false} />
+        <MenuItem title="Heat Consumption Profile" href="/consumption" icon={<GraphDown />} isActive={false} />
       </nav>
     </div>
   );
