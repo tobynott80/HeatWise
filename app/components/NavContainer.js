@@ -54,10 +54,16 @@ export default function NavContainer({ activeLink }) {
       </nav>
       <div className="flex items-center justify-center py-4">
         <Link
-          className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+          className="mx-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
           href="/help"
         >
           Help
+        </Link>
+        <Link
+          className="mx-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+          href="/contact"
+        >
+          Contact
         </Link>
       </div>
     </div>
