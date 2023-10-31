@@ -2,7 +2,7 @@ default:
   image: node:16.16.0
   tags:
   - comsc-ci
-  - general-docker
+  # - general-docker
 
 
 deploy_preview:
