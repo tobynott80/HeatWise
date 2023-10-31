@@ -48,9 +48,7 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           </span>
         )}
       </div>
-      <nav
-        className='flex flex-col py-4 px-4 flex-grow'
-      >
+      <nav className='flex flex-col py-4 px-4 flex-grow'>
         <MenuItem
           title={isSidebarOpen ? 'Home' : ''}
           href='/'
@@ -76,13 +74,13 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           isActive={pathname == '/consumption'}
         />
       </nav>
-        <div className='flex items-center justify-center py-4'>
-          <MenuItem
+      <div className='flex items-center justify-center py-4'>
+        <MenuItem
           title={isSidebarOpen ? 'Help' : ''}
           href='/help'
           icon={<QuestionMark />}
         />
-        </div>
+      </div>
     </nav>
   );
 }
