@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AdminIcon from './icons/Admin';
 import MenuIcon from './icons/Menu';
 import GlobeIcon from './icons/Globe';
 import HomeIcon from './icons/Home';
@@ -77,16 +78,24 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           isActive={pathname == '/consumption'}
         />
       </nav>
-      {isSidebarOpen && (
-        <div className='flex items-center justify-center py-4'>
+      <div className='flex items-center justify-between py-4'>
+        {isSidebarOpen && (
           <Link
             href='/help'
             className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
           >
             Help
           </Link>
-        </div>
-      )}
+        )}
+        {isSidebarOpen && (
+          <Link
+            href='/admin'
+            className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
+          >
+            <AdminIcon />
+          </Link>
+        )}
+      </div>
     </nav>
   );
 }
