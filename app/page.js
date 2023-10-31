@@ -1,4 +1,4 @@
-import { Roboto_Flex } from 'next/font/google';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -115,7 +115,42 @@ export default function Home() {
               </div>
             </div>
 
-            <div className='grow h-48 border-4 mb-4 rounded-lg'></div>
+            <div className='grow h-48 border-4 mb-4 rounded-lg'>
+              <div className='flex w-full'>
+                <div className='grow w-1/2 mx-4  mb-4 font-bold'>
+                  <Image
+                    className='mx-4 mt-4'
+                    src='/logos/cardiff_logo.png'
+                    width={100}
+                    height={0}
+                    alt='Cardiff University'
+                  />
+                  <Image
+                    className='mx-4 mt-4'
+                    src='/logos/ukri_logo.png'
+                    width={100}
+                    height={0}
+                    alt='UKRI'
+                  />
+                </div>
+                <div className='grow w-1/2 mx-4  mb-4 font-bold'>
+                  <Image
+                    className='mx-4 mt-4'
+                    src='/logos/ukerc_logo.png'
+                    width={100}
+                    height={0}
+                    alt='UKERC'
+                  />
+                  <Image
+                    className='mx-4 mt-4'
+                    src='/logos/flexis_logo.png'
+                    width={100}
+                    height={0}
+                    alt='Flexis'
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
