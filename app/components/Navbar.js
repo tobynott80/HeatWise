@@ -6,6 +6,7 @@ import HomeIcon from './icons/Home';
 import PoundIcon from './icons/Pound';
 import GraphDown from './icons/GraphDown';
 import { usePathname } from 'next/navigation';
+import QuestionMark from './icons/Question';
 
 const MenuItem = ({ title, href, icon, isActive }) => {
   const classes = `flex items-center py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${
@@ -48,11 +49,7 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           </span>
         )}
       </div>
-      <nav
-        className={`flex flex-col py-4 px-4 ${
-          isSidebarOpen ? 'flex-grow' : ''
-        }`}
-      >
+      <nav className='flex flex-col py-4 px-4 flex-grow'>
         <MenuItem
           title={isSidebarOpen ? 'Home' : ''}
           href='/'
@@ -80,12 +77,11 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
       </nav>
       <div className='flex items-center justify-between py-4'>
         {isSidebarOpen && (
-          <Link
+          <MenuItem
+            title={isSidebarOpen ? 'Help' : ''}
             href='/help'
-            className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
-          >
-            Help
-          </Link>
+            icon={<QuestionMark />}
+          />
         )}
         {isSidebarOpen && (
           <Link
