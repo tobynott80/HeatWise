@@ -11,12 +11,12 @@ async function seedHeatDemandData() {
   for await (const row of stream) {
     const rowArray = Object.values(row);  // Convert the row object into an array
 
-    // Assuming lsoaId is the first column (0), before is the 55th column (54) and after is the 56th column (55)
+    //  LOSA11CD is the first column (0), before demand is the 55th column (54) and after demand is the 56th column (55)
     const lsoaId = rowArray[0];
     const before = parseFloat(rowArray[54]);  // Convert from string to float
     const after = parseFloat(rowArray[55]);   // Convert from string to float
   
-    // Insert data into PostgreSQL using Prisma
+    // Insert data into db using Prisma
     await prisma.heatDemand.create({
       data: {
         lsoaId,
