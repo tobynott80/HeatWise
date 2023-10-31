@@ -1,11 +1,10 @@
-"use client";
 import Link from "next/link";
 import MenuIcon from "./icons/Menu";
 import GlobeIcon from "./icons/Globe";
 import HomeIcon from "./icons/Home";
 import PoundIcon from "./icons/Pound";
 import GraphDown from "./icons/GraphDown";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const MenuItem = ({ title, href, icon, isActive }) => {
   const classes = `flex items-center py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${
@@ -19,8 +18,8 @@ const MenuItem = ({ title, href, icon, isActive }) => {
   );
 };
 
-export default function NavContainer({ activeLink }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
+  const pathname = usePathname();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -29,8 +28,8 @@ export default function NavContainer({ activeLink }) {
   const sidebarWidth = isSidebarOpen ? "w-[300px]" : "w-[75px]";
 
   return (
-    <div
-      className={`fixed left-0 h-screen ${sidebarWidth} flex flex-col bg-white dark:bg-gray-800 overflow-y-auto`}
+    <nav
+      className={`static translate-x-0 z-20 left-0 h-screen ${sidebarWidth} flex flex-col bg-white dark:bg-gray-800 overflow-y-auto transition-all duration-300 ease-in-out`}
     >
       <div className="flex items-center justify-between h-16 px-6 border-b">
         <button className="ml-2" onClick={toggleSidebar}>
@@ -51,25 +50,25 @@ export default function NavContainer({ activeLink }) {
           title={isSidebarOpen ? "Home" : ""}
           href="/"
           icon={<HomeIcon />}
-          isActive={activeLink === "/"}
+          isActive={pathname == "/"}
         />
         <MenuItem
           title={isSidebarOpen ? "Change in Heat Demand" : ""}
           href="/demand"
           icon={<GlobeIcon />}
-          isActive={activeLink === "/demand"}
+          isActive={pathname == "/demand"}
         />
         <MenuItem
           title={isSidebarOpen ? "Energy Efficieny Costs" : ""}
           href="/costs"
           icon={<PoundIcon />}
-          isActive={activeLink === "/costs"}
+          isActive={pathname == "/costs"}
         />
         <MenuItem
           title={isSidebarOpen ? "Heat Consumption Profile" : ""}
           href="/consumption"
           icon={<GraphDown />}
-          isActive={activeLink === "/consumption"}
+          isActive={pathname == "/consumption"}
         />
       </nav>
       {isSidebarOpen && (
@@ -82,6 +81,6 @@ export default function NavContainer({ activeLink }) {
           </Link>
         </div>
       )}
-    </div>
+    </nav>
   );
 }
