@@ -1,8 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# HeatWise - Group 6 CM6311
 
-## Development Server
+## Important Links
 
-First, run the development server:
+## Onboarding
+
+HeatWise is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+### Development Server
+
+To run the development server:
 
 ```bash
 npm run dev
@@ -14,5 +20,5 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Next.js will host the dev server at [http://localhost:3000](http://localhost:3000)
 
