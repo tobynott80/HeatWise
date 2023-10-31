@@ -75,17 +75,17 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           isActive={pathname == '/consumption'}
         />
       </nav>
-      <div className='flex items-center justify-between py-4'>
-        {isSidebarOpen && (
+      <div className='flex items-center justify-between py-4 pr-4'>
+        <div className='px-2 overflow-hidden'>
           <MenuItem
-            title={isSidebarOpen ? 'Help' : ''}
+            title={isSidebarOpen ? '' : ''}
             href='/help'
             icon={<QuestionMark />}
           />
-        )}
+        </div>
         {isSidebarOpen && (
           <Link
-            href='/admin'
+            href='/admin/login'
             className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
           >
             <AdminIcon />
