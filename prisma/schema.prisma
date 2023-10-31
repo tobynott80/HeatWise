@@ -1,11 +1,26 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model HeatDemand {
+  lsoa11cd     String @id
+  BeforeDemand Float?
+  AfterDemand  Float?
+
+  @@index([lsoa11cd], map: "lsoa__index")
+}
+
+model lsoa {
+  lsoa11cd String  @id(map: "lsoa_pk")
+  lsoa11nm String?
+  lad17cd  String?
+  lad17nm  String?
+
+  @@index([lsoa11cd], map: "lsoa_lsoa11cd_index")
 }
