@@ -9,21 +9,20 @@ datasource db {
 }
 
 model HeatDemand {
-  lsoa11cd     String
+  lsoa11cd     String @id
   BeforeDemand Float?
   AfterDemand  Float?
   lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd])
 
-  @@id([lsoa11cd])
   @@index([lsoa11cd], map: "lsoa__index")
 }
 
 model lsoa {
-  lsoa11cd    String       @id(map: "lsoa_pk")
+  lsoa11cd    String      @id(map: "lsoa_pk")
   lsoa11nm    String?
   lad17cd     String?
   lad17nm     String?
-  heatDemands HeatDemand[]
+  heatDemands HeatDemand?
 
   @@index([lsoa11cd], map: "lsoa_lsoa11cd_index")
 }
@@ -35,4 +34,14 @@ model spatial_ref_sys {
   auth_srid Int?
   srtext    String? @db.VarChar(2048)
   proj4text String? @db.VarChar(2048)
+}
+
+model lad_eng_wal {
+  id_0     Int                      @id @default(autoincrement())
+  geom     Unsupported("geometry")?
+  id       String?                  @db.VarChar
+  LAD13CD  String?                  @db.VarChar
+  LAD13CDO String?                  @db.VarChar
+  LAD13NM  String?                  @db.VarChar
+  LAD13NMW String?                  @db.VarChar
 }
