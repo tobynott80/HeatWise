@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 export async function GET(request) {
   const lsoaQuery = request.nextUrl.searchParams.get('lsoa');
-  console.log(lsoaQuery);
   if (!lsoaQuery) {
     return Response.json({ error: 'lsoa must not be null' });
   }

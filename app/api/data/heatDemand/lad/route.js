@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 export async function GET(request) {
   const ladQuery = request.nextUrl.searchParams.get('lad');
-  console.log(ladQuery);
 
   if (!ladQuery) {
     return Response.json({ error: 'LAD must not be null' });
