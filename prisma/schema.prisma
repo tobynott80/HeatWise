@@ -9,39 +9,17 @@ datasource db {
 }
 
 model HeatDemand {
-  lsoa11cd     String @id
-  BeforeDemand Float?
-  AfterDemand  Float?
-  lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd])
-
-  @@index([lsoa11cd], map: "lsoa__index")
+  id           String @id
+  lsoa11cd     String
+  beforeDemand Float
+  afterDemand  Float
+  lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model lsoa {
-  lsoa11cd    String      @id(map: "lsoa_pk")
+  lsoa11cd    String       @id @unique(map: "unique_lsoa11cd")
   lsoa11nm    String?
   lad17cd     String?
   lad17nm     String?
-  heatDemands HeatDemand?
-
-  @@index([lsoa11cd], map: "lsoa_lsoa11cd_index")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model spatial_ref_sys {
-  srid      Int     @id
-  auth_name String? @db.VarChar(256)
-  auth_srid Int?
-  srtext    String? @db.VarChar(2048)
-  proj4text String? @db.VarChar(2048)
-}
-
-model lad_eng_wal {
-  id_0     Int                      @id @default(autoincrement())
-  geom     Unsupported("geometry")?
-  id       String?                  @db.VarChar
-  LAD13CD  String?                  @db.VarChar
-  LAD13CDO String?                  @db.VarChar
-  LAD13NM  String?                  @db.VarChar
-  LAD13NMW String?                  @db.VarChar
+  heatDemands HeatDemand[]
 }
