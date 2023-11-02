@@ -6,10 +6,11 @@ export default function LADMap() {
   const ref = useRef();
   const tooltipRef = useRef();
   const [ladTracs, setLadTracs] = useState(null);
-  const [path, setPath] = useState(null);
+  const [heatDemand, setHeatDemand] = useState(null);
 
   const width = 928;
   const height = 1200;
+  const color = d3.scaleQuantize([10000, 10000000], d3.schemeOranges[9]);
 
   const svg = d3.select(ref.current);
   svg.selectAll('*').remove();
@@ -36,13 +37,21 @@ export default function LADMap() {
     const { transform } = event;
     g.attr('transform', transform);
   }
-
+  // Get geojson data for the map
   useEffect(() => {
     d3.json('/api/geojson/lad').then((data) => {
       setLadTracs(data);
     });
   }, []);
 
+  // Get heat demand data
+  useEffect(() => {
+    d3.json('/api/data/heatDemand').then((data) => {
+      setHeatDemand(data);
+    });
+  }, []);
+
+  // Draw the map
   useEffect(() => {
     if (!ladTracs) return;
 
@@ -66,13 +75,9 @@ export default function LADMap() {
       // .attr("stroke-width", 1)
       .attr('fill', 'silver')
       .on('mouseover', function (event, d) {
-        d3.select(this).attr('fill', 'gray');
         if (tooltipRef.current) {
           tooltipRef.current.innerHTML = d.properties.LAD13NM;
         }
-      })
-      .on('mouseout', function (event, d) {
-        d3.select(this).attr('fill', 'silver');
       })
       .on('click', function (event, d) {
         const url = `/lsoa/${d.id}`;
@@ -84,6 +89,24 @@ export default function LADMap() {
       });
   }, [g, ladTracs]);
 
+  // Draw the heat demand data
+  useEffect(() => {
+    if (!heatDemand) return;
+    g.selectAll('path')
+      .join('path')
+      .attr('fill', (d) => {
+        const foundItem = heatDemand.find(
+          (item) => item.lad17cd === d.properties.LAD13CD
+        );
+
+        if (foundItem) {
+          return color(foundItem.total_before);
+        }
+
+        // If no match was found for lad heat demand, return grey
+        return 'grey';
+      });
+  }, [color, g, heatDemand]);
   return (
     <div>
       <h3 ref={tooltipRef}>Select An Area</h3>
