@@ -3,22 +3,49 @@ import { PrismaClient } from '@prisma/client';
 
 export async function GET(request) {
   const ladQuery = request.nextUrl.searchParams.get('lad');
-
-  if (!ladQuery) {
-    return Response.json({ error: 'LAD must not be null' });
-  }
-
   const prisma = new PrismaClient();
+  // if no lad has been specified - get all lad data
+  if (!ladQuery) {
+    try {
+      const data = await prisma.lsoa.findMany({
+        include: {
+          heatDemands: true
+        }
+      });
 
+      const aggregatedData = data.map((lsoaItem) => {
+        return {
+          lad17cd: lsoaItem.lad17cd,
+          total_before: lsoaItem.heatDemands.reduce(
+            (acc, curr) => acc + curr.beforeDemand,
+            0
+          ),
+          total_after: lsoaItem.heatDemands.reduce(
+            (acc, curr) => acc + curr.afterDemand,
+            0
+          )
+        };
+      });
+
+      return Response.json(aggregatedData);
+    } catch (error) {
+      console.error('Prisma error: ', error);
+      return Response.json({ error: 'Something went wrong' });
+    }
+  }
   try {
-    const data = await prisma.lsoa.findMany({
+    const data = await prisma.heatDemand.aggregate({
       where: {
-        lad17cd: ladQuery
+        lsoa: {
+          lad17cd: ladQuery
+        }
       },
-      include: {
-        heatDemands: true
+      _sum: {
+        beforeDemand: true,
+        afterDemand: true
       }
     });
+
     return Response.json(data);
   } catch (error) {
     console.error('Prisma error: ', error);
