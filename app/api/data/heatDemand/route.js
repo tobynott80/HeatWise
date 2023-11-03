@@ -5,10 +5,10 @@ export async function GET() {
   const prisma = new PrismaClient();
 
   try {
-    const results = await prisma.lsoa.findMany({
+    const records = await prisma.lsoa.findMany({
       select: {
         lad17cd: true,
-        heatDemands: {
+        HeatDemands: {
           select: {
             beforeDemand: true,
             afterDemand: true
@@ -17,25 +17,24 @@ export async function GET() {
       }
     });
 
-    // Aggregating the data
-    const aggregatedData = results.reduce((acc, current) => {
-      if (!acc[current.lad17cd]) {
-        acc[current.lad17cd] = {
-          total_before: 0,
-          total_after: 0
-        };
+    const aggregatedResults = records.reduce((acc, record) => {
+      if (!acc[record.lad17cd]) {
+        acc[record.lad17cd] = { total_before: 0, total_after: 0 };
       }
 
-      acc[current.lad17cd].total_before +=
-        current.heatDemands?.beforeDemand || 0;
-      acc[current.lad17cd].total_after += current.heatDemands?.afterDemand || 0;
+      if (record.HeatDemands) {
+        acc[record.lad17cd].total_before += Number(
+          record.HeatDemands.beforeDemand || 0
+        );
+        acc[record.lad17cd].total_after += Number(
+          record.HeatDemands.afterDemand || 0
+        );
+      }
 
       return acc;
     }, {});
 
-    return Response.json(aggregatedData);
-
-    return Response.json(ladAggregatedData);
+    return Response.json(aggregatedResults);
   } catch (error) {
     console.error('Prisma error: ', error);
     return Response.json({ error: 'Something went wrong' });

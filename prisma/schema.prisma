@@ -15,7 +15,6 @@ model HeatDemand {
   lsoa         lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model lsoa {
   lsoa11cd    String      @id
   lsoa11nm    String?
