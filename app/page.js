@@ -9,7 +9,7 @@ export default function Home() {
           <div className='grow w-1/2 mx-4 border-4 mb-4 rounded-lg'>
             <p className='mx-2 mt-3 mb-4'>
               The Centre for Integrated Renewable Energy Generation and Supply
-              (CIREGS) at Cardiff University's School of Engineereing was
+              (CIREGS) at Cardiff University&apos;s School of Engineereing was
               established in 2008 as a multidisciplinary engineereing research
               group with international expertise in the supply, transmission and
               demand of energy.
