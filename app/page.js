@@ -19,21 +19,21 @@ export default function Home() {
               (i.e.{' '}
               <a
                 href='https://ukerc.ac.uk/'
-                class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
               >
                 UKERC
               </a>
               ,
               <a
                 href='https://gtr.ukri.org/projects?ref=EP%2FS001492%2F1#/tabOverview'
-                class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
               >
                 MISSION
               </a>
               , and
               <a
                 href='https://ukerc.ac.uk/'
-                class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
               >
                 {' '}
                 Heat Prosumers
@@ -41,21 +41,21 @@ export default function Home() {
               projects), National Grid (
               <a
                 href='https://www.zero2050.co.uk/'
-                class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
               >
                 Zero2050 South Wales
               </a>{' '}
               project) and Welsh European Funding Office (
               <a
                 href='https://www.flexis.wales/'
-                class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
               >
                 Flexis
               </a>{' '}
               project), we developed a{' '}
               <a
                 href='https://www.nature.com/articles/s41597-022-01356-9'
-                class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
               >
                 methodology for estimating spatial and temporal heat demand and
                 energy consumption for heating in England & Wales
@@ -63,7 +63,7 @@ export default function Home() {
               , along with a{' '}
               <a
                 href='https://ukerc.rl.ac.uk/DC/cgi-bin/edc_search.pl?GoButton=Detail&WantComp=165&WantResult=LD&WantText=heat%20demand&'
-                class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
               >
                 database
               </a>{' '}
@@ -90,7 +90,7 @@ export default function Home() {
                   <p className='mt-4'>
                     <a
                       href='https://profiles.cardiff.ac.uk/staff/qadrdanm'
-                      class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                      className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
                     >
                       Maysam Qadrdan
                     </a>
@@ -98,7 +98,7 @@ export default function Home() {
                   <p>
                     <a
                       href='https://profiles.cardiff.ac.uk/staff/jenkinsn6'
-                      class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                      className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
                     >
                       Nick Jenkins
                     </a>
@@ -106,7 +106,7 @@ export default function Home() {
                   <p>
                     <a
                       href='https://profiles.cardiff.ac.uk/staff/wuj5'
-                      class='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
+                      className='font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline'
                     >
                       Jianzhong Wu
                     </a>
