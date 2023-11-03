@@ -7,6 +7,7 @@ export default function LADMap() {
   const tooltipRef = useRef();
   const [ladTracs, setLadTracs] = useState(null);
   const [heatDemand, setHeatDemand] = useState(null);
+  const [dataState, setDataState] = useState('before');
 
   const width = 928;
   const height = 1200;
@@ -116,7 +117,18 @@ export default function LADMap() {
   }, [color, g, heatDemand]);
   return (
     <div>
-      <h3 ref={tooltipRef}>Select An Area</h3>
+      <div className='flex flex-col justify-center'>
+        <h3
+          className='m-2'
+          ref={tooltipRef}
+        >
+          Select An Area
+        </h3>
+        <div className='flex flex-row flex-nowrap '>
+          <button className='mx-2'>Before</button>
+          <button className='mx-2'>After</button>
+        </div>
+      </div>
       <svg ref={ref} />
     </div>
   );
