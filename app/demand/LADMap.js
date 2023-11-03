@@ -10,7 +10,7 @@ export default function LADMap() {
 
   const width = 928;
   const height = 1200;
-  const color = d3.scaleQuantize([10000, 10000000], d3.schemeOranges[9]);
+  const color = d3.scaleQuantize([100000, 2080080794], d3.schemeOranges[9]);
 
   const svg = d3.select(ref.current);
   svg.selectAll('*').remove();
@@ -47,14 +47,21 @@ export default function LADMap() {
   // Get heat demand data
   useEffect(() => {
     d3.json('/api/data/heatDemand').then((data) => {
-      setHeatDemand(data);
+      const dataArray = Object.entries(data).map(([key, value]) => {
+        return {
+          lad17cd: key,
+          ...value
+        };
+      });
+      setHeatDemand(dataArray);
     });
   }, []);
 
   // Draw the map
   useEffect(() => {
     if (!ladTracs) return;
-
+    // console.log(heatDemand);
+    // return;
     const path = d3.geoPath().projection(
       d3.geoTransverseMercator().fitExtent(
         [

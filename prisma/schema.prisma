@@ -9,17 +9,25 @@ datasource db {
 }
 
 model HeatDemand {
-  id           String @id
-  lsoa11cd     String
-  beforeDemand Float
-  afterDemand  Float
-  lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction)
+  lsoa11cd     String @id(map: "HeatDemand_pkey1")
+  beforeDemand Float?
+  afterDemand  Float?
+  lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
 }
 
 model lsoa {
-  lsoa11cd    String       @id @unique(map: "unique_lsoa11cd")
-  lsoa11nm    String?
-  lad17cd     String?
-  lad17nm     String?
-  heatDemands HeatDemand[]
+  lsoa11cd      String          @id @unique(map: "unique_lsoa11cd")
+  lsoa11nm      String?
+  lad17cd       String?
+  lad17nm       String?
+  heatDemands   HeatDemand?
+  HeatDemandOld HeatDemandOld[]
+}
+
+model HeatDemandOld {
+  id           String @id(map: "HeatDemand_pkey")
+  lsoa11cd     String
+  beforeDemand Float
+  afterDemand  Float
+  lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "HeatDemand_lsoa11cd_fkey")
 }
