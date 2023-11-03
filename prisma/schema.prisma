@@ -9,25 +9,19 @@ datasource db {
 }
 
 model HeatDemand {
-  lsoa11cd     String @id(map: "HeatDemand_pkey1")
-  beforeDemand Float?
-  afterDemand  Float?
-  lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
+  lsoa11cd     String   @id(map: "data2021_pkey")
+  afterDemand  Decimal? @db.Decimal
+  beforeDemand Decimal? @db.Decimal
+  lsoa         lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model lsoa {
-  lsoa11cd      String          @id @unique(map: "unique_lsoa11cd")
-  lsoa11nm      String?
-  lad17cd       String?
-  lad17nm       String?
-  heatDemands   HeatDemand?
-  HeatDemandOld HeatDemandOld[]
-}
+  lsoa11cd    String      @id
+  lsoa11nm    String?
+  lad17cd     String?
+  lad17nm     String?
+  HeatDemands HeatDemand?
 
-model HeatDemandOld {
-  id           String @id(map: "HeatDemand_pkey")
-  lsoa11cd     String
-  beforeDemand Float
-  afterDemand  Float
-  lsoa         lsoa   @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "HeatDemand_lsoa11cd_fkey")
+  @@index([lsoa11cd, lad17cd], map: "lsoa__index")
 }
