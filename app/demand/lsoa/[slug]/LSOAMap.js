@@ -9,13 +9,32 @@ export default function LSOAMap({ lsoa }) {
   const [heatDemand, setHeatDemand] = useState(null);
   const [dataState, setDataState] = useState('before');
   const [largestBeforeDemand, setLargestBeforeDemand] = useState(10000000);
+  const dataRef = useRef();
+  const [width, setWidth] = useState(928);
+  const [height, setHeight] = useState(1200);
 
   const toggleDataState = () => {
     setDataState((prevState) => (prevState === 'before' ? 'after' : 'before'));
   };
 
-  const width = 928;
-  const height = 1200;
+  useEffect(() => {
+    // Set initial values based on the viewport
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+
+    function handleResize() {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   // Get geojson data for the map
   useEffect(() => {
     const url = `/api/geojson/lsoa?lad=${lsoa}`;
@@ -69,7 +88,7 @@ export default function LSOAMap({ lsoa }) {
     g.attr('transform', transform);
   }
 
-  // Draw the map
+  // Draw the map and set the projection
   useEffect(() => {
     if (!lsoaTracs) return;
     const path = d3.geoPath().projection(
@@ -81,7 +100,7 @@ export default function LSOAMap({ lsoa }) {
         lsoaTracs
       )
     );
-
+    // set the mouseover and click events for each lsoa
     g.selectAll('path')
       .data(lsoaTracs.features)
       .enter()
@@ -91,7 +110,7 @@ export default function LSOAMap({ lsoa }) {
       .attr('fill', 'silver')
       .on('mouseover', function (event, d) {
         if (tooltipRef.current) {
-          tooltipRef.current.innerHTML = d.properties.lsoa11nm;
+          tooltipRef.current.innerHTML = 'LSOA code: ' + d.properties.lsoa11nm;
         }
       })
       .on('click', function (event, d) {
@@ -102,14 +121,14 @@ export default function LSOAMap({ lsoa }) {
       .text(function (d) {
         return d.properties.lsoa11nm;
       });
-  }, [g, lsoaTracs]);
+  }, [g, height, lsoaTracs, width]);
 
   // Draw the heat demand data
   useEffect(() => {
     if (!heatDemand) return;
     const color = d3.scaleQuantize(
       [100000, largestBeforeDemand],
-      d3.schemeOranges[9]
+      ['#fef3c7', '#fdba74', '#f59e0b', '#b45309', '#7c2d12']
     );
     console.log(heatDemand);
     g.selectAll('path')
@@ -118,7 +137,15 @@ export default function LSOAMap({ lsoa }) {
         const foundItem = heatDemand.find(
           (item) => item.lsoa11cd === d.properties.lsoa11cd
         );
-
+        d.properties.beforeDemand = Math.round(
+          foundItem.HeatDemands.beforeDemand
+        );
+        d.properties.afterDemand = Math.round(
+          foundItem.HeatDemands.afterDemand
+        );
+        d.properties.difference = Math.round(
+          foundItem.HeatDemands.beforeDemand - foundItem.HeatDemands.afterDemand
+        );
         if (foundItem) {
           return color(
             dataState === 'before'
@@ -127,12 +154,24 @@ export default function LSOAMap({ lsoa }) {
           );
         }
         return 'grey';
+      })
+      .on('mouseover', function (event, d) {
+        if (dataRef.current) {
+          const dataFound =
+            'Demand Before: ' +
+            d.properties.beforeDemand.toLocaleString() +
+            ' Demand After: ' +
+            d.properties.afterDemand.toLocaleString() +
+            ' Difference: ' +
+            d.properties.difference.toLocaleString();
+          dataRef.current.innerHTML = dataFound;
+        }
       });
   }, [dataState, g, heatDemand, largestBeforeDemand]);
 
   return (
     <div>
-      <div className='flex flex-col justify-center'>
+      <div className='flex flex-col justify-center items-center'>
         <div className='flex flex-row flex-nowrap my-2'>
           <h3
             className='m-2'
@@ -140,6 +179,10 @@ export default function LSOAMap({ lsoa }) {
           >
             Select An Area
           </h3>
+          <h3
+            className='m-2'
+            ref={dataRef}
+          ></h3>
           <button
             className={`mx-2 p-1 border-2 rounded-md ${
               dataState === 'before'
@@ -155,19 +198,22 @@ export default function LSOAMap({ lsoa }) {
         </div>
         <section className='w-full py-4 px-6 bg-gray-600 dark:bg-gray-800 rounded-md shadow-lg'>
           <div className='grid grid-cols-5 gap-1'>
-            <div className='h-3 w-full bg-blue-100' />
-            <div className='h-3 w-full bg-blue-300' />
-            <div className='h-3 w-full bg-blue-500' />
-            <div className='h-3 w-full bg-blue-700' />
-            <div className='h-3 w-full bg-blue-900' />
+            <div className='h-3 w-full bg-amber-100' />
+            <div className='h-3 w-full bg-amber-300' />
+            <div className='h-3 w-full bg-amber-500' />
+            <div className='h-3 w-full bg-amber-700' />
+            <div className='h-3 w-full bg-amber-900' />
           </div>
           <div className='flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-300'>
-            <span>Low</span>
-            <span>High</span>
+            <span>0</span>
+            <span>{Math.round(largestBeforeDemand).toLocaleString()}</span>
           </div>
         </section>
+        <svg
+          className='m-2 border-2 rounded-lg border-gray-200 dark:border-gray-700'
+          ref={ref}
+        />
       </div>
-      <svg ref={ref} />
     </div>
   );
 }
