@@ -172,7 +172,7 @@ export default function LSOAMap({ lsoa }) {
   return (
     <div>
       <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-row flex-nowrap my-2'>
+        <div className='flex flex-row flex-nowrap my-2 bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
           <h3
             className='m-2'
             ref={tooltipRef}
@@ -196,7 +196,7 @@ export default function LSOAMap({ lsoa }) {
               : 'After Energy Efficiency Measures'}
           </button>
         </div>
-        <section className='w-full py-4 px-6 bg-gray-600 dark:bg-gray-800 rounded-md shadow-lg'>
+        <section className='w-full py-4 px-6 bg-white dark:bg-gray-800 rounded-md shadow-lg'>
           <div className='grid grid-cols-5 gap-1'>
             <div className='h-3 w-full bg-amber-100' />
             <div className='h-3 w-full bg-amber-300' />
@@ -210,7 +210,7 @@ export default function LSOAMap({ lsoa }) {
           </div>
         </section>
         <svg
-          className='m-2 border-2 rounded-lg border-gray-200 dark:border-gray-700'
+          className='m-2 rounded-md bg-white dark:bg-gray-800'
           ref={ref}
         />
       </div>
