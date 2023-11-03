@@ -92,7 +92,7 @@ export default function LADMap() {
         }
       })
       .on('click', function (event, d) {
-        const url = `/lsoa/${d.id}`;
+        const url = `/demand/lsoa/${d.id}`;
         window.location.href = url;
       })
       .append('title')
