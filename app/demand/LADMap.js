@@ -9,6 +9,10 @@ export default function LADMap() {
   const [heatDemand, setHeatDemand] = useState(null);
   const [dataState, setDataState] = useState('before');
 
+  const toggleDataState = () => {
+    setDataState((prevState) => (prevState === 'before' ? 'after' : 'before'));
+  };
+
   const width = 928;
   const height = 1200;
   const color = d3.scaleQuantize([100000, 2080080794], d3.schemeOranges[9]);
@@ -115,6 +119,7 @@ export default function LADMap() {
         return 'grey';
       });
   }, [color, g, heatDemand]);
+
   return (
     <div>
       <div className='flex flex-col justify-center'>
@@ -125,8 +130,18 @@ export default function LADMap() {
           Select An Area
         </h3>
         <div className='flex flex-row flex-nowrap '>
-          <button className='mx-2'>Before</button>
-          <button className='mx-2'>After</button>
+          <button
+            className={`mx-2 p-1 border-2 rounded-md ${
+              dataState === 'before'
+                ? 'border-rose-300'
+                : 'border-gray-700 dark:border-gray-300'
+            }`}
+            onClick={toggleDataState}
+          >
+            {dataState === 'before'
+              ? 'Before Energy Efficiency Measures'
+              : 'After Energy Efficiency Measures'}
+          </button>
         </div>
       </div>
       <svg ref={ref} />
