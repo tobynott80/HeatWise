@@ -112,13 +112,17 @@ export default function LADMap() {
         );
 
         if (foundItem) {
-          return color(foundItem.total_before);
+          return color(
+            dataState === 'before'
+              ? foundItem.total_before
+              : foundItem.total_after
+          );
         }
 
         // If no match was found for lad heat demand, return grey
         return 'grey';
       });
-  }, [color, g, heatDemand]);
+  }, [color, dataState, g, heatDemand]);
 
   return (
     <div>
