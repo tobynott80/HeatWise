@@ -106,7 +106,7 @@ export default function LSOAMap({ lsoa }) {
         lsoaTracs
       )
     );
-    // set the mouseover and click events for each lsoa
+    // Map the LSOA plots and append title
     g.selectAll('path')
       .data(lsoaTracs.features)
       .enter()
@@ -163,7 +163,6 @@ export default function LSOAMap({ lsoa }) {
           dataRef.current.innerHTML = dataFound;
         }
         if (tooltipRef.current) {
-          console.log(d.lsoa11nm);
           tooltipRef.current.innerHTML = 'LSOA: ' + d.properties.lsoa11nm;
         }
       });
