@@ -9,6 +9,7 @@ export default function LSOAMap({ lsoa }) {
   const [heatDemand, setHeatDemand] = useState(null);
   const [dataState, setDataState] = useState('before');
   const [largestBeforeDemand, setLargestBeforeDemand] = useState(10000000);
+  const [smallestAfterDemand, setSmallestAfterDemand] = useState(0);
   const dataRef = useRef();
   const [width, setWidth] = useState(928);
   const [height, setHeight] = useState(1200);
@@ -59,6 +60,11 @@ export default function LSOAMap({ lsoa }) {
         ...dataArray.map((item) => item.HeatDemands.beforeDemand)
       );
       setLargestBeforeDemand(largestValue);
+      // and then the lowest
+      const smallestValue = Math.min(
+        ...dataArray.map((item) => item.HeatDemands.afterDemand)
+      );
+      setSmallestAfterDemand(smallestValue);
     });
   }, [lsoa]);
 
@@ -122,7 +128,7 @@ export default function LSOAMap({ lsoa }) {
   useEffect(() => {
     if (!heatDemand) return;
     const color = d3.scaleQuantize(
-      [100000, largestBeforeDemand],
+      [smallestAfterDemand, largestBeforeDemand],
       ['#fef3c7', '#fdba74', '#f59e0b', '#b45309', '#7c2d12']
     );
     g.selectAll('path')
@@ -162,15 +168,15 @@ export default function LSOAMap({ lsoa }) {
         }
         if (tooltipRef.current) {
           console.log(d.lsoa11nm);
-          tooltipRef.current.innerHTML = 'LSOA code: ' + d.properties.lsoa11nm;
+          tooltipRef.current.innerHTML = 'LSOA: ' + d.properties.lsoa11nm;
         }
       });
-  }, [dataState, g, heatDemand, largestBeforeDemand]);
+  }, [dataState, g, heatDemand, largestBeforeDemand, smallestAfterDemand]);
 
   return (
     <div>
       <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-row my-2 bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
+        <div className='flex flex-row my-2 w-full flex-wrap bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
           <h3
             className='m-2'
             ref={tooltipRef}
@@ -203,8 +209,21 @@ export default function LSOAMap({ lsoa }) {
             <div className='h-3 w-full bg-amber-900' />
           </div>
           <div className='flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-300'>
-            <span>0</span>
-            <span>{Math.round(largestBeforeDemand).toLocaleString()}</span>
+            <span>
+              {Math.round(smallestAfterDemand).toLocaleString()} kW⋅h{' '}
+            </span>
+            <span>
+              {(
+                (Math.round(largestBeforeDemand) +
+                  Math.round(smallestAfterDemand)) /
+                2
+              ).toLocaleString()}{' '}
+              kW⋅h{' '}
+            </span>
+
+            <span>
+              {Math.round(largestBeforeDemand).toLocaleString()} kW⋅h{' '}
+            </span>
           </div>
         </section>
         <svg
