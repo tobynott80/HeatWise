@@ -1,6 +1,9 @@
 'use client';
 import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
+import ZoomIn from '../components/icons/ZoomIn';
+import ZoomOut from '../components/icons/ZoomOut';
+import Reset from '../components/icons/Reset';
 
 export default function LADMap() {
   const ref = useRef();
@@ -54,6 +57,24 @@ export default function LADMap() {
         ])
         .on('zoom', zoomed)
     );
+  // Functions for zoom buttons
+  const zoom = d3.zoom().scaleExtent([1, 40]).on('zoom', zoomed);
+  function zoomIn() {
+    svg.transition().call(zoom.scaleBy, 2);
+  }
+  function zoomOut() {
+    svg.transition().call(zoom.scaleBy, 0.5);
+  }
+  function reset() {
+    svg
+      .transition()
+      .duration(750)
+      .call(
+        zoom.transform,
+        d3.zoomIdentity,
+        d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+      );
+  }
 
   const g = svg.append('g');
 
@@ -172,7 +193,7 @@ export default function LADMap() {
   return (
     <div>
       <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-row my-2 w-full flex-wrap bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
+        <div className='flex flex-row mb-4 w-full flex-wrap bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
           <h3
             className='m-2'
             ref={tooltipRef}
@@ -197,14 +218,14 @@ export default function LADMap() {
           </button>
         </div>
         <section className='w-full py-4 px-6 bg-white dark:bg-gray-800 rounded-md shadow-lg'>
-          <div className='grid grid-cols-5 gap-1'>
+          <div className='grid grid-cols-5 gap-1 mb-2'>
             <div className='h-3 w-full bg-amber-100' />
             <div className='h-3 w-full bg-amber-300' />
             <div className='h-3 w-full bg-amber-500' />
             <div className='h-3 w-full bg-amber-700' />
             <div className='h-3 w-full bg-amber-900' />
           </div>
-          <div className='flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-300'>
+          <div className='flex justify-between mt-4 text-sm text-gray-600 dark:text-gray-300'>
             <span>
               {Math.round(smallestAfterDemand).toLocaleString()} kW⋅h{' '}
             </span>
@@ -222,10 +243,32 @@ export default function LADMap() {
             </span>
           </div>
         </section>
-        <svg
-          className='m-2 rounded-md bg-white dark:bg-gray-800'
-          ref={ref}
-        />
+        <div className='flex flex-row my-4 rounded-md bg-white dark:bg-gray-800 shrink'>
+          <svg
+            className='m-2 rounded-md'
+            ref={ref}
+          />
+          <div className='flex flex-col mt-2 mr-2 h-min rounded-md bg-gray-200 dark:bg-gray-600'>
+            <button
+              onClick={zoomIn}
+              className='m-2'
+            >
+              <ZoomIn />
+            </button>
+            <button
+              onClick={zoomOut}
+              className='m-2'
+            >
+              <ZoomOut />
+            </button>
+            <button
+              onClick={reset}
+              className='m-2'
+            >
+              <Reset />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
