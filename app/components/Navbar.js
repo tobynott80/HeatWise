@@ -56,25 +56,25 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           title={isSidebarOpen ? 'Home' : ''}
           href='/'
           icon={<HomeIcon />}
-          isActive={pathname == '/'}
+          isActive={pathname === '/'}
         />
         <MenuItem
           title={isSidebarOpen ? 'Change in Heat Demand' : ''}
           href='/demand'
           icon={<GlobeIcon />}
-          isActive={pathname == '/demand'}
+          isActive={pathname.includes('/demand')}
         />
         <MenuItem
           title={isSidebarOpen ? 'Energy Efficieny Costs' : ''}
           href='/costs'
           icon={<PoundIcon />}
-          isActive={pathname == '/costs'}
+          isActive={pathname.includes('/costs')}
         />
         <MenuItem
           title={isSidebarOpen ? 'Heat Consumption Profile' : ''}
           href='/consumption'
           icon={<GraphDown />}
-          isActive={pathname == '/consumption'}
+          isActive={pathname.includes('/consumption')}
         />
       </nav>
       {isSidebarOpen && (
