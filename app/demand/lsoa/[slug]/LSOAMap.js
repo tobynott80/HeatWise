@@ -156,10 +156,11 @@ export default function LSOAMap({ lsoa }) {
           const dataFound =
             'Demand Before: ' +
             d.properties.beforeDemand.toLocaleString() +
-            ' Demand After: ' +
+            ' kW⋅h Demand After: ' +
             d.properties.afterDemand.toLocaleString() +
-            ' Difference: ' +
-            d.properties.difference.toLocaleString();
+            ' kW⋅h Difference: ' +
+            d.properties.difference.toLocaleString() +
+            ' kW⋅h';
           dataRef.current.innerHTML = dataFound;
         }
         if (tooltipRef.current) {
