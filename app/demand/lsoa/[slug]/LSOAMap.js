@@ -108,11 +108,6 @@ export default function LSOAMap({ lsoa }) {
       .attr('class', 'tract')
       .attr('d', path)
       .attr('fill', 'silver')
-      .on('mouseover', function (event, d) {
-        if (tooltipRef.current) {
-          tooltipRef.current.innerHTML = 'LSOA code: ' + d.properties.lsoa11nm;
-        }
-      })
       .on('click', function (event, d) {
         const url = `/demand/lsoa/${d.id}`;
         window.location.href = url;
@@ -130,7 +125,6 @@ export default function LSOAMap({ lsoa }) {
       [100000, largestBeforeDemand],
       ['#fef3c7', '#fdba74', '#f59e0b', '#b45309', '#7c2d12']
     );
-    console.log(heatDemand);
     g.selectAll('path')
       .join('path')
       .attr('fill', (d) => {
@@ -166,13 +160,17 @@ export default function LSOAMap({ lsoa }) {
             d.properties.difference.toLocaleString();
           dataRef.current.innerHTML = dataFound;
         }
+        if (tooltipRef.current) {
+          console.log(d.lsoa11nm);
+          tooltipRef.current.innerHTML = 'LSOA code: ' + d.properties.lsoa11nm;
+        }
       });
   }, [dataState, g, heatDemand, largestBeforeDemand]);
 
   return (
     <div>
       <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-row flex-nowrap my-2 bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
+        <div className='flex flex-row my-2 bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
           <h3
             className='m-2'
             ref={tooltipRef}
@@ -180,7 +178,7 @@ export default function LSOAMap({ lsoa }) {
             Select An Area
           </h3>
           <h3
-            className='m-2'
+            className='m-2 flex-grow'
             ref={dataRef}
           ></h3>
           <button
