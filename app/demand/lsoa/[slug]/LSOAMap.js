@@ -114,10 +114,6 @@ export default function LSOAMap({ lsoa }) {
       .attr('class', 'tract')
       .attr('d', path)
       .attr('fill', 'silver')
-      .on('click', function (event, d) {
-        const url = `/demand/lsoa/${d.id}`;
-        window.location.href = url;
-      })
       .append('title')
       .text(function (d) {
         return d.properties.lsoa11nm;
