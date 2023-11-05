@@ -1,8 +1,11 @@
 'use client';
+import ArrowLeft from '@/app/components/icons/ArrowLeft';
+import ArrowShuffle from '@/app/components/icons/ArrowShuffle';
 import Reset from '@/app/components/icons/Reset';
 import ZoomIn from '@/app/components/icons/ZoomIn';
 import ZoomOut from '@/app/components/icons/ZoomOut';
 import * as d3 from 'd3';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 export default function LSOAMap({ lsoa }) {
@@ -13,7 +16,9 @@ export default function LSOAMap({ lsoa }) {
   const [dataState, setDataState] = useState('before');
   const [largestBeforeDemand, setLargestBeforeDemand] = useState(10000000);
   const [smallestAfterDemand, setSmallestAfterDemand] = useState(0);
-  const dataRef = useRef();
+  const demandAfterRef = useRef();
+  const demandBeforeRef = useRef();
+  const demandDiffRef = useRef();
   const [width, setWidth] = useState(928);
   const [height, setHeight] = useState(1200);
 
@@ -173,19 +178,19 @@ export default function LSOAMap({ lsoa }) {
         return 'grey';
       })
       .on('mouseover', function (event, d) {
-        if (dataRef.current) {
-          const dataFound =
-            'Demand Before: ' +
-            d.properties.beforeDemand.toLocaleString() +
-            ' kW⋅h Demand After: ' +
-            d.properties.afterDemand.toLocaleString() +
-            ' kW⋅h Difference: ' +
-            d.properties.difference.toLocaleString() +
-            ' kW⋅h';
-          dataRef.current.innerHTML = dataFound;
-        }
-        if (tooltipRef.current) {
-          tooltipRef.current.innerHTML = 'LSOA: ' + d.properties.lsoa11nm;
+        if (demandBeforeRef.current) {
+          demandBeforeRef.current.innerHTML =
+            d.properties.beforeDemand.toLocaleString() + ' kW⋅h';
+
+          demandAfterRef.current.innerHTML =
+            d.properties.afterDemand.toLocaleString() + ' kW⋅h';
+
+          demandDiffRef.current.innerHTML =
+            d.properties.difference.toLocaleString() + ' kW⋅h';
+
+          if (tooltipRef.current) {
+            tooltipRef.current.innerHTML = 'LSOA: ' + d.properties.lsoa11nm;
+          }
         }
       });
   }, [dataState, g, heatDemand, largestBeforeDemand, smallestAfterDemand]);
@@ -193,29 +198,53 @@ export default function LSOAMap({ lsoa }) {
   return (
     <div>
       <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-row mb-4 w-full flex-wrap bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
-          <h3
-            className='m-2'
-            ref={tooltipRef}
-          >
-            Select An Area
-          </h3>
-          <h3
-            className='m-2 flex-grow'
-            ref={dataRef}
-          ></h3>
-          <button
-            className={`mx-2 p-1 border-2 rounded-md ${
-              dataState === 'before'
-                ? 'border-gray-600 dark:border-gray-200'
-                : 'border-gray-700 dark:border-gray-300'
-            }`}
-            onClick={toggleDataState}
-          >
-            {dataState === 'before'
-              ? 'Before Energy Efficiency Measures'
-              : 'After Energy Efficiency Measures'}
-          </button>
+        <div className='flex flex-row mb-4 w-full flex-nowrap '>
+          <div className='bg-white dark:bg-gray-800 rounded-md shadow-lg p-4 mr-2'>
+            <button
+              className={`mx-2 group flex flex-row p-1 border-2 rounded-md `}
+              onClick={toggleDataState}
+              title='Toggle Before/After View'
+            >
+              <div className='m-2 transition animate-spin-once delay-500'>
+                <ArrowShuffle />
+              </div>
+            </button>
+            <Link href='/demand'>
+              <button
+                className={`mx-2 mt-2 group flex flex-row p-1 border-2 rounded-md `}
+                title='Back to National Map'
+              >
+                <div className='m-2'>
+                  <ArrowLeft />
+                </div>
+              </button>
+            </Link>
+          </div>
+          <div className='bg-white flex-grow flex flex-row dark:bg-gray-800 rounded-md shadow-lg p-4'>
+            <h3 className='m-2 text-center'>
+              {dataState === 'before'
+                ? 'Before Energy Efficiency Measures'
+                : 'After Energy Efficiency Measures'}
+            </h3>
+            <h3
+              className='m-2 text-center'
+              ref={tooltipRef}
+            >
+              Select An Area
+            </h3>
+            <h3 className='m-2 text-center'>
+              Demand Before:
+              <span ref={demandBeforeRef}></span>
+            </h3>
+            <h3 className='m-2 text-center'>
+              Demand After:
+              <span ref={demandAfterRef}></span>
+            </h3>
+            <h3 className='m-2 text-center'>
+              Difference:
+              <span ref={demandDiffRef}></span>
+            </h3>
+          </div>
         </div>
         <section className='w-full py-4 px-6 bg-white dark:bg-gray-800 rounded-md shadow-lg'>
           <div className='grid grid-cols-5 gap-1'>
