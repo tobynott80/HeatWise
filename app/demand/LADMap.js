@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import ZoomIn from '../components/icons/ZoomIn';
 import ZoomOut from '../components/icons/ZoomOut';
 import Reset from '../components/icons/Reset';
+import ArrowShuffle from '../components/icons/ArrowShuffle';
+import ArrowLeft from '../components/icons/ArrowLeft';
+import Link from 'next/link';
 
 export default function LADMap() {
   const ref = useRef();
@@ -16,6 +19,9 @@ export default function LADMap() {
   const [width, setWidth] = useState(928);
   const [height, setHeight] = useState(1200);
   const dataRef = useRef();
+  const demandAfterRef = useRef();
+  const demandBeforeRef = useRef();
+  const demandDiffRef = useRef();
 
   const toggleDataState = () => {
     setDataState((prevState) => (prevState === 'before' ? 'after' : 'before'));
@@ -171,16 +177,15 @@ export default function LADMap() {
         if (tooltipRef.current) {
           tooltipRef.current.innerHTML = d.properties.LAD13NM;
         }
-        if (dataRef.current) {
-          const dataFound =
-            'Demand Before: ' +
-            d.properties.beforeDemand.toLocaleString() +
-            ' kW⋅h Demand After: ' +
-            d.properties.afterDemand.toLocaleString() +
-            ' kW⋅h Difference: ' +
-            d.properties.difference.toLocaleString() +
-            ' kW⋅h';
-          dataRef.current.innerHTML = dataFound;
+        if (demandBeforeRef.current) {
+          demandBeforeRef.current.innerHTML =
+            d.properties.beforeDemand.toLocaleString() + ' kW⋅h';
+
+          demandAfterRef.current.innerHTML =
+            d.properties.afterDemand.toLocaleString() + ' kW⋅h';
+
+          demandDiffRef.current.innerHTML =
+            d.properties.difference.toLocaleString() + ' kW⋅h';
         }
       })
       .on('click', function (event, d) {
@@ -191,31 +196,44 @@ export default function LADMap() {
   }, [dataState, g, heatDemand, largestBeforeDemand, smallestAfterDemand]);
 
   return (
-    <div>
-      <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-row mb-4 w-full flex-wrap bg-white dark:bg-gray-800 rounded-md shadow-lg p-4'>
-          <h3
-            className='m-2'
-            ref={tooltipRef}
-          >
-            Select An Area
-          </h3>
-          <h3
-            className='m-2 flex-grow'
-            ref={dataRef}
-          ></h3>
+    <div className='h-screen'>
+      <div className='flex flex-col h-full justify-center items-center'>
+        <div className='flex flex-row mb-4 w-full flex-nowrap items-center'>
           <button
-            className={`mx-2 p-1 border-2 rounded-md ${
-              dataState === 'before'
-                ? 'border-gray-600 dark:border-gray-200'
-                : 'border-gray-700 dark:border-gray-300'
-            }`}
+            className={`mr-2 h-full p-1 border-2 border-gray-600 dark:border-white rounded-md `}
             onClick={toggleDataState}
+            title='Toggle Before/After View'
           >
-            {dataState === 'before'
-              ? 'Before Energy Efficiency Measures'
-              : 'After Energy Efficiency Measures'}
+            <div className='m-2 transition animate-spin-once delay-500'>
+              <ArrowShuffle />
+            </div>
           </button>
+
+          <div className='bg-white flex-grow flex flex-row dark:bg-gray-800 rounded-md shadow-lg p-4'>
+            <h3 className='m-2 text-center'>
+              {dataState === 'before'
+                ? 'Before Energy Efficiency Measures'
+                : 'After Energy Efficiency Measures'}
+            </h3>
+            <h3
+              className='m-2 text-center'
+              ref={tooltipRef}
+            >
+              Select An Area
+            </h3>
+            <h3 className='m-2 text-center'>
+              Demand Before:
+              <span ref={demandBeforeRef}></span>
+            </h3>
+            <h3 className='m-2 text-center'>
+              Demand After:
+              <span ref={demandAfterRef}></span>
+            </h3>
+            <h3 className='m-2 text-center'>
+              Difference:
+              <span ref={demandDiffRef}></span>
+            </h3>
+          </div>
         </div>
         <section className='w-full py-4 px-6 bg-white dark:bg-gray-800 rounded-md shadow-lg'>
           <div className='grid grid-cols-5 gap-1 mb-2'>
@@ -243,7 +261,7 @@ export default function LADMap() {
             </span>
           </div>
         </section>
-        <div className='flex flex-row my-4 rounded-md bg-white dark:bg-gray-800 shrink'>
+        <div className='flex flex-row mt-4 rounded-md bg-white dark:bg-gray-800 shrink'>
           <svg
             className='m-2 rounded-md'
             ref={ref}
