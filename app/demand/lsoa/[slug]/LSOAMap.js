@@ -199,9 +199,9 @@ export default function LSOAMap({ lsoa }) {
     <div>
       <div className='flex flex-col justify-center items-center'>
         <div className='flex flex-row mb-4 w-full flex-nowrap '>
-          <div className='bg-white dark:bg-gray-800 rounded-md shadow-lg p-4 mr-2'>
+          <div className='rounded-md shadow-lg mr-1'>
             <button
-              className={`mx-2 group flex flex-row p-1 border-2 rounded-md `}
+              className={`mx-2 group flex flex-row p-1 border-2 rounded-md border-gray-600 dark:border-white`}
               onClick={toggleDataState}
               title='Toggle Before/After View'
             >
@@ -211,7 +211,7 @@ export default function LSOAMap({ lsoa }) {
             </button>
             <Link href='/demand'>
               <button
-                className={`mx-2 mt-2 group flex flex-row p-1 border-2 rounded-md `}
+                className={`mx-2 mt-2 group flex flex-row p-1 border-2 rounded-md border-gray-600 dark:border-white`}
                 title='Back to National Map'
               >
                 <div className='m-2'>
