@@ -18,7 +18,7 @@ deploy_preview:
   artifacts:
     name: '$CI_JOB_NAME'
     paths:
-      - ./
+      - ./*
     expire_in: 4 week
 
 deploy_production:
@@ -33,5 +33,5 @@ deploy_production:
   artifacts:
     name: '$CI_JOB_NAME'
     paths:
-      - ./
+      - ./*
     expire_in: 4 week
