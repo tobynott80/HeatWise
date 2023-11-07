@@ -3,7 +3,8 @@ default:
   tags:
     # - comsc-ci
     # - general-docker
-    - aws-turbo-super-runner
+    # - aws-turbo-super-runner
+    - rick-deckard
 
 deploy_preview:
   stage: deploy
