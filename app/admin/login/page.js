@@ -5,12 +5,19 @@ export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    if (username === 'admin' && password === 'password') {
-      // Navigate to the 'adminLogin' page on successful login
+  const handleLogin = async () => {
+    //fetch api route with username and password
+    //if successful, redirect to admin page
+    //else, display error message
+    const res = await fetch('/api/admin', {
+      method: 'POST',
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    if (data.message === 'Login successful') {
       window.location.href = '/admin';
     } else {
-      alert('Login failed. Please check your credentials.');
+      alert('Login failed');
     }
   };
 
