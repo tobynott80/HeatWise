@@ -7,7 +7,8 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     //fetch api route with username and password
     //if successful, redirect to admin page
     //else, display error message
@@ -19,16 +20,18 @@ export default function LoginForm() {
       }
     });
 
-    if (!response.ok) throw new Error('Login failed');
-
-    router.push('/admin');
+    if (!response.ok) {
+      alert('Login failed');
+    } else {
+      router.push('/admin');
+    }
   };
 
   return (
     <div className='min-h-screen heropattern-topography-black bg-repeat dark:heropattern-topography-gray-400 dark:bg-black flex items-center justify-center'>
       <div className='rounded lg shadow-md p-8 max-w-xl w-full bg-white'>
         <h1 className='text-2xl text-black font-semibold mb-6'>Admin Login</h1>
-        <form>
+        <form onSubmit={handleLogin}>
           <div className='mb-4'>
             <label
               htmlFor='username'
@@ -63,7 +66,7 @@ export default function LoginForm() {
           </div>
           <div className='mb-4'>
             <button
-              type='button'
+              type='submit'
               onClick={handleLogin}
               className='w-full p-2 bg-gray-600 text-white rounded hover:bg-gray-900'
             >
