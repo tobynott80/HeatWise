@@ -1,10 +1,29 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model HeatDemand {
+  lsoa11cd     String   @id(map: "data2021_pkey")
+  afterDemand  Decimal? @db.Decimal
+  beforeDemand Decimal? @db.Decimal
+  lsoa         lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
+}
+
+model lsoa {
+  lsoa11cd    String      @id
+  lsoa11nm    String?
+  lad17cd     String?
+  lad17nm     String?
+  HeatDemands HeatDemand?
+
+  @@index([lsoa11cd, lad17cd], map: "lsoa__index")
 }
 
 model HeatDemand {
