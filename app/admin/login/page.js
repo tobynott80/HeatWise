@@ -1,24 +1,27 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleLogin = async () => {
     //fetch api route with username and password
     //if successful, redirect to admin page
     //else, display error message
-    const res = await fetch('/api/admin', {
+    const response = await fetch('/api/admin', {
       method: 'POST',
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
-    const data = await res.json();
-    if (data.message === 'Login successful') {
-      window.location.href = '/admin';
-    } else {
-      alert('Login failed');
-    }
+
+    if (!response.ok) throw new Error('Login failed');
+
+    router.push('/admin');
   };
 
   return (
