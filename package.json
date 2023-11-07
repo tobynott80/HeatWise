@@ -10,6 +10,8 @@
     "prettier": "npx prettier . --write"
   },
   "dependencies": {
+    "@deck.gl/layers": "^8.9.32",
+    "@deck.gl/react": "^8.9.32",
     "@prisma/client": "^5.5.1",
     "@react-buddy/ide-toolbox-next": "^2.4.1",
     "@vercel/postgres": "^0.5.0",
@@ -19,6 +21,7 @@
     "prisma": "^5.5.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-map-gl": "^7.1.6",
     "tailwindcss-hero-patterns": "^0.1.2",
     "vercel": "^32.5.0"
   },
