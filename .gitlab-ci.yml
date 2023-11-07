@@ -4,7 +4,7 @@ default:
     - comsc-ci
     # - general-docker
     # - aws-turbo-super-runner
-    - rick-deckard
+    # - rick-deckard
 
 deploy_preview:
   stage: deploy
