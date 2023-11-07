@@ -142,7 +142,7 @@ export default function Home() {
                     alt='UKERC'
                   />
                   <Image
-                    className='mx-4 mt-4'
+                    className='mx-4 mt-4 bg-white dark:bg-transparent'
                     src='/logos/flexis_logo.png'
                     width={100}
                     height={0}
