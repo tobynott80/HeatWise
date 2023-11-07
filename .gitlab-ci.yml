@@ -15,6 +15,11 @@ deploy_preview:
     - vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
     - vercel build --token=$VERCEL_TOKEN
     - vercel deploy --prebuilt  --token=$VERCEL_TOKEN
+  artifacts:
+    name: '$CI_JOB_NAME'
+    paths:
+      - ./
+    expire_in: 4 week
 
 deploy_production:
   stage: deploy
@@ -25,3 +30,8 @@ deploy_production:
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
     - vercel build --prod --token=$VERCEL_TOKEN
     - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+  artifacts:
+    name: '$CI_JOB_NAME'
+    paths:
+      - ./
+    expire_in: 4 week
