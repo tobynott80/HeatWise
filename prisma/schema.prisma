@@ -26,26 +26,7 @@ model lsoa {
   @@index([lsoa11cd, lad17cd], map: "lsoa__index")
 }
 
-model HeatDemand {
-  lsoa11cd     String   @id(map: "data2021_pkey")
-  afterDemand  Decimal? @db.Decimal
-  beforeDemand Decimal? @db.Decimal
-  lsoa         lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
-}
-
-model lsoa {
-  lsoa11cd   String      @id
-  lsoa11nm   String?
-  lad17cd    String?
-  lad17nm    String?
-  HeatDemand HeatDemand?
-
-  @@index([lsoa11cd, lad17cd], map: "lsoa__index")
-}
-
 model admin {
   username String @id @default(cuid())
   password String
 }
-
-
