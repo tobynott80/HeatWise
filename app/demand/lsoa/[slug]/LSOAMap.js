@@ -196,7 +196,7 @@ export default function LSOAMap({ lsoa }) {
   }, [dataState, g, heatDemand, largestBeforeDemand, smallestAfterDemand]);
 
   return (
-    <div>
+    <div className='p-2'>
       <div className='flex flex-col justify-center items-center'>
         <div className='flex flex-row mb-4 w-full flex-nowrap '>
           <div className='rounded-md shadow-lg mr-1'>

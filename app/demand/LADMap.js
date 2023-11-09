@@ -196,7 +196,7 @@ export default function LADMap() {
   }, [dataState, g, heatDemand, largestBeforeDemand, smallestAfterDemand]);
 
   return (
-    <div>
+    <div className='p-2'>
       <div className='flex flex-col h-full justify-center items-center'>
         <div className='flex flex-row mb-4 w-full flex-nowrap items-center'>
           <button
