@@ -116,38 +116,40 @@ export default function Home() {
             </div>
 
             <div className='grow h-48 border-4 mb-4 rounded-lg'>
-              <div className='flex w-full'>
-                <div className='grow w-1/2 mx-4  mb-4 font-bold'>
+              <div className=''>
+                <div className='flex flex-row mx-2 my-4 items-center flex-nowrap place-content-center '>
                   <Image
-                    className='mx-4 mt-4'
+                    className='mx-6 max-h-16 w-auto'
                     src='/logos/cardiff_logo.png'
                     width={100}
                     height={0}
                     alt='Cardiff University'
                   />
-                  <Image
-                    className='mx-4 mt-4'
-                    src='/logos/ukri_logo.png'
-                    width={100}
-                    height={0}
-                    alt='UKRI'
-                  />
+                  <div className='mx-6 max-h-16 w-auto bg-transparent dark:bg-white rounded-md p-2'>
+                    <Image
+                      src='/logos/ukri_logo.png'
+                      width={100}
+                      height={0}
+                      alt='UKRI'
+                    />
+                  </div>
                 </div>
-                <div className='grow w-1/2 mx-4  mb-4 font-bold'>
+                <div className='flex flex-row mx-2 my-4 items-center flex-nowrap place-content-center '>
                   <Image
-                    className='mx-4 mt-4'
+                    className='mx-4 max-h-16 w-auto'
                     src='/logos/ukerc_logo.png'
                     width={100}
                     height={0}
                     alt='UKERC'
                   />
-                  <Image
-                    className='mx-4 mt-4 bg-black dark:bg-transparent'
-                    src='/logos/flexis_logo.png'
-                    width={100}
-                    height={0}
-                    alt='Flexis'
-                  />
+                  <div className='mx-4 max-h-16 w-auto bg-black dark:bg-transparent rounded-md p-2'>
+                    <Image
+                      src='/logos/flexis_logo.png'
+                      width={100}
+                      height={0}
+                      alt='Flexis'
+                    />
+                  </div>
                 </div>
               </div>
             </div>
