@@ -6,7 +6,7 @@ export default function Home() {
       <div className='h-screen flex flex-col items-center justify-center'>
         <div className='text-6xl mb-4'>HEATWISE</div>
         <div className='flex w-full'>
-          <div className='grow w-1/2 mx-4 border-4 mb-4 rounded-lg'>
+          <div className='grow w-1/2 mx-4 dark:bg-gray-800 bg-white shadow-md mb-4 rounded-lg'>
             <p className='mx-2 mt-3 mb-4'>
               The Centre for Integrated Renewable Energy Generation and Supply
               (CIREGS) at Cardiff University&apos;s School of Engineereing was
@@ -77,7 +77,7 @@ export default function Home() {
           </div>
 
           <div className='flex flex-col w-1/2 mx-4'>
-            <div className='grow h-48 border-4 mb-4 rounded-lg'>
+            <div className='grow h-48 dark:bg-gray-800 bg-white shadow-md mb-4 rounded-lg'>
               <h1 className='text-2xl mb-4 mx-4 mt-3 font-bold'>Team</h1>
               <div className='flex w-full'>
                 <div className='grow w-1/2 mx-4  mb-4 font-bold'>
@@ -115,7 +115,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className='grow h-48 border-4 mb-4 rounded-lg'>
+            <div className='grow h-48 dark:bg-gray-800 bg-white shadow-md mb-4 rounded-lg'>
               <div className=''>
                 <div className='flex flex-row mx-2 my-4 items-center flex-nowrap place-content-center '>
                   <Image
