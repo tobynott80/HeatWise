@@ -5,8 +5,6 @@ import ZoomIn from '../components/icons/ZoomIn';
 import ZoomOut from '../components/icons/ZoomOut';
 import Reset from '../components/icons/Reset';
 import ArrowShuffle from '../components/icons/ArrowShuffle';
-import ArrowLeft from '../components/icons/ArrowLeft';
-import Link from 'next/link';
 
 export default function LADMap() {
   const ref = useRef();
@@ -84,6 +82,10 @@ export default function LADMap() {
 
   const g = svg.append('g');
 
+  /**
+   * Handles the zoom event for the LADMap.
+   * @param {Object} event - The zoom event object.
+   */
   function zoomed(event) {
     const { transform } = event;
     g.attr('transform', transform);
@@ -196,72 +198,87 @@ export default function LADMap() {
   }, [dataState, g, heatDemand, largestBeforeDemand, smallestAfterDemand]);
 
   return (
-    <div className='p-2'>
+    <div className='px-2 pt-3'>
       <div className='flex flex-col h-full justify-center items-center'>
-        <div className='flex flex-row mb-4 w-full flex-nowrap items-center'>
-          <button
-            className={`mr-2 h-full p-1 border-2 border-gray-600 dark:border-white rounded-md `}
-            onClick={toggleDataState}
-            title='Toggle Before/After View'
-          >
-            <div className='m-2 transition animate-spin-once delay-500'>
-              <ArrowShuffle />
-            </div>
-          </button>
-
-          <div className='bg-white flex-grow flex flex-row dark:bg-gray-800 rounded-md shadow-lg p-4'>
-            <h3 className='m-2 text-center'>
-              {dataState === 'before'
-                ? 'Before Energy Efficiency Measures'
-                : 'After Energy Efficiency Measures'}
-            </h3>
-            <h3
-              className='m-2 text-center'
-              ref={tooltipRef}
+        <div className='grid grid-cols-2 mb-4 w-full flex-nowrap items-center'>
+          <div className='border-2 border-black dark:border-white rounded-md max-w-fit place-self-center'>
+            <button
+              onClick={toggleDataState}
+              title='Toggle Before/After View'
             >
-              Select An Area
-            </h3>
-            <h3 className='m-2 text-center'>
-              Demand Before:
-              <span ref={demandBeforeRef}></span>
-            </h3>
-            <h3 className='m-2 text-center'>
-              Demand After:
-              <span ref={demandAfterRef}></span>
-            </h3>
-            <h3 className='m-2 text-center'>
-              Difference:
-              <span ref={demandDiffRef}></span>
-            </h3>
+              <div className='flex flex-row items-center'>
+                <div className='mx-1'>
+                  <ArrowShuffle />
+                </div>
+                <h3 className='mx-1 text-center'>
+                  {dataState === 'before'
+                    ? 'Before Energy Efficiency Measures'
+                    : 'After Energy Efficiency Measures'}
+                </h3>
+              </div>
+            </button>
+          </div>
+          <div className=''>
+            <h3
+              className='text-center text-lg text-ellipsis'
+              ref={tooltipRef}
+            ></h3>
           </div>
         </div>
-        <section className='w-full py-4 px-6 bg-white dark:bg-gray-800 rounded-md shadow-lg'>
-          <div className='grid grid-cols-5 gap-1 mb-2'>
-            <div className='h-3 w-full bg-amber-100' />
-            <div className='h-3 w-full bg-amber-300' />
-            <div className='h-3 w-full bg-amber-500' />
-            <div className='h-3 w-full bg-amber-700' />
-            <div className='h-3 w-full bg-amber-900' />
-          </div>
-          <div className='flex justify-between mt-4 text-sm text-gray-600 dark:text-gray-300'>
-            <span>
-              {Math.round(smallestAfterDemand).toLocaleString()} kW⋅h{' '}
-            </span>
-            <span>
-              {(
-                (Math.round(largestBeforeDemand) +
-                  Math.round(smallestAfterDemand)) /
-                2
-              ).toLocaleString()}{' '}
-              kW⋅h{' '}
-            </span>
+        <div className='grid grid-cols-2 w-full mr-1'>
+          <section className='py-4 px-6 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg'>
+            <div className='grid grid-cols-5 gap-1 mb-2'>
+              <div className='h-3 w-full bg-amber-100' />
+              <div className='h-3 w-full bg-amber-300' />
+              <div className='h-3 w-full bg-amber-500' />
+              <div className='h-3 w-full bg-amber-700' />
+              <div className='h-3 w-full bg-amber-900' />
+            </div>
 
-            <span>
-              {Math.round(largestBeforeDemand).toLocaleString()} kW⋅h{' '}
-            </span>
+            <div className='flex justify-between mt-4 text-sm text-gray-600 dark:text-gray-300'>
+              <span>
+                {Math.round(smallestAfterDemand).toLocaleString()} kW⋅h{' '}
+              </span>
+              <span>
+                {(
+                  (Math.round(largestBeforeDemand) +
+                    Math.round(smallestAfterDemand)) /
+                  2
+                ).toLocaleString()}{' '}
+                kW⋅h{' '}
+              </span>
+
+              <span>
+                {Math.round(largestBeforeDemand).toLocaleString()} kW⋅h{' '}
+              </span>
+            </div>
+          </section>
+          <div className='py-4 px-6 bg-white ml-1 dark:bg-gray-800 rounded-md shadow-lg flex flex-row justify-center text-center'>
+            <div className='bg-gray-200 dark:bg-gray-600 rounded-md mx-2 p-1 shadow-md'>
+              <h3 className='text-center text-lg'>Demand Before:</h3>
+              <span
+                className='text-sm'
+                ref={demandBeforeRef}
+              ></span>
+            </div>
+            <div className='bg-gray-200 dark:bg-gray-600 rounded-md mx-2 p-1 shadow-md'>
+              <h3 className='text-center text-lg'>Demand After:</h3>
+              <span
+                className='text-sm'
+                ref={demandAfterRef}
+              ></span>
+            </div>
+            <div className='bg-gray-200 dark:bg-gray-600 rounded-md mx-2 p-1 shadow-md'>
+              <h3 className='text-center text-lg'>Difference:</h3>
+              <span
+                className='text-sm'
+                ref={demandDiffRef}
+              ></span>
+            </div>
           </div>
-        </section>
-        <div className='flex flex-row mt-4 rounded-md bg-white dark:bg-gray-800 shrink'>
+        </div>
+
+        <section className='flex flex-row mt-4 rounded-md bg-white dark:bg-gray-800 shrink'>
           <svg
             className='m-2 rounded-md'
             ref={ref}
@@ -286,7 +303,7 @@ export default function LADMap() {
               <Reset />
             </button>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
