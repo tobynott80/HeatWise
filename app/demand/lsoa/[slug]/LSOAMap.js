@@ -196,83 +196,103 @@ export default function LSOAMap({ lsoa }) {
   }, [dataState, g, heatDemand, largestBeforeDemand, smallestAfterDemand]);
 
   return (
-    <div>
-      <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-row mb-4 w-full flex-nowrap '>
-          <div className='rounded-md shadow-lg mr-1'>
-            <button
-              className={`mx-2 group flex flex-row p-1 border-2 rounded-md border-gray-600 dark:border-white`}
-              onClick={toggleDataState}
-              title='Toggle Before/After View'
+    <div className='px-2 pt-3'>
+      <div className='flex flex-col h-full justify-center items-center'>
+        <div className='grid grid-cols-2 mb-4 w-full flex-nowrap items-center'>
+          <div className='flex flex-row'>
+            <Link
+              className='border-2 border-black dark:border-white rounded-md max-w-fit mr-1'
+              href='/demand'
             >
-              <div className='m-2 transition animate-spin-once delay-500'>
-                <ArrowShuffle />
-              </div>
-            </button>
-            <Link href='/demand'>
-              <button
-                className={`mx-2 mt-2 group flex flex-row p-1 border-2 rounded-md border-gray-600 dark:border-white`}
-                title='Back to National Map'
-              >
-                <div className='m-2'>
-                  <ArrowLeft />
+              <button title='Back to National Map'>
+                <div className='flex flex-row items-center'>
+                  <div className='mx-1'>
+                    <ArrowLeft />
+                  </div>
+                  <h3 className='mx-1 text-center'>Back to National Map</h3>
                 </div>
               </button>
             </Link>
+            <div className='border-2 border-black dark:border-white rounded-md max-w-fit place-self-center ml-1'>
+              <button
+                onClick={toggleDataState}
+                title='Toggle Before/After View'
+              >
+                <div className='flex flex-row items-center'>
+                  <div className='mx-1'>
+                    <ArrowShuffle />
+                  </div>
+                  <h3 className='mx-1 text-center'>
+                    {dataState === 'before'
+                      ? 'Before Energy Efficiency Measures'
+                      : 'After Energy Efficiency Measures'}
+                  </h3>
+                </div>
+              </button>
+            </div>
           </div>
-          <div className='bg-white flex-grow flex flex-row dark:bg-gray-800 rounded-md shadow-lg p-4'>
-            <h3 className='m-2 text-center'>
-              {dataState === 'before'
-                ? 'Before Energy Efficiency Measures'
-                : 'After Energy Efficiency Measures'}
-            </h3>
+
+          <div className=''>
             <h3
-              className='m-2 text-center'
+              className='text-center text-lg text-ellipsis'
               ref={tooltipRef}
-            >
-              Select An Area
-            </h3>
-            <h3 className='m-2 text-center'>
-              Demand Before:
-              <span ref={demandBeforeRef}></span>
-            </h3>
-            <h3 className='m-2 text-center'>
-              Demand After:
-              <span ref={demandAfterRef}></span>
-            </h3>
-            <h3 className='m-2 text-center'>
-              Difference:
-              <span ref={demandDiffRef}></span>
-            </h3>
+            ></h3>
           </div>
         </div>
-        <section className='w-full py-4 px-6 bg-white dark:bg-gray-800 rounded-md shadow-lg'>
-          <div className='grid grid-cols-5 gap-1'>
-            <div className='h-3 w-full bg-amber-100' />
-            <div className='h-3 w-full bg-amber-300' />
-            <div className='h-3 w-full bg-amber-500' />
-            <div className='h-3 w-full bg-amber-700' />
-            <div className='h-3 w-full bg-amber-900' />
-          </div>
-          <div className='flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-300'>
-            <span>
-              {Math.round(smallestAfterDemand).toLocaleString()} kW⋅h{' '}
-            </span>
-            <span>
-              {(
-                (Math.round(largestBeforeDemand) +
-                  Math.round(smallestAfterDemand)) /
-                2
-              ).toLocaleString()}{' '}
-              kW⋅h{' '}
-            </span>
+        <div className='grid grid-cols-2 w-full mr-1'>
+          <section className='py-4 px-6 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg'>
+            <div className='grid grid-cols-5 gap-1 mb-2'>
+              <div className='h-3 w-full bg-amber-100' />
+              <div className='h-3 w-full bg-amber-300' />
+              <div className='h-3 w-full bg-amber-500' />
+              <div className='h-3 w-full bg-amber-700' />
+              <div className='h-3 w-full bg-amber-900' />
+            </div>
 
-            <span>
-              {Math.round(largestBeforeDemand).toLocaleString()} kW⋅h{' '}
-            </span>
+            <div className='flex justify-between mt-4 text-sm text-gray-600 dark:text-gray-300'>
+              <span>
+                {Math.round(smallestAfterDemand).toLocaleString()} kW⋅h{' '}
+              </span>
+              <span>
+                {(
+                  (Math.round(largestBeforeDemand) +
+                    Math.round(smallestAfterDemand)) /
+                  2
+                ).toLocaleString()}{' '}
+                kW⋅h{' '}
+              </span>
+
+              <span>
+                {Math.round(largestBeforeDemand).toLocaleString()} kW⋅h{' '}
+              </span>
+            </div>
+          </section>
+          <div className='py-4 px-6 bg-white ml-1 dark:bg-gray-800 rounded-md shadow-lg flex flex-row justify-center text-center'>
+            <div className='bg-gray-200 dark:bg-gray-600 rounded-md mx-2 p-1 shadow-md'>
+              <h3 className='text-center text-lg'>Demand Before:</h3>
+              <span
+                className='text-sm'
+                ref={demandBeforeRef}
+              ></span>
+            </div>
+            <div className='bg-gray-200 dark:bg-gray-600 rounded-md mx-2 p-1 shadow-md'>
+              <h3 className='text-center text-lg'>Demand After:</h3>
+              <span
+                className='text-sm'
+                ref={demandAfterRef}
+              ></span>
+            </div>
+            <div className='bg-gray-200 dark:bg-gray-600 rounded-md mx-2 p-1 shadow-md'>
+              <h3 className='text-center text-lg'>Difference:</h3>
+              <span
+                className='text-sm'
+                ref={demandDiffRef}
+              ></span>
+            </div>
           </div>
-        </section>
-        <div className='flex flex-row my-4 rounded-md bg-white dark:bg-gray-800 shrink'>
+        </div>
+
+        <section className='flex flex-row mt-4 rounded-md bg-white dark:bg-gray-800 shrink'>
           <svg
             className='m-2 rounded-md'
             ref={ref}
@@ -297,7 +317,7 @@ export default function LSOAMap({ lsoa }) {
               <Reset />
             </button>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
