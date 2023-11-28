@@ -16,6 +16,7 @@ const HomePage = () => {
             const coords = data.map((row) => [
                 row.longitude,
                 row.latitude,
+                row.geo_label,
             ]);
             setCoordinates(coords);
         };
