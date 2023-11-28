@@ -31,13 +31,13 @@ export const material = {
 };
 
 export const INITIAL_VIEW_STATE = {
-    longitude: -0.096772949,
-    latitude: 51.518007368581,
-    zoom: 6.8,
+    longitude: -0.992772949,
+    latitude: 52.518007368581,
+    zoom: 6.5,
     minZoom: 1,
-    maxZoom: 15,
-    pitch: 40.5,
-    bearing: -27
+    maxZoom: 20,
+    pitch: 40,
+    bearing: -15
 };
 
 export const colorRange = [
