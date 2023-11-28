@@ -53,7 +53,7 @@ model lsoa {
   lsoa11nm    String?
   lad17cd     String?
   lad17nm     String?
-  HeatDemand  HeatDemand?
+  HeatDemands HeatDemand?
   HeatingType HeatingType?
 
   @@index([lsoa11cd, lad17cd], map: "lsoa__index")
