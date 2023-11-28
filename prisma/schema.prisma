@@ -36,6 +36,27 @@ model HeatingType {
   lsoa                     lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
 }
 
+model HeatingCost {
+  lsoa11cd                 String  @id
+  detached_Biomass         Decimal @db.Money
+  detached_Gas             Decimal @db.Money
+  detached_Oil             Decimal @db.Money
+  detached_Resistance      Decimal @db.Money
+  flats_Biomass            Decimal @db.Money
+  flats_Gas                Decimal @db.Money
+  flats_Oil                Decimal @db.Money
+  flats_Resistance         Decimal @db.Money
+  semi_detached_Biomass    Decimal @db.Money
+  semi_detached_Gas        Decimal @db.Money
+  semi_detached_Oil        Decimal @db.Money
+  semi_detached_Resistance Decimal @db.Money
+  terraced_Biomass         Decimal @db.Money
+  terraced_Gas             Decimal @db.Money
+  terraced_Oil             Decimal @db.Money
+  terraced_Resistance      Decimal @db.Money
+  lsoa                     lsoa    @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
+}
+
 model admin {
   username String @id
   password String
@@ -56,6 +77,7 @@ model lsoa {
   lad17nm     String?
   HeatDemands HeatDemand?
   HeatingType HeatingType?
+  HeatingCost HeatingCost?
 
   @@index([lsoa11cd, lad17cd], map: "lsoa__index")
 }
