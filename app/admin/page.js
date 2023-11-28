@@ -6,6 +6,25 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const router = useRouter();
 
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent default form submission
+    const dataset = event.target.Dataset.value; // Get the selected value
+
+    switch (dataset) {
+      case 'HE':
+        router.push('/admin/upload_heat');
+        break;
+      case 'EN':
+        router.push('/admin/upload_energy');
+        break;
+      case 'HR':
+        router.push('/admin/upload_hourly');
+        break;
+      default:
+      // Handle default case or show an error
+    }
+  };
+
   useEffect(() => {
     const token = Cookies.get('token');
 
@@ -35,8 +54,35 @@ export default function Home() {
   }, [router]);
 
   return (
-    <div>
-      <h1>Big boy admin page for importing csv files.</h1>
+    <div className='min-h-screen heropattern-topography-black bg-repeat dark:heropattern-topography-gray-400 dark:bg-black flex items-center justify-center'>
+      <div className='rounded lg shadow-md p-8 max-w-xl w-full bg-white'>
+        <form onSubmit={handleSubmit}>
+          <h1 className='text-2xl text-black font-semibold mb-6'>
+            Choose Dataset
+            <label
+              for='Dataset'
+              class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+            >
+              Select an option
+            </label>
+            <select
+              id='Dataset'
+              class='font-sans bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            >
+              <option selected>Choose a Dataset</option>
+              <option value='HE'>Annual Heat Demand</option>
+              <option value='EN'>Energy Efficiency Improvement Costs</option>
+              <option value='HR'>Half Hourly Profiles Of Heating Tech</option>
+            </select>
+          </h1>
+          <button
+            type='submit'
+            className='w-full p-2 bg-gray-600 text-white rounded hover:bg-gray-900'
+          >
+            Continue
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
