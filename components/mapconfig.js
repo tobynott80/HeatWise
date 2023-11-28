@@ -31,10 +31,10 @@ export const material = {
 };
 
 export const INITIAL_VIEW_STATE = {
-    longitude: 19.134378,
-    latitude: 51.9189,
+    longitude: -0.096772949,
+    latitude: 51.518007368581,
     zoom: 6.8,
-    minZoom: 5,
+    minZoom: 1,
     maxZoom: 15,
     pitch: 40.5,
     bearing: -27

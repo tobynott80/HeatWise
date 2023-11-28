@@ -1,34 +1,20 @@
-"use client"
+"use client";
+import React, { useState } from "react";
 
-import React, { useState } from 'react';
+import Map from "react-map-gl";
+import { HexagonLayer } from "@deck.gl/aggregation-layers";
+import DeckGL from "@deck.gl/react";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { lightingEffect, material, INITIAL_VIEW_STATE, colorRange } from '@/components/mapconfig';
+import {COORDINATE_SYSTEM} from "@deck.gl/core";
 
-import Map from 'react-map-gl'
-import { HexagonLayer } from '@deck.gl/aggregation-layers'
-import DeckGL from '@deck.gl/react'
-import "mapbox-gl/dist/mapbox-gl.css"
-
-//import map config
-import {
-    lightingEffect,
-    material,
-    INITIAL_VIEW_STATE,
-    colorRange,
-} from "@/components/mapconfig";
-
-const LocationAggregatorMap = ({
-                                   upperPercentile = 100,
-                                   coverage = 1,
-                                   data,
-                               }) => {
-
-
+export default function LocationAggregatorMap({data, upperPercentile = 100, coverage = 1,}) {
     const [radius, setRadius] = useState(1000);
 
     const handleRadiusChange = (e) => {
         console.log(e.target.value);
         setRadius(e.target.value);
     };
-
     // creating tooltip
     function getTooltip({ object }) {
         if (!object) {
@@ -46,10 +32,11 @@ const LocationAggregatorMap = ({
 
     const layers = [
         new HexagonLayer({
-            id: "heatmap",
+            id: 'heatmap',
             colorRange,
-            coverage,
-            data,
+            coordinateSystem: COORDINATE_SYSTEM.LNGLAT,
+            coverage: coverage,
+            data: data,
             elevationRange: [0, 3000],
             elevationScale: data && data.length ? 50 : 0,
             extruded: true,
@@ -66,7 +53,7 @@ const LocationAggregatorMap = ({
     ];
 
     return (
-        <div>
+        <div className="">
             <DeckGL
                 layers={layers}
                 effects={[lightingEffect]}
@@ -80,12 +67,13 @@ const LocationAggregatorMap = ({
                     mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
                     mapStyle="mapbox://styles/petherem/cl2hdvc6r003114n2jgmmdr24"
                 ></Map>
+
                 {/* FLOATING CONTROLLER */}
 
                 <div className="absolute bg-slate-900 text-white min-h-[200px] h-auto w-[250px] top-10 left-5 rounded-lg p-4 text-sm">
                     <div className="flex flex-col">
                         <h2 className="font-bold text-xl uppercase mb-1">Map controller</h2>
-                        <h2 className="font-bold text-md uppercase mb-4">INPOST LOCS</h2>
+                        <h2 className="font-bold text-md uppercase mb-4">Locations</h2>
                         <input
                             name="radius"
                             className="w-fit py-2"
@@ -113,5 +101,3 @@ const LocationAggregatorMap = ({
         </div>
     );
 };
-
-export default LocationAggregatorMap
