@@ -1,12 +1,10 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
 }
 
 model HeatDemand {
@@ -16,17 +14,47 @@ model HeatDemand {
   lsoa         lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
 }
 
+model HeatingType {
+  lsoa11cd                 String   @id
+  detached_Biomass         Decimal? @db.Decimal
+  detached_Gas             Decimal? @db.Decimal
+  detached_Oil             Decimal? @db.Decimal
+  detached_Resistance      Decimal? @db.Decimal
+  flats_Biomass            Decimal? @db.Decimal
+  flats_Gas                Decimal? @db.Decimal
+  flats_Oil                Decimal? @db.Decimal
+  flats_Resistance         Decimal? @db.Decimal
+  semi_detached_Biomass    Decimal? @db.Decimal
+  semi_detached_Gas        Decimal? @db.Decimal
+  semi_detached_Oil        Decimal? @db.Decimal
+  semi_detached_Resistance Decimal? @db.Decimal
+  terraced_Biomass         Decimal? @db.Decimal
+  terraced_Gas             Decimal? @db.Decimal
+  terraced_Oil             Decimal? @db.Decimal
+  terraced_Resistance      Decimal? @db.Decimal
+  lsoa                     lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
+}
+
+model admin {
+  username String @id
+  password String
+}
+
+model lsoaCoordinates {
+  geo_code     String  @id
+  geo_label    String
+  geo_label_w  String
+  x_coordinate Decimal @db.Decimal
+  y_coordinate Decimal @db.Decimal
+}
+
 model lsoa {
-  lsoa11cd    String      @id
+  lsoa11cd    String       @id
   lsoa11nm    String?
   lad17cd     String?
   lad17nm     String?
   HeatDemands HeatDemand?
+  HeatingType HeatingType?
 
   @@index([lsoa11cd, lad17cd], map: "lsoa__index")
-}
-
-model admin {
-  username String @id @default(cuid())
-  password String
 }
