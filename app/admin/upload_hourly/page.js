@@ -1,10 +1,39 @@
 'use client';
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const router = useRouter();
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFile) {
+      console.log('No file selected');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    const response = await fetch('/api/upload/hourly', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      alert('To be implemented when hourly map is complete');
+      router.replace('/admin/');
+    } else {
+      alert('Please try again');
+    }
+  };
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -14,18 +43,21 @@ export default function Home() {
       return;
     }
   }, [router]);
+
   return (
     <div className='min-h-screen heropattern-topography-black bg-repeat dark:heropattern-topography-gray-400 dark:bg-black flex items-center justify-center'>
       <div className='rounded lg shadow-md p-8 max-w-xl w-full bg-white'>
         <h1 className='text-2xl text-black font-semibold mb-6'>
           Half Hourly Heat Consumption
         </h1>
-        <form>
-          <label class='block'>
+        <form onSubmit={handleSubmit}>
+          <label className='block'>
             <input
               type='file'
-              class='block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-600 file:text-white  hover:file:bg-gray-700  file:disabled:opacity-50 file:disabled:pointer-events-none  dark:file:bg-gray-500  dark:hover:file:bg-gray-400  '
+              className='block w-full text-sm text-gray-800 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-600 file:text-white  hover:file:bg-gray-700  file:disabled:opacity-50 file:disabled:pointer-events-none  dark:file:bg-gray-500  dark:hover:file:bg-gray-400  '
+              onChange={handleFileChange}
               accept='.csv'
+              multiple={true}
             />
           </label>
 
@@ -33,22 +65,22 @@ export default function Home() {
 
           <div className='flex justify-center gap-2'>
             {' '}
-            {/* Flex container with gap */}
             <button
               type='submit'
-              className='p-2 bg-gray-600 text-white rounded hover:bg-gray-900'
+              className='p-2 bg-gray-800 text-white rounded hover:bg-gray-900'
             >
               Upload
             </button>
             <button
               type='submit'
-              className='p-2 bg-gray-400 text-white rounded hover:bg-gray-900'
+              onClick={() => router.push('/admin')}
+              className='p-2 bg-gray-500 text-white rounded hover:bg-gray-900'
             >
               Cancel
             </button>
             <label
-              class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
-              for='multiple_files'
+              className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+              htmlFor='multiple_files'
             ></label>
           </div>
         </form>

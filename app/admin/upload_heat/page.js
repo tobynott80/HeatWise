@@ -22,7 +22,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    const response = await fetch('/api/upload', {
+    const response = await fetch('/api/upload/heat', {
       method: 'POST',
       body: formData
     });
@@ -73,6 +73,7 @@ export default function Home() {
             </button>
             <button
               type='submit'
+              onClick={() => router.push('/admin')}
               className='p-2 bg-gray-500 text-white rounded hover:bg-gray-900'
             >
               Cancel

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { parseCSV } from './parseCSV';
+import { parseCSV } from '../parseCSV';
 import { PrismaClient } from '@prisma/client';
 
 export async function POST(req) {

@@ -21,7 +21,8 @@ export default function Home() {
         router.push('/admin/upload_hourly');
         break;
       default:
-      // Handle default case or show an error
+        alert('Please select a dataset');
+        break;
     }
   };
 
