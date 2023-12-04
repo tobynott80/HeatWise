@@ -1,24 +1,14 @@
 import { NextResponse } from 'next/server';
+import { parseCSV } from './parseCSV';
 
 export async function POST(req, res) {
   try {
     const data = await req.formData();
-    const file = data.get('file');
-    console.log(file);
-    console.log('CSV Stored');
+    const csvData = await parseCSV(
+      Buffer.from(await data.get('file').arrayBuffer())
+    );
 
-    try {
-      // Use Prisma to interact with the database
-      clearOldData(prisma);
-      console.log('Old data cleared');
-      createTable(prisma);
-      insertData(prisma, data);
-      NextResponse.json({
-        message: 'File uploaded successfully + database updated'
-      });
-    } catch (error) {
-      NextResponse.json({ message: 'internal server error' });
-    }
+    console.log(csvData);
   } catch (error) {
     console.log(error);
   }
