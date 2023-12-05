@@ -1,26 +1,24 @@
 'use client';
 import * as d3 from 'd3';
+import * as Plot from '@observablehq/plot';
 import { useEffect, useRef, useState } from 'react';
 
 export default function DwellingBarGraph() {
   const ref = useRef();
   const [ladTracs, setLadTracs] = useState(null);
+  const [dwellingTotal, setDwellingTotal] = useState([]);
   const [dwellingData, setDwellingData] = useState(null);
   const [largestTotal, setLargestTotal] = useState(10000000);
-  const [smallestTotal, setSmallestTotal] = useState(0);
   const [width, setWidth] = useState(928);
   const [height, setHeight] = useState(1200);
-  const demandAfterRef = useRef();
-  const demandBeforeRef = useRef();
-  const demandDiffRef = useRef();
 
   useEffect(() => {
     setWidth(window.innerWidth / 2);
-    setHeight(window.innerHeight);
+    setHeight(window.innerHeight / 3);
 
     const handleResize = () => {
       setWidth(window.innerWidth / 2);
-      setHeight(window.innerHeight);
+      setHeight(window.innerHeight / 3);
     };
 
     loadData();
@@ -34,81 +32,116 @@ export default function DwellingBarGraph() {
   const loadData = () => {
     d3.json('/api/data/energyCost/filter?type=dwelling').then((data) => {
       console.log(data);
-      setDwellingData(data);
-      const mapped = data.reduce((res, item) => {
-        if (item.HeatingCost != null) {
-          res.push(parseFloat(item.HeatingCost.total));
-        }
-        return res;
-      }, []);
-      const largestValue = Math.max(...mapped);
+      setDwellingTotal(data.total);
+      setDwellingData(data.aggregate);
+      const flattened = data.aggregate
+        .map((v) =>
+          Object.values(
+            Object.fromEntries(
+              Object.entries(v).filter(
+                // Filter out lad information for only values
+                ([key, val]) => key != 'lad19cd' && key != 'lad19nm'
+              )
+            )
+          )
+        )
+        .flat(1);
+      const largestValue = Math.max(...flattened);
       setLargestTotal(largestValue);
-      const smallestValue = Math.min(...mapped);
-      setSmallestTotal(smallestValue);
-    });
-
-    d3.json('/api/geojson/lad19').then((data) => {
-      setLadTracs(data);
     });
   };
 
-  const zoomed = (event) => {
-    const { transform } = event;
-    g.attr('transform', transform);
-  };
-
-  d3.select(ref.current).selectAll('*').remove();
-
-  d3.select(ref.current)
-    .attr('width', width)
-    .attr('height', height)
-    .attr('viewBox', [0, 0, width, height])
-    .attr('style', 'max-width: 100%; height: auto;');
-
-  const g = d3.select(ref.current);
-
-  // Draw the map
   useEffect(() => {
-    if (!ladTracs) return;
+    if (dwellingTotal.length < 1) return;
+    const plot = Plot.plot({
+      x: { label: 'Cost in Millions', axis: 'bottom' },
+      y: { label: 'Dwelling Type' },
+      marks: [
+        Plot.barX(dwellingTotal, {
+          x: 'value',
+          y: 'name',
+          fill: '#b45309'
+        }),
+        Plot.text(dwellingTotal, {
+          x: 'value',
+          y: 'name',
+          text: (d) => Math.round(d.value),
+          textAnchor: 'start',
+          dx: 3,
+          filter: (d) => d.value <= 0.007,
+          fill: 'white'
+        }),
+        Plot.text(dwellingTotal, {
+          x: 'value',
+          y: 'name',
+          text: (d) => Math.round(d.value),
+          textAnchor: 'end',
+          dx: -3,
+          filter: (d) => d.value > 0.007,
+          fill: 'white'
+        }),
+        Plot.ruleX([0]),
+        Plot.ruleY([-1])
+      ],
+      height,
+      width: width / 2
+    });
+    ref.current.append(plot);
 
-    const path = d3.geoPath().projection(
-      d3.geoTransverseMercator().fitExtent(
-        [
-          [20, 20],
-          [width - 20, height - 20]
-        ],
-        ladTracs
-      )
-    );
+    return () => plot.remove();
+  }, [dwellingTotal, width, height]);
 
-    g.selectAll('path')
-      .data(ladTracs.features)
-      .enter()
-      .append('path')
-      .attr('class', 'tract')
-      .attr('d', path)
-      .attr('fill', 'silver')
-      .text(function (d) {
-        return d.properties.LAD13NM;
-      });
-  }, [g, height, ladTracs, width]);
+  // useEffect(() => {
+  //   if (!dwellingTotal) return;
+  //   d3.select(ref.current).selectAll('*').remove();
+  //   const svg = d3
+  //     .select(ref.current)
+  //     .append('svg')
+  //     .attr('width', width/3)
+  //     .attr('height', height/2)
+  //     .append('g')
+  //     .attr('transform', 'translate(90, 90)');
 
-  useEffect(() => {
-    if (!dwellingData) return;
-    g.selectAll('path')
-      .join('path')
-      .attr('fill', '#69b3a2')
-      .on('mouseover', function (event, d) {
-      })
-      .on('click', function (event, d) {})
-      .append('title');
-  }, [g, dwellingData, largestTotal, smallestTotal]);
+  //   // X axis
+  //   const x = d3.scaleLinear().domain([0, largestTotal]).range([0, width]);
+  //   svg
+  //     .append('g')
+  //     .attr('transform', 'transform(0, 1000)')
+  //     .call(d3.axisBottom(x))
+  //     .selectAll('text')
+  //     .attr('transform', 'translate(-10,0)rotate(-45)')
+  //     .style('text-anchor', 'end');
+
+  //   // Y axis
+  //   var y = d3
+  //     .scaleBand()
+  //     .range([0, height])
+  //     .domain(Object.keys(dwellingTotal));
+  //   svg.append('g').call(d3.axisLeft(y));
+
+  //   //Bars
+  //   svg
+  //     .selectAll('myRect')
+  //     .data(dwellingTotal)
+  //     .enter()
+  //     .append('rect')
+  //     .attr('x', x(0))
+  //     .attr('y', function (d) {
+  //       console.log(d);
+  //       return y(Object.keys(d));
+  //     })
+  //     .attr('width', function (d) {
+  //       return x(Object.values(d));
+  //     })
+  //     .attr('height', y.bandwidth())
+  //     .attr('fill', '#69b3a2');
+  // }, [dwellingTotal, height, width, largestTotal]);
 
   return (
     <>
       <section className='flex flex-row mt-2 rounded-md bg-white dark:bg-gray-800 shrink h-full'>
         <svg
-          className='m-2 rounded-md'
+          className='m-2 rounded-md w-full'
           ref={ref}
         />
       </section>

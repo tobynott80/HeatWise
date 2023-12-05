@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 export async function GET(request) {
   const type = request.nextUrl.searchParams.get('type');
-  console.log('hello!');
   const prisma = new PrismaClient();
 
   try {
@@ -13,7 +12,12 @@ export async function GET(request) {
       }
     });
     let aggregatedData = [];
-    let totalData = {};
+    let totalData = [
+      { name: 'Detached', value: 0 },
+      { name: 'Flats', value: 0 },
+      { name: 'Semi-Detached', value: 0 },
+      { name: 'Terraced', value: 0 }
+    ];
     if (type == 'dwelling') {
       records.map((lad) => {
         let detached =
@@ -44,20 +48,10 @@ export async function GET(request) {
           lad19cd: lad.lad19.lad19cd,
           lad19nm: lad.lad19nm
         });
-        if (Object.keys(totalData).length < 1) {
-          // Not initialized, set to default
-          totalData = {
-            detached,
-            flats,
-            semi,
-            terraced
-          };
-        } else {
-          totalData.detached += detached;
-          totalData.flats += flats;
-          totalData.semi += semi;
-          totalData.terraced += terraced;
-        }
+        totalData.find(v => v.name == "Detached").value += detached;
+        totalData.find(v => v.name == "Flats").value += flats;
+        totalData.find(v => v.name == "Semi-Detached").value += semi;
+        totalData.find(v => v.name == "Terraced").value += terraced;
       });
     } else if (type == 'boiler') {
       records.map((lad) => {
