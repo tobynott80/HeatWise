@@ -2,7 +2,9 @@ default:
   image: node:16.16.0
   tags:
     - comsc-ci
-  # - general-docker
+    # - general-docker
+    # - aws-turbo-super-runner
+    # - rick-deckard
 
 deploy_preview:
   stage: deploy

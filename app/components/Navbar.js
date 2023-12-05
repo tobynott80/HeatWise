@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AdminIcon from './icons/Admin';
 import MenuIcon from './icons/Menu';
 import GlobeIcon from './icons/Globe';
 import HomeIcon from './icons/Home';
@@ -53,33 +54,43 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           title={isSidebarOpen ? 'Home' : ''}
           href='/'
           icon={<HomeIcon />}
-          isActive={pathname == '/'}
+          isActive={pathname === '/'}
         />
         <MenuItem
           title={isSidebarOpen ? 'Change in Heat Demand' : ''}
           href='/demand'
           icon={<GlobeIcon />}
-          isActive={pathname == '/demand'}
+          isActive={pathname.includes('/demand')}
         />
         <MenuItem
           title={isSidebarOpen ? 'Energy Efficieny Costs' : ''}
           href='/costs'
           icon={<PoundIcon />}
-          isActive={pathname == '/costs'}
+          isActive={pathname.includes('/costs')}
         />
         <MenuItem
           title={isSidebarOpen ? 'Heat Consumption Profile' : ''}
           href='/consumption'
           icon={<GraphDown />}
-          isActive={pathname == '/consumption'}
+          isActive={pathname.includes('/consumption')}
         />
       </nav>
-      <div className='flex items-center justify-center py-4'>
-        <MenuItem
-          title={isSidebarOpen ? 'Help' : ''}
-          href='/help'
-          icon={<QuestionMark />}
-        />
+      <div className='flex items-center justify-between py-4 pr-4'>
+        <div className='px-2 overflow-hidden'>
+          <MenuItem
+            title={isSidebarOpen ? '' : ''}
+            href='/help'
+            icon={<QuestionMark />}
+          />
+        </div>
+        {isSidebarOpen && (
+          <Link
+            href='/admin/login'
+            className='text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
+          >
+            <AdminIcon />
+          </Link>
+        )}
       </div>
     </nav>
   );
