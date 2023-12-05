@@ -5,7 +5,7 @@ import ZoomIn from '../components/icons/ZoomIn';
 import ZoomOut from '../components/icons/ZoomOut';
 import Reset from '../components/icons/Reset';
 import Export from '../components/icons/Export';
-import ImageExport from '../components/icons/imageExport';
+import ImageExport from '../components/icons/ImageExport';
 import ArrowShuffle from '../components/icons/ArrowShuffle';
 import html2canvas from 'html2canvas';
 

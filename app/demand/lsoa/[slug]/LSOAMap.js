@@ -5,7 +5,7 @@ import Reset from '@/app/components/icons/Reset';
 import ZoomIn from '@/app/components/icons/ZoomIn';
 import ZoomOut from '@/app/components/icons/ZoomOut';
 import Export from '@/app/components/icons/Export';
-import ImageExport from '@/app/components/icons/imageExport';
+import ImageExport from '@/app/components/icons/ImageExport';
 import html2canvas from 'html2canvas';
 import * as d3 from 'd3';
 import Link from 'next/link';
