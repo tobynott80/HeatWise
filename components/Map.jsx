@@ -12,20 +12,14 @@ const lightingEffect = new LightingEffect({ambientLight, pointLight1, pointLight
 
 const LightMapStyle = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 const DarkMapStyle = MAP_STYLE;
-
-
-const LocationAggregatorMap = ({
-                                   upperPercentile = 100,
-                                   coverage = 1,
-                                   data,
-                               }) => {
-
+const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => {
     const [radius, setRadius] = useState(420);
     const [extruded, setExtruded] = useState(false);
     const [hoveredHexagon, setHoveredHexagon] = useState(null);
+    const [hover, setHover] = useState(false);
+    const [darkMode, setDarkMode] = useState(true);
+    const [colorRange, setColorRange] = useState(darkColorRange);
 
-    const [darkMode, setDarkMode] = useState(false);
-    const [colorRange, setColorRange] = useState(lightColorRange);
 
     const toggleDarkMode = () => {
         setDarkMode((prevDarkMode) => !prevDarkMode);
@@ -33,6 +27,9 @@ const LocationAggregatorMap = ({
         updateMapStyleAndColorRange(!darkMode);
     };
 
+    const toggleHover = () => {
+        setHover((prevHover) => !prevHover);
+    }
     const updateMapStyleAndColorRange = (isDarkMode) => {
         // Update mapStyle based on dark mode
         const mapStyle = isDarkMode
@@ -43,11 +40,7 @@ const LocationAggregatorMap = ({
 
         // Set the updated values in state
         setColorRange(updatedColorRange);
-        // Call a function to update mapStyle in your state or context
-        // updateMapStyle(mapStyle);
     };
-
-
     const handleToggleExtruded = () => {
         setExtruded(!extruded);
     };
@@ -92,21 +85,19 @@ const LocationAggregatorMap = ({
     };
 
     const handleHover = async ({ x, y, object }) => {
-        if (object) {
-            const tooltipContent = await getTooltip({ object });
-            console.log('Tooltip Content:', tooltipContent);
-            setHoveredHexagon({
-                x,
-                y,
-                content: tooltipContent,
-            });
-        } else {
-            setHoveredHexagon(null);
-        }
+            if (object && hover === true) {
+                const tooltipContent = await getTooltip({ object });
+                setHoveredHexagon({
+                    x,
+                    y,
+                    content: tooltipContent,
+                });
+            } else {
+                setHoveredHexagon(null);
+            }
     };
 
-    
-
+    //This const controls the hexagon characteristics.
     const layers = [
         new HexagonLayer({
             id: "hexagon-layer",
@@ -117,7 +108,7 @@ const LocationAggregatorMap = ({
             pickable: true,
             extruded,
             radius,
-            elevationScale: 50,
+            elevationScale: 30,
             material,
             getPosition: (d) => [parseFloat(d[0]),parseFloat(d[1])],
         }),
@@ -140,7 +131,7 @@ const LocationAggregatorMap = ({
                 ></Map>
 
                 {/* FLOATING CONTROLLER */}
-                <div className="absolute bg-slate-900 text-white min-h-[200px] h-auto w-[200px] top-10 left-5 rounded-lg p-4 text-sm"style={{ zIndex: 9999}}>
+                <div className="absolute bg-slate-900 text-white min-h-[200px] h-auto w-[200px] top-10 left-5 rounded-lg p-4 text-sm" style={{ zIndex: 9999}}>
                     <div className="flex flex-col">
                         <h2 className="font-bold text-xl uppercase mb-1">Editor</h2>
                         <h2 className="font-bold text-md mb-4">LSOAs</h2>
@@ -176,6 +167,12 @@ const LocationAggregatorMap = ({
                             className="bg-blue-500 text-white px-2 py-1 rounded-lg mt-2"
                         >
                             Toggle Dark Mode
+                        </button>
+                        <button
+                            onClick={toggleHover}
+                            className="bg-blue-500 text-white px-2 py-1 rounded-lg mt-2"
+                        >
+                            Toggle Place Names
                         </button>
 
                     </div>
