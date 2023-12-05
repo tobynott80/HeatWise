@@ -122,8 +122,8 @@ export default function LADMap() {
   function exportDataImage() {
     // Capture the current page
     html2canvas(document.body).then((canvas) => {
-      // Assume the sidebar width is known, e.g., 250px
-      const sidebarWidth = 250;
+      // Sidebar width
+      const sidebarWidth = 0;
 
       // Create a new canvas to draw the cropped image
       const croppedCanvas = document.createElement('canvas');
@@ -150,7 +150,7 @@ export default function LADMap() {
       const imageUrl = croppedCanvas.toDataURL('image/png');
 
       // Trigger the download
-      download(imageUrl, 'screenshot.png');
+      download(imageUrl, 'heatDemand.png');
     });
   }
 

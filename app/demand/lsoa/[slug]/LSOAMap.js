@@ -170,8 +170,8 @@ export default function LSOAMap({ lsoa }) {
   function exportDataImage() {
     // Capture the current page
     html2canvas(document.body).then((canvas) => {
-      // Assume the sidebar width is known, e.g., 250px
-      const sidebarWidth = 250;
+      // Sidebar widtch
+      const sidebarWidth = 0;
 
       // Create a new canvas to draw the cropped image
       const croppedCanvas = document.createElement('canvas');
@@ -198,7 +198,8 @@ export default function LSOAMap({ lsoa }) {
       const imageUrl = croppedCanvas.toDataURL('image/png');
 
       // Trigger the download
-      download(imageUrl, 'screenshot.png');
+      const fileName = `heatDemand_${lsoa}.png`;
+      download(imageUrl, fileName);
     });
   }
 
