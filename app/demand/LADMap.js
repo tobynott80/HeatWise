@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import ZoomIn from '../components/icons/ZoomIn';
 import ZoomOut from '../components/icons/ZoomOut';
 import Reset from '../components/icons/Reset';
+import Export from '../components/icons/Export';
+import ImageExport from '../components/icons/ImageExport';
 import ArrowShuffle from '../components/icons/ArrowShuffle';
+import html2canvas from 'html2canvas';
 
 export default function LADMap() {
   const ref = useRef();
@@ -78,6 +81,86 @@ export default function LADMap() {
         d3.zoomIdentity,
         d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
       );
+  }
+  // Function for export button
+  function convertDataToCSV(data) {
+    if (!data || data.length === 0) {
+      return '';
+    }
+    // Extract column headers
+    const headers = Object.keys(data[0]).join(',');
+    // Extract rows
+    const rows = data
+      .map((row) =>
+        Object.values(row)
+          .map((value) =>
+            typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value
+          )
+          .join(',')
+      )
+      .join('\n');
+    // Combine headers and rows
+    return `${headers}\n${rows}`;
+  }
+
+  function exportData() {
+    const csvData = convertDataToCSV(heatDemand);
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    download(url, 'heatDemand.csv');
+  }
+
+  function download(href, fileName) {
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function exportDataImage() {
+    // Capture the current page
+    html2canvas(document.body).then((canvas) => {
+      // Sidebar width
+      const sidebarWidth = 0;
+
+      // Create a new canvas to draw the cropped image
+      const croppedCanvas = document.createElement('canvas');
+      const ctx = croppedCanvas.getContext('2d');
+
+      // Set dimensions for the new canvas
+      croppedCanvas.width = canvas.width - sidebarWidth;
+      croppedCanvas.height = canvas.height;
+
+      // Draw the cropped area onto the new canvas
+      ctx.drawImage(
+        canvas,
+        sidebarWidth,
+        0, // Start cropping from the end of the sidebar
+        canvas.width - sidebarWidth,
+        canvas.height, // Crop width and height
+        0,
+        0, // Place the cropped image at the top left corner of the new canvas
+        canvas.width - sidebarWidth,
+        canvas.height
+      );
+
+      // Convert the new canvas to a data URL (base64 encoded image)
+      const imageUrl = croppedCanvas.toDataURL('image/png');
+
+      // Trigger the download
+      download(imageUrl, 'heatDemand.png');
+    });
+  }
+
+  function download(href, fileName) {
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   const g = svg.append('g');
@@ -301,6 +384,18 @@ export default function LADMap() {
               className='m-2'
             >
               <Reset />
+            </button>
+            <button
+              onClick={exportData}
+              className='m-2'
+            >
+              <Export />
+            </button>
+            <button
+              onClick={exportDataImage}
+              className='m-2'
+            >
+              <ImageExport />
             </button>
           </div>
         </section>

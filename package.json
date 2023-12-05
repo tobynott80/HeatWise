@@ -16,6 +16,7 @@
     "bcryptjs": "^2.4.3",
     "csv-parser": "^3.0.0",
     "d3": "^7.8.5",
+    "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "next": "13.5.6",
