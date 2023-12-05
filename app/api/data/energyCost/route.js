@@ -5,13 +5,13 @@ export async function GET() {
   const prisma = new PrismaClient();
 
   try {
-    const records = await prisma.lad.findMany({
+    const records = await prisma.lad19.findMany({
       select: {
-        lad17cd: true,
+        lad19cd: true,
         HeatingCost: true
       }
     });
-    
+
     return Response.json(records);
   } catch (error) {
     console.error('Prisma error: ', error);

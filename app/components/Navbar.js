@@ -63,7 +63,7 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           isActive={pathname.includes('/demand')}
         />
         <MenuItem
-          title={isSidebarOpen ? 'Energy Efficieny Costs' : ''}
+          title={isSidebarOpen ? 'Energy Efficiency Costs' : ''}
           href='/costs'
           icon={<PoundIcon />}
           isActive={pathname.includes('/costs')}

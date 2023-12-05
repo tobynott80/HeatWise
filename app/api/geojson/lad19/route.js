@@ -7,7 +7,7 @@ import { promises as fs } from 'fs';
 
 export async function GET(request) {
   const file = await fs.readFile(
-    process.cwd() + '/public/lad19.geojson',
+    process.cwd() + '/public/lad17.geojson',
     'utf8'
   );
   const ladTracs = JSON.parse(file);
