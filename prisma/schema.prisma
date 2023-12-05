@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -61,8 +61,8 @@ model lsoa {
 }
 
 model gasConsumption {
-  Date                 Date       @id
-  Before_Efficiency    Decimal @db.Decimal
-  After_Efficiency     Decimal @db.Decimal
-  AverageOAT           Decimal @db.Decimal
+  HeatDate          DateTime @id
+  Before_Efficiency Decimal  @db.Decimal
+  After_Efficiency  Decimal  @db.Decimal
+  AverageOAT        Decimal  @db.Decimal
 }
