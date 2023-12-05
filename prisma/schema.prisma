@@ -59,3 +59,10 @@ model lsoa {
 
   @@index([lsoa11cd, lad17cd], map: "lsoa__index")
 }
+
+model gasConsumption {
+  Date                 Date       @id
+  Before_Efficiency    Decimal @db.Decimal
+  After_Efficiency     Decimal @db.Decimal
+  AverageOAT           Decimal @db.Decimal
+}
