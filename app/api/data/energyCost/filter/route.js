@@ -12,13 +12,14 @@ export async function GET(request) {
       }
     });
     let aggregatedData = [];
-    let totalData = [
-      { name: 'Detached', value: 0 },
-      { name: 'Flats', value: 0 },
-      { name: 'Semi-Detached', value: 0 },
-      { name: 'Terraced', value: 0 }
-    ];
+    let totalData;
     if (type == 'dwelling') {
+      totalData = [
+        { name: 'Detached', value: 0 },
+        { name: 'Flats', value: 0 },
+        { name: 'Semi-Detached', value: 0 },
+        { name: 'Terraced', value: 0 }
+      ];
       records.map((lad) => {
         let detached =
           parseFloat(lad.detached_Biomass) +
@@ -48,12 +49,18 @@ export async function GET(request) {
           lad19cd: lad.lad19.lad19cd,
           lad19nm: lad.lad19nm
         });
-        totalData.find(v => v.name == "Detached").value += detached;
-        totalData.find(v => v.name == "Flats").value += flats;
-        totalData.find(v => v.name == "Semi-Detached").value += semi;
-        totalData.find(v => v.name == "Terraced").value += terraced;
+        totalData.find((v) => v.name == 'Detached').value += detached;
+        totalData.find((v) => v.name == 'Flats').value += flats;
+        totalData.find((v) => v.name == 'Semi-Detached').value += semi;
+        totalData.find((v) => v.name == 'Terraced').value += terraced;
       });
     } else if (type == 'boiler') {
+      totalData = [
+        { name: 'Biomass', value: 0 },
+        { name: 'Gas', value: 0 },
+        { name: 'Oil', value: 0 },
+        { name: 'Resistance', value: 0 }
+      ];
       records.map((lad) => {
         let biomass =
           parseFloat(lad.detached_Biomass) +
@@ -83,20 +90,10 @@ export async function GET(request) {
           lad19cd: lad.lad19.lad19cd,
           lad19nm: lad.lad19nm
         });
-        if (Object.keys(totalData).length < 1) {
-          // Not initialized, set to default
-          totalData = {
-            biomass,
-            gas,
-            oil,
-            resistance
-          };
-        } else {
-          totalData.biomass += biomass;
-          totalData.gas += gas;
-          totalData.oil += oil;
-          totalData.resistance += resistance;
-        }
+        totalData.find((v) => v.name == 'Biomass').value += biomass;
+        totalData.find((v) => v.name == 'Gas').value += gas;
+        totalData.find((v) => v.name == 'Oil').value += oil;
+        totalData.find((v) => v.name == 'Resistance').value += resistance;
       });
     }
     return Response.json({ total: totalData, aggregate: aggregatedData });
