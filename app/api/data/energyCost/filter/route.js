@@ -42,10 +42,10 @@ export async function GET(request) {
           parseFloat(lad.terraced_Oil) +
           parseFloat(lad.terraced_Resistance);
         aggregatedData.push({
-          detached,
-          flats,
-          semi,
-          terraced,
+          Detached: detached,
+          Flats: flats,
+          'Semi-Detached': semi,
+          Terraced: terraced,
           lad19cd: lad.lad19.lad19cd,
           lad19nm: lad.lad19nm
         });
@@ -83,10 +83,10 @@ export async function GET(request) {
           parseFloat(lad.semi_detached_Resistance) +
           parseFloat(lad.terraced_Resistance);
         aggregatedData.push({
-          biomass,
-          gas,
-          oil,
-          resistance,
+          Biomass: biomass,
+          Gas: gas,
+          Oil: oil,
+          Resistance: resistance,
           lad19cd: lad.lad19.lad19cd,
           lad19nm: lad.lad19nm
         });

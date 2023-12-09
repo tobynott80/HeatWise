@@ -55,6 +55,7 @@ export default function FilterList({ setFilter }) {
             return v;
           })
         );
+        setFilter([]);
       }
     } else {
       let l = [...list];
@@ -70,12 +71,11 @@ export default function FilterList({ setFilter }) {
         }
         setList(l);
       }
+      let filter = list
+        .filter((v) => v.checked && v.lad19cd != 'all')
+        .map((v) => v.lad19cd);
+      setFilter(filter);
     }
-    let filter = list
-      .filter((v) => v.checked && v.lad19cd != 'all')
-      .map((v) => v.lad19cd);
-    if (filter.length == list.length - 1) filter = [];
-    setFilter(filter);
   };
 
   return (

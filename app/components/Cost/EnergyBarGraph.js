@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function EnergyBarGraph({ graph, filters }) {
   const ref = useRef();
+  const plot = useRef();
   const [type, setType] = useState(graph);
-  const [filter, setFilter] = useState(filters);
-  const [current, setCurrent] = useState([])
+  const [current, setCurrent] = useState([]);
   const [dwellingTotal, setDwellingTotal] = useState([]);
   const [dwellingData, setDwellingData] = useState(null);
   const [width, setWidth] = useState(928);
@@ -38,17 +38,18 @@ export default function EnergyBarGraph({ graph, filters }) {
   }, [type]);
 
   useEffect(() => {
-    if (dwellingTotal.length < 1) return;
-    const plot = Plot.plot({
+    if (current.length < 1) return;
+    plot.current?.remove();
+    plot.current = Plot.plot({
       x: { label: 'Cost in Millions', axis: 'bottom' },
       y: { label: 'Dwelling Type' },
       marks: [
-        Plot.barX(dwellingTotal, {
+        Plot.barX(current, {
           x: 'value',
           y: 'name',
           fill: '#b45309'
         }),
-        Plot.text(dwellingTotal, {
+        Plot.text(current, {
           x: 'value',
           y: 'name',
           text: (d) => '£' + Math.round(d.value).toLocaleString('en-GB'),
@@ -57,7 +58,7 @@ export default function EnergyBarGraph({ graph, filters }) {
           filter: (d) => d.value <= 0.007,
           fill: 'white'
         }),
-        Plot.text(dwellingTotal, {
+        Plot.text(current, {
           x: 'value',
           y: 'name',
           text: (d) => '£' + Math.round(d.value).toLocaleString('en-GB'),
@@ -73,14 +74,33 @@ export default function EnergyBarGraph({ graph, filters }) {
       width: width / 2,
       marginLeft: 100
     });
-    ref.current.append(plot);
+    ref.current.append(plot.current);
 
-    return () => plot.remove();
-  }, [dwellingTotal, width, height]);
+    return () => plot.current.remove();
+  }, [current, width, height]);
 
   useEffect(() => {
+    if (filters.length < 1) {
+      // Show total data
+      setCurrent(dwellingTotal);
+    } else {
+      let data = dwellingData
+        .filter((v) => filters.includes(v.lad19cd))
+        .map(({ lad19cd, lad19nm, ...v }) => v);
 
-  }, [filter]);
+      if (data.length < 1) return setCurrent(dwellingTotal);
+
+      let sum = Object.keys(data[0]).map((v) => {
+        return { name: v, value: 0 };
+      });
+      data.forEach((v) => {
+        Object.keys(v).forEach((k) => {
+          sum.find((j) => j.name == k).value += v[k];
+        });
+      });
+      setCurrent(sum);
+    }
+  }, [filters, dwellingTotal, dwellingData]);
 
   return (
     <section className='rounded-md bg-white dark:bg-gray-800 shrink h-full text-center p-2'>
