@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import * as Plot from '@observablehq/plot';
 import { useEffect, useRef, useState } from 'react';
 
-export default function DwellingBarGraph({ graph }) {
+export default function EnergyBarGraph({ graph }) {
   const ref = useRef();
   const [type, setType] = useState(graph);
   const [dwellingTotal, setDwellingTotal] = useState([]);

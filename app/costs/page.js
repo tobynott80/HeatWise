@@ -1,4 +1,4 @@
-import DwellingBarGraph from '../components/Cost/DwellingBarGraph';
+import EnergyBarGraph from '../components/Cost/EnergyBarGraph';
 import FilterList from '../components/Cost/FilterList';
 import Map from '../components/Cost/Map';
 
@@ -10,8 +10,8 @@ export default function EnergyCosts() {
       </div>
       <div className='flex flex-col lg:flex-row lg:w-1/2 h-full space-x-2'>
         <div className='flex flex-col lg:w-2/3 space-y-2'>
-          <DwellingBarGraph graph={'dwelling'} />
-          <DwellingBarGraph graph={'boiler'} />
+          <EnergyBarGraph graph={'dwelling'} />
+          <EnergyBarGraph graph={'boiler'} />
         </div>
         <div className='lg:w-1/3'>
           <FilterList />
