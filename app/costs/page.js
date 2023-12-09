@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
-import EnergyBarGraph from '../components/Cost/EnergyBarGraph';
-import FilterList from '../components/Cost/FilterList';
-import Map from '../components/Cost/Map';
+import EnergyBarGraph from './EnergyBarGraph';
+import FilterList from './FilterList';
+import Map from './LADMap';
 
 export default function EnergyCosts() {
   const [filter, setFilter] = useState([]);

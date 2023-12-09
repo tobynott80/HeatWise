@@ -2,9 +2,9 @@
 import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 
-import ZoomIn from '../icons/ZoomIn';
-import ZoomOut from '../icons/ZoomOut';
-import Reset from '../icons/Reset';
+import ZoomIn from '../components/icons/ZoomIn';
+import ZoomOut from '../components/icons/ZoomOut';
+import Reset from '../components/icons/Reset';
 
 export default function Map() {
   const mapRef = useRef();
@@ -14,9 +14,8 @@ export default function Map() {
   const [smallestTotal, setSmallestTotal] = useState(0);
   const [width, setWidth] = useState(928);
   const [height, setHeight] = useState(1200);
-  const demandAfterRef = useRef();
-  const demandBeforeRef = useRef();
-  const demandDiffRef = useRef();
+  const hoverRefName = useRef();
+  const hoverRefTotal = useRef();
 
   useEffect(() => {
     setWidth(window.innerWidth / 2);
@@ -79,6 +78,12 @@ export default function Map() {
     );
 
   const g = d3.select(mapRef.current).append('g');
+
+  const tooltip = d3
+    .select(mapRef.current)
+    .append('div')
+    .style('opacity', 0)
+    .attr('class', 'absolute transition-opacity bg-white border-solid p-5');
 
   // Functions for zoom buttons
   const zoom = d3.zoom().scaleExtent([1, 40]).on('zoom', zoomed);
@@ -143,32 +148,38 @@ export default function Map() {
           (item) => item.lad19cd === d.properties.LAD13CD
         );
         if (foundItem) {
-          d.properties.total = Math.round(foundItem.HeatingCost?.total);
+          d.properties.name = foundItem.HeatingCost?.lad19nm;
+          d.properties.value = Math.round(foundItem.HeatingCost?.total);
           return color(foundItem.HeatingCost?.total);
         }
 
         // If no match was found, return grey
         return 'grey';
       })
-      .on('mouseover', function (event, d) {
-        if (demandBeforeRef.current) {
-          demandBeforeRef.current.innerHTML =
-            d.properties.beforeDemand.toLocaleString() + ' kW⋅h';
-
-          demandAfterRef.current.innerHTML =
-            d.properties.afterDemand.toLocaleString() + ' kW⋅h';
-
-          demandDiffRef.current.innerHTML =
-            d.properties.difference.toLocaleString() + ' kW⋅h';
+      .on('mousemove', function (event, d) {
+        if (hoverRefName.current) {
+          hoverRefName.current.innerHTML = d.properties?.name;
+        }
+        if (hoverRefTotal.current) {
+          hoverRefTotal.current.innerHTML =
+            '£' + d.properties?.value.toLocaleString('en-GB');
         }
       })
-      .on('click', function (event, d) {})
+      .on('mouseleave', () => {
+        if (hoverRefName.current) {
+          hoverRefName.current.innerHTML = 'Hover to view';
+        }
+        if (hoverRefTotal.current) {
+          hoverRefTotal.current.innerHTML = '£0';
+        }
+      })
       .append('title');
-  }, [g, energyCost, largestTotal, smallestTotal]);
+  }, [g, tooltip, energyCost, largestTotal, smallestTotal]);
 
   return (
     <>
-      <section className='py-4 px-6 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg'>
+      <section className='py-4 px-6 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg text-center space-y-2'>
+        <span>Total Energy Efficiency Improvement Costs</span>
         <div className='grid grid-cols-5 gap-1 mb-2'>
           <div className='h-3 w-full bg-amber-100' />
           <div className='h-3 w-full bg-amber-300' />
@@ -178,25 +189,31 @@ export default function Map() {
         </div>
 
         <div className='flex justify-between mt-4 text-sm text-gray-600 dark:text-gray-300'>
-          <span>{Math.round(smallestTotal).toLocaleString()} kW⋅h </span>
           <span>
-            {(
-              (Math.round(largestTotal) + Math.round(smallestTotal)) /
-              2
-            ).toLocaleString()}{' '}
-            kW⋅h{' '}
+            {'£' + Math.round(smallestTotal).toLocaleString('en-GB')}{' '}
+          </span>
+          <span>
+            {'£' +
+              (
+                (Math.round(largestTotal) + Math.round(smallestTotal)) /
+                2
+              ).toLocaleString('en-GB')}
           </span>
 
-          <span>{Math.round(largestTotal).toLocaleString()} kW⋅h </span>
+          <span>{'£' + Math.round(largestTotal).toLocaleString('en-GB')} </span>
         </div>
       </section>
 
-      <section className='flex flex-row mt-2 rounded-md bg-white dark:bg-gray-800 shrink h-full'>
+      <section className='relative flex flex-row mt-2 rounded-md bg-white dark:bg-gray-800 shrink h-full'>
+        <div className='absolute inset-2 flex flex-col mt-2 ml-2 h-min rounded-md bg-gray-200 dark:bg-gray-600 p-2 w-64'>
+          <span ref={hoverRefName}>Hover to view</span>
+          <span ref={hoverRefTotal}>£0</span>
+        </div>
         <svg
           className='m-2 rounded-md'
           ref={mapRef}
         />
-        <div className='flex flex-col mt-2 mr-2 h-min rounded-md bg-gray-200 dark:bg-gray-600'>
+        <div className='absolute end-2 top-2 flex flex-col mt-2 mr-2 h-min rounded-md bg-gray-200 dark:bg-gray-600'>
           <button
             onClick={zoomIn}
             className='m-2'

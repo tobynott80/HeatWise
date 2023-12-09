@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import Search from '../icons/Search';
+import Search from '../components/icons/Search';
 
 export default function FilterList({ setFilter }) {
   const [list, setList] = useState([
