@@ -3,9 +3,11 @@ import * as d3 from 'd3';
 import * as Plot from '@observablehq/plot';
 import { useEffect, useRef, useState } from 'react';
 
-export default function EnergyBarGraph({ graph }) {
+export default function EnergyBarGraph({ graph, filters }) {
   const ref = useRef();
   const [type, setType] = useState(graph);
+  const [filter, setFilter] = useState(filters);
+  const [current, setCurrent] = useState([])
   const [dwellingTotal, setDwellingTotal] = useState([]);
   const [dwellingData, setDwellingData] = useState(null);
   const [width, setWidth] = useState(928);
@@ -75,6 +77,10 @@ export default function EnergyBarGraph({ graph }) {
 
     return () => plot.remove();
   }, [dwellingTotal, width, height]);
+
+  useEffect(() => {
+
+  }, [filter]);
 
   return (
     <section className='rounded-md bg-white dark:bg-gray-800 shrink h-full text-center p-2'>
