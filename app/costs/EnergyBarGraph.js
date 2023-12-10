@@ -77,7 +77,7 @@ export default function EnergyBarGraph({ graph, filters }) {
     ref.current.append(plot.current);
 
     return () => plot.current.remove();
-  }, [current, width, height]);
+  }, [current, width, height, type]);
 
   useEffect(() => {
     if (filters.length < 1) {
