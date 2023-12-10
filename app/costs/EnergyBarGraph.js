@@ -42,7 +42,7 @@ export default function EnergyBarGraph({ graph, filters }) {
     plot.current?.remove();
     plot.current = Plot.plot({
       x: { label: 'Cost in Millions', axis: 'bottom' },
-      y: { label: 'Dwelling Type' },
+      y: { label: `${type.charAt(0).toUpperCase() + type.slice(1)} Type`  },
       marks: [
         Plot.barX(current, {
           x: 'value',
