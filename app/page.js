@@ -55,35 +55,52 @@ const tabsData = [
       </div>
     )
   },
+
   {
     title: 'Research',
     content: (
-      <div className='flex flex-wrap justify-center items-center space-x-4 space-y-4 p-4'>
-        <Image
-          src='/logos/cardiff_logo.png'
-          alt='Logo 1'
-          width={150}
-          height={150}
-        />
+      <div className='flex flex-col items-center justify-center p-4 space-y-4'>
+        <div className='flex flex-wrap justify-center items-center space-x-4 space-y-4'>
+          <Image
+            src='/logos/cardiff_logo.png'
+            alt='Cardiff University Logo'
+            width={150}
+            height={150}
+          />
+          <Image
+            src='/logos/ukri_logo.png'
+            alt='UKRI Logo'
+            width={150}
+            height={150}
+          />
+          <Image
+            src='/logos/flex_logo.png'
+            alt='Flex Logo'
+            width={150}
+            height={150}
+          />
+          <Image
+            src='/logos/ukerc_logo.png'
+            alt='UKERC Logo'
+            width={150}
+            height={150}
+          />
+        </div>
+        <br></br>
+        <div className='flex justify-center items-start space-x-10'>
+          <div className='text-center'>
+            <h3 className='text-xl font-semibold'>Researchers</h3>
+            <p>Alexandre Canet</p>
+            <p>Ali Al-Waleel</p>
+          </div>
 
-        <Image
-          src='/logos/ukri_logo.png'
-          alt='Logo 3'
-          width={150}
-          height={150}
-        />
-        <Image
-          src='/logos/flex_logo.png'
-          alt='Logo 2'
-          width={150}
-          height={150}
-        />
-        <Image
-          src='/logos/ukerc_logo.png'
-          alt='Logo 4'
-          width={150}
-          height={150}
-        />
+          <div className='text-center'>
+            <h3 className='text-xl font-semibold'>Academics</h3>
+            <p>Maysam Qadrdan</p>
+            <p>Nick Jenkins</p>
+            <p>Jianzhong Wu</p>
+          </div>
+        </div>
       </div>
     )
   }
@@ -166,7 +183,7 @@ export default function UnconventionalTabs({ isSideNavOpen }) {
                     className={`flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none ui-focus-visible:outline-none ui-focus-visible:ring ui-focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out ${
                       selectedIndex === index
                         ? 'bg-white text-black'
-                        : 'text-white hover:bg-slate-300'
+                        : 'text-white hover:bg-slate-600'
                     }`}
                   >
                     {tab.title}
