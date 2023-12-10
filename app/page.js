@@ -34,9 +34,9 @@ const tabsData = [
         {' '}
         <p className='text-center'>
           The Centre for Integrated Renewable Energy Generation and Supply
-          (CIREGS) at Cardiff University's School of Engineering was established
-          in 2008 as a multidisciplinary engineering research group with
-          international expertise in the supply, transmission and demand of
+          (CIREGS) at Cardiff University&apos;s School of Engineering was
+          established in 2008 as a multidisciplinary engineering research group
+          with international expertise in the supply, transmission and demand of
           energy.
         </p>
         <p className='text-center mt-4'>
@@ -216,19 +216,18 @@ export default function UnconventionalTabs({ isSideNavOpen }) {
   const tabsRef = useRef(null);
   const navRef = useRef(null);
 
-  const adjustTabPanelHeight = () => {
-    const navBarHeight = navRef.current ? navRef.current.clientHeight : 0;
-    const availableHeight =
-      window.innerHeight - navBarHeight - (isSideNavOpen ? 60 : 20);
-
-    if (tabsRef.current) {
-      tabsRef.current.style.height = `${availableHeight}px`;
-    }
-  };
-
   useEffect(() => {
     adjustTabPanelHeight();
     window.addEventListener('resize', adjustTabPanelHeight);
+    function adjustTabPanelHeight() {
+      const navBarHeight = navRef.current ? navRef.current.clientHeight : 0;
+      const availableHeight =
+        window.innerHeight - navBarHeight - (isSideNavOpen ? 60 : 20);
+
+      if (tabsRef.current) {
+        tabsRef.current.style.height = `${availableHeight}px`;
+      }
+    }
 
     return () => window.removeEventListener('resize', adjustTabPanelHeight);
   }, [isSideNavOpen]);
