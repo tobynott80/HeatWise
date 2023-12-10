@@ -57,7 +57,7 @@ const tabsData = [
   },
 
   {
-    title: 'Research',
+    title: 'Team',
     content: (
       <div className='flex flex-col items-center justify-center p-4 space-y-4'>
         <div className='flex flex-wrap justify-center items-center space-x-4 space-y-4'>
@@ -101,6 +101,106 @@ const tabsData = [
             <p>Jianzhong Wu</p>
           </div>
         </div>
+      </div>
+    )
+  },
+  {
+    title: 'Research',
+    content: (
+      <div className='text-left p-4'>
+        <h3 className='text-2xl font-semibold mb-4'>Research Links</h3>
+        <ul className='list-disc list-inside'>
+          <li>
+            <a
+              href='https://profiles.cardiff.ac.uk/staff/qadrdanm'
+              className='hover:text-gray-600'
+            >
+              <strong>Professor Meysam Qadrdan</strong>
+            </a>{' '}
+            - Professor in Energy Networks and Systems
+          </li>
+          <li>
+            <a
+              href='https://profiles.cardiff.ac.uk/staff/jenkinsn6'
+              className='hover:text-gray-600'
+            >
+              <strong>Professor Nicholas Jenkins</strong>
+            </a>{' '}
+            - Professor School of Engineering
+          </li>
+          <li>
+            <a
+              href='https://profiles.cardiff.ac.uk/staff/wuj5'
+              className='hover:text-gray-600'
+            >
+              <strong>Professor Jianzhong Wu</strong>
+            </a>{' '}
+            - Head of School, Engineering.
+          </li>
+          <li>
+            <a
+              href='https://ukerc.ac.uk/'
+              className='text-gray-600 hover:text-gray-700'
+            >
+              UKERC
+            </a>{' '}
+            - UK Energy Research Centre
+          </li>
+          <li>
+            <a
+              href='https://gtr.ukri.org/projects?ref=EP%2FS001492%2F1#/tabOverview'
+              className='hover:text-gray-600'
+            >
+              MISSION
+            </a>{' '}
+            - Net-zero Mission
+          </li>
+          <li>
+            <a
+              href='https://ukerc.ac.uk/ '
+              className='hover:text-gray-600'
+            >
+              UKERC - Heat Prosumers
+            </a>{' '}
+            Decarbonisation of heat
+          </li>
+          <li>
+            <a
+              href='https://smarter.energynetworks.org/projects/NIA_NGTO040'
+              className='hover:text-gray-600'
+            >
+              Zero2050 South Wales
+            </a>{' '}
+            - Aiming for a net-zero energy system in South Wales
+          </li>
+          <li>
+            <a
+              href='https://www.flexis.wales/'
+              className='hover:text-gray-600'
+            >
+              Flexis Project
+            </a>{' '}
+            - Smart Energy For Our Future
+          </li>
+          <li>
+            <a
+              href='https://www.nature.com/articles/s41597-022-01356-9'
+              className='hover:text-gray-600'
+            >
+              Spatial And Temporal Heat Demand Study
+            </a>{' '}
+            - Comprehensive study on heat demand patterns
+          </li>
+          <li>
+            <a
+              href='https://ukerc.rl.ac.uk/DC/cgi-bin/edc_search.pl?GoButton=Detail&WantComp=165&WantResult=LD&WantText=heat%20demand&'
+              className=' hover:text-gray-600'
+            >
+              Spatial And Temporal Heat Demand Database
+            </a>{' '}
+            - Database for heat demand in the UK
+          </li>
+        </ul>
       </div>
     )
   }
