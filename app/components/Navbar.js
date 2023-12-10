@@ -34,7 +34,7 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
 
   return (
     <nav
-      className={`static translate-x-0 z-20 left-0 h-screen ${sidebarWidth} flex flex-col bg-white dark:bg-gray-800 overflow-y-auto transition-all duration-300 ease-in-out`}
+      className={`static translate-x-0 z-20 left-0 h-screen ${sidebarWidth} flex flex-col bg-white dark:bg-gray-800 overflow-y-auto transition-all duration-300 ease-in-out overflow-hidden`}
     >
       <div className='flex items-center justify-between h-16 px-6 border-b'>
         <button
@@ -63,7 +63,7 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           isActive={pathname.includes('/demand')}
         />
         <MenuItem
-          title={isSidebarOpen ? 'Energy Efficieny Costs' : ''}
+          title={isSidebarOpen ? 'Energy Efficiency Costs' : ''}
           href='/costs'
           icon={<PoundIcon />}
           isActive={pathname.includes('/costs')}

@@ -175,7 +175,7 @@ export default function LADMap() {
   }
   // Get geojson data for the map
   useEffect(() => {
-    d3.json('/api/geojson/lad').then((data) => {
+    d3.json('/api/geojson/lad17').then((data) => {
       setLadTracs(data);
     });
   }, []);
