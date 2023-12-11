@@ -14,14 +14,55 @@ const lightingEffect = new LightingEffect({ambientLight, pointLight1, pointLight
 
 const LightMapStyle = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 const DarkMapStyle = MAP_STYLE;
-const LocationAggregatorMap = ({upperPercentile = 100, coverage = 0.92, data,}) => {
-    const [radius, setRadius] = useState(2000);
+
+const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => {
+    const [radius, setRadius] = useState(400);
     const [extruded, setExtruded] = useState(true);
     const [hoveredHexagon, setHoveredHexagon] = useState(null);
     const [hover, setHover] = useState(false);
     const [darkMode, setDarkMode] = useState(true);
+    const [selectedHouseType, setSelectedHouseType] = useState('detached'); // default value
+    const [selectedEnergyType, setSelectedEnergyType] = useState('gas'); // default value
     const [colorRange, setColorRange] = useState(darkColorRange)
     // console.log("DATA: ",data);
+
+
+    const [layers, setLayers] = useState([]);
+
+    useEffect(() => {
+        const newLayers = [
+            new HexagonLayer({
+                id: "hexagon-layer",
+                data,
+                colorRange,
+                coverage,
+                upperPercentile,
+                lowerPercentile: 10,
+                pickable: true,
+                extruded,
+                radius,
+                elevationScale: 40,
+                material,
+                getPosition: (d) => [parseFloat(d.yCoordinate), parseFloat(d.xCoordinate)],
+                getElevationValue: (objects) => {
+                    const elevations = objects.map(d => parseFloat(d[selectedHouseType][selectedEnergyType]));
+                    return elevations.reduce((a, b) => a + b, 0);
+                },
+                getColorValue: (objects) => {
+                    const elevations = objects.map(d => parseFloat(d[selectedHouseType][selectedEnergyType]));
+                    const totalElevation = elevations.reduce((a, b) => a + b, 0);
+                    const averageElevation = totalElevation / objects.length;
+                    const scalingFactor = 1; // Adjust this value to change the aggressiveness of the color change
+                    return averageElevation * scalingFactor;
+                },
+                updateTriggers: {
+                    getElevationValue: [selectedHouseType, selectedEnergyType],
+                    getColorValue: [selectedHouseType, selectedEnergyType]
+                }
+            }),
+        ];
+        setLayers(newLayers);
+    }, [selectedHouseType, selectedEnergyType, data, colorRange, coverage, upperPercentile, extruded, radius]);
 
     //---------------LOADING SPINNER-----------------//
     // Add a loading state
@@ -89,7 +130,6 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 0.92, data,}) 
         }
         const lat = object.position[1];
         const lng = object.position[0];
-        const count = object.points.length;
         try {
             const response = await fetch(
                 `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=pk.eyJ1IjoiZ2FtcHRvbiIsImEiOiJjbG9vZDhjOXkwMGZ6MnJsdGp2dHdkdThqIn0.kDtJQS1LFUfmqSE2GgYRbg&types=address`
@@ -102,16 +142,13 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 0.92, data,}) 
             const data = await response.json();
             const locationName = data.features[0]?.place_name || 'Location not found';
 
-            return `
-      ${locationName}: 
-      ${count} total`;
+            return `${locationName}`;
         } catch (error) {
             console.error('Error fetching place name:', error);
             return `
-      Latitude: ${Number.isFinite(lat) ? lat.toFixed(6) : ""}
-      Longitude: ${Number.isFinite(lng) ? lng.toFixed(6) : ""}
-      Location: Error fetching place name
-      ${count} locations here`;
+            Latitude: ${Number.isFinite(lat) ? lat.toFixed(6) : ""}
+            Longitude: ${Number.isFinite(lng) ? lng.toFixed(6) : ""}
+            Location: Error fetching place name`;
         }
     };
 
@@ -127,35 +164,7 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 0.92, data,}) 
                 setHoveredHexagon(null);
             }
     };
-
-    //This const controls the hexagon characteristics.
-    const layers = [
-        new HexagonLayer({
-            id: "hexagon-layer",
-            data,
-            colorRange,
-            coverage,
-            upperPercentile,
-            pickable: true,
-            extruded,
-            radius,
-            elevationScale: 50,
-            material,
-            getPosition: (d) => [parseFloat(d.yCoordinate), parseFloat(d.xCoordinate)],
-            getElevationValue: (objects) => {
-                const elevations = objects.map(d => parseFloat(d.detached.biomass));
-                return elevations.reduce((a, b) => a + b, 0);
-            },
-            getColorValue: (objects) => {
-                const elevations = objects.map(d => parseFloat(d.detached.biomass));
-                const totalElevation = elevations.reduce((a, b) => a + b, 0);
-                const averageElevation = totalElevation / objects.length;
-                const scalingFactor = 100; // Adjust this value to change the aggressiveness of the color change
-                return averageElevation * scalingFactor;
-            }
-        }),
-    ];
-
+    
     return (
         <div>
             <DeckGL
@@ -170,46 +179,40 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 0.92, data,}) 
                     controller={true}
                     mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
                     mapStyle={darkMode ? DarkMapStyle : LightMapStyle}
-                ></Map>
-
+                />
+    
                 {/* FLOATING CONTROLLER */}
-                <div className="absolute bg-slate-900 text-white min-h-[200px] h-auto w-[200px] top-10 left-5 rounded-lg p-4 text-sm" style={{ zIndex: 9999}}>
+                <div className="absolute bg-slate-900 text-white min-h-[200px] h-auto w-[200px] top-10 left-5 rounded-lg p-4 text-sm z-50">
                     <div className="flex flex-col">
                         <h2 className="font-bold text-xl uppercase mb-1">Editor</h2>
                         <h2 className="font-bold text-md mb-4">LSOAs</h2>
-                        {/* <input
-                            name="radius"
-                            className="w-fit py-2"
-                            type="range"
-                            value={radius}
-                            min={25}
-                            step={5}
-                            max={2000}
-                            onChange={handleRadiusChange}
-                        /> */}
-                        <label htmlFor="radius">
+
+                        <label htmlFor="radius" className="flex items-center justify-between mb-2">
                             Radius -{" "}
                             <span className="bg-indigo-500 font-bold text-white px-2 py-1 rounded-lg">
-                {radius}
-              </span>{" "}
+                                {radius}
+                            </span>{" "}
                             meters
                         </label>
-                        <p>
-                            {" "}
+
+                        <p className="mb-2">
                             <span className="font-bold">{data.length}</span> Locations
                         </p>
+
                         <button
                             onClick={handleToggleExtruded}
                             className="bg-blue-500 text-white px-2 py-1 rounded-lg mt-2"
                         >
                             Toggle Extruded
                         </button>
+
                         <button
                             onClick={toggleDarkMode}
                             className="bg-blue-500 text-white px-2 py-1 rounded-lg mt-2"
                         >
                             Toggle Dark Mode
                         </button>
+
                         <button
                             onClick={toggleHover}
                             className="bg-blue-500 text-white px-2 py-1 rounded-lg mt-2"
@@ -217,28 +220,53 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 0.92, data,}) 
                             Toggle Place Names
                         </button>
 
+                        <h3 className="font-bold text-md mt-4 mb-2">Filters</h3>
+
+                        <label className="mb-1">House Type</label>
+                        <select
+                            value={selectedHouseType}
+                            onChange={(e) => {
+                                setSelectedHouseType(e.target.value);
+                                console.log(`Selected house type: ${e.target.value}`);
+                            }}
+                            className="bg-blue-500 text-white px-2 py-1 rounded-lg"
+                        >
+                            <option value="detached">Detached</option>
+                            <option value="terraced">Terraced</option>
+                            <option value="flats">Flats</option>
+                            <option value="semiDetached">Semi Detached</option>
+                        </select>
+
+                        <label className="mt-2 mb-1">Energy Type</label>
+                        <select
+                            value={selectedEnergyType}
+                            onChange={(e) => {
+                                setSelectedEnergyType(e.target.value);
+                                console.log(`Selected energy type: ${e.target.value}`);
+                            }}
+                            className="bg-blue-500 text-white px-2 py-1 rounded-lg"
+                        >
+                            <option value="biomass">Biomass</option>
+                            <option value="gas">Gas</option>
+                            <option value="oil">Oil</option>
+                            <option value="resistance">Resistance</option>
+                        </select>
                     </div>
-
                 </div>
-
+    
                 {/* Render the tooltip */}
                 {hoveredHexagon && (
                     <div
+                        className="absolute bg-white p-2 outline-none"
                         style={{
-                            position: 'absolute',
                             top: hoveredHexagon.y,
                             left: hoveredHexagon.x,
                             zIndex: 1,
-                            background: 'white',
-                            padding: 10,
-                            outline: "none",
                         }}
                     >
                         {hoveredHexagon.content}
                     </div>
                 )}
-
-
             </DeckGL>
         </div>
     );
