@@ -11,58 +11,41 @@ export default function Consumption() {
   const [marginRight, setMarginRight] = useState(30);
   const [marginBottom, setMarginBottom] = useState(30);
   const [marginLeft, setMarginLeft] = useState(40);
+  const [gasDemand, setGasConsumption] = useState(null);
 
-  const sftemp = [
-    {
-      date: new Date(2000, 1, 1, 0),
-      high: 59.5,
-      low: 57
-    },
-    {
-      date: new Date(2000, 1, 2, 0),
-      high: 57,
-      low: 52
-    },
-    {
-      date: new Date(2000, 2, 5, 0),
-      high: 42,
-      low: 35
-    },
-    {
-      date: new Date(2000, 4, 15, 0),
-      high: 39,
-      low: 32
-    },
-    {
-      date: new Date(2000, 7, 2, 0),
-      high: 59.5,
-      low: 57
-    },
-    {
-      date: new Date(2000, 8, 24, 0),
-      high: 59.5,
-      low: 55
-    }
-  ];
+  useEffect(() => {
+    d3.json('api/data/consumption').then((data) => {
+      const dataArray = Object.entries(data).map(([key, value]) => {
+        return {
+          HeatDate: key,
+          ...value
+        };
+      });
+      setGasConsumption(dataArray);
+    });
+  }, []);
 
   useEffect(() => {
     // // Create the positional scales.
     const x = d3
       .scaleUtc()
-      .domain(d3.extent(sftemp, (d) => d.date))
+      .domain(d3.extent(gasDemand, (d) => d.HeatDate))
       .range([marginLeft, width - marginRight]);
     const y = d3
       .scaleLinear()
-      .domain([d3.min(sftemp, (d) => d.low), d3.max(sftemp, (d) => d.high)])
+      .domain([
+        d3.min(gasDemand, (d) => d.Before_Efficiency)
+        // d3.max(gasDemand, (d) => d.high)
+      ])
       .nice(10)
       .range([height - marginBottom, marginTop]);
     // Create the area generator.
     const area = d3
       .area()
       .curve(d3.curveStep)
-      .x((d) => x(d.date))
-      .y0((d) => y(d.low))
-      .y1((d) => y(d.high));
+      .x((d) => x(d.HeatDate))
+      .y0((d) => y(d.Before_Efficiency));
+    // .y1((d) => y(d.high));
     // // // Create the SVG container.
     const svg = d3.select(svgRef.current);
     // const axisGenerator = d3.axisBottom(x);
@@ -73,7 +56,11 @@ export default function Consumption() {
       .attr('viewBox', [0, 0, width, height])
       .attr('style', 'max-width: 100%; height: auto; height: intrinsic;');
     // Add the area path.
-    svg.append('path').datum(sftemp).attr('fill', 'steelblue').attr('d', area);
+    svg
+      .append('path')
+      .datum(gasDemand)
+      .attr('fill', 'steelblue')
+      .attr('d', area);
     // Add the horizontal axis.
     svg
       .append('g')
