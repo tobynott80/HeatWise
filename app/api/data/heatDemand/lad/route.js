@@ -9,7 +9,7 @@ export async function GET(request) {
     try {
       const data = await prisma.lsoa.findMany({
         include: {
-          heatDemands: true
+          HeatDemand: true
         }
       });
 
