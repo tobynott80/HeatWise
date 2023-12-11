@@ -36,24 +36,39 @@ export const INITIAL_VIEW_STATE = {
 
 export const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json';
 
-export const darkColorRange = [ //This is dark blue to red, really nice
-    [39, 72, 199],
-    [49, 112, 206],
-    [63, 156, 216],
-    [94, 199, 238],
-    [143, 205, 236],
-    [239, 138, 98],
-    [211, 63, 106],
-];
+// export const darkColorRange = [
+//     [39, 72, 199], // Dark blue
+//     [49, 112, 206], // Medium dark blue
+//     [59, 152, 213], // Medium blue
+//     [69, 192, 220], // Medium light blue
+//     [79, 232, 227], // Light blue
+//     [89, 255, 234], // Lightest blue
+//     [99, 200, 255], // Light blue-purple
+//     [109, 145, 255], // Medium light blue-purple
+//     [119, 90, 255], // Medium blue-purple
+//     [129, 35, 255], // Medium dark blue-purple
+//     [139, 0, 255], // Dark blue-purple
+//     [149, 0, 200], // Dark purple
+//     [159, 0, 145], // Medium dark purple
+//     [169, 0, 90], // Medium purple
+//     [179, 0, 35], // Medium light purple
+//     [189, 0, 0], // Light purple
+//     [199, 35, 0], // Red-purple
+//     [209, 90, 0], // Medium red-purple
+//     [219, 145, 0], // Medium light red-purple
+//     [229, 200, 0], // Light red-purple
+//     [239, 255, 0], // Red
+// ];
 
 //This colour scheme goes from white to black
-export const lightColorRange = [
+export const darkColorRange = [
     [255, 228, 181], // Light Orange
     [255, 192, 203], // Pink
     [255, 165, 0],   // Orange
     [255, 69, 0],    // Red-Orange
     [255, 0, 0],     // Red
     [178, 34, 34],   // Firebrick
-    [128, 0, 0],     // Maroon
+    [128, 0, 0],     // Maroon    // Maroon
+    [64, 0, 0],
 ];
 

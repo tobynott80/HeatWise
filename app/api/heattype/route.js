@@ -1,28 +1,44 @@
 import {PrismaClient} from "@prisma/client";
 
-export async function GET(){
+export async function GET() {
     const prisma = new PrismaClient();
-    const data = await prisma.lsoaCoordinates.findMany();
-    console.log(data);
 
-    const newDataStructure = data.map((row) => {
-        try {
-            const latitude = row.x_coordinate;
-            const longitude = row.y_coordinate;
-            const geo_label = row.geo_label;
+    try {
+        // Fetch data from the lsoaCoordinates table
+        const coordinatesData = await prisma.lsoaCoordinates.findMany();
+        // Fetch data from the heatingType table
+        const heatingTypeData = await prisma.heatingType.findMany();
+
+        // Create a mapping of geo_code to heating type data
+        const heatingTypeMap = heatingTypeData.reduce((acc, row) => {
+            const geo_code = row.lsoa11cd;
+            acc[geo_code] = row;
+            return acc;
+        }, {});
+
+        // Merge data from both tables based on geo_code
+        const mergedData = coordinatesData.map((row) => {
+            const geo_code = row.geo_code;
+            const heatingDetail = heatingTypeMap[geo_code];
 
             return {
-                geo_code: row.geo_code,
-                geo_label,
-                longitude,
-                latitude,
-                // Add other fields as needed
+                ...row,
+                ...heatingDetail,
             };
-        } catch (error) {
-            console.error('Error during coordinate transformation:', error);
-            return null; // or handle the error in an appropriate way
-        }
-    });
+        });
 
-    return Response.json(newDataStructure);
+        // Filter out null values and exclude specific fields
+        const filteredMergedData = mergedData
+            .filter((item) => item !== null)
+            .map(({ geo_label_w, lsoa11cd, ...rest }) => rest);
+
+        return Response.json(filteredMergedData);
+
+        return Response.json(filteredMergedData);
+    } catch (error) {
+        console.error('Error during data retrieval:', error);
+        return Response.json({ error: 'Failed to retrieve data' }, { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
 }
