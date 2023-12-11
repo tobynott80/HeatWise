@@ -28,7 +28,7 @@ export default function Home() {
     });
 
     if (response.ok) {
-      alert('To be implemented when energy map is complete');
+      alert('File uploaded successfully');
       router.replace('/admin/');
     } else {
       alert('Please try again');
@@ -50,6 +50,7 @@ export default function Home() {
         <h1 className='text-2xl text-black font-semibold mb-6'>
           Energy Efficiency Costs
         </h1>
+
         <form onSubmit={handleSubmit}>
           <label className='block'>
             <input
@@ -60,8 +61,10 @@ export default function Home() {
               multiple={true}
             />
           </label>
-
           <br></br>
+          <h3 className='text-sm text-gray-500 font-normal mb-6 '>
+            CSV must be directly exported from 'HeatingCost' Table.
+          </h3>
 
           <div className='flex justify-center gap-2'>
             {' '}
