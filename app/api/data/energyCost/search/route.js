@@ -9,6 +9,9 @@ export async function GET() {
       select: {
         lad19cd: true,
         lad19nm: true
+      },
+      orderBy: {
+        lad19nm: 'asc'
       }
     });
 

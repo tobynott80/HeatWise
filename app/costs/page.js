@@ -7,8 +7,6 @@ import Map from './LADMap';
 export default function EnergyCosts() {
   const [filter, setFilter] = useState([]);
 
-  useEffect(() => {}, [filter]);
-
   return (
     <div className='p-2 flex flex-col lg:flex-row h-full justify-start items-center space-x-2 w-full'>
       <div className='flex flex-col lg:w-1/2 h-full'>
