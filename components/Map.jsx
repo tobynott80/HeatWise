@@ -42,23 +42,25 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
                 pickable: true,
                 extruded,
                 radius,
-                elevationScale: 40,
+                elevationScale: 45,
                 material,
                 getPosition: (d) => [parseFloat(d.yCoordinate), parseFloat(d.xCoordinate)],
                 getElevationValue: (objects) => {
                     const elevations = objects.map(d => parseFloat(d[selectedHouseType][selectedEnergyType]));
-                    return elevations.reduce((a, b) => a + b, 0);
+                    const totalElevation = elevations.reduce((a, b) => a + b, 0);
+                    return totalElevation > 0 ? totalElevation : null; //This prevents hexagon from being displayed when there are zero
                 },
                 getColorValue: (objects) => {
                     const elevations = objects.map(d => parseFloat(d[selectedHouseType][selectedEnergyType]));
                     const totalElevation = elevations.reduce((a, b) => a + b, 0);
-                    const averageElevation = totalElevation / objects.length;
-                    const scalingFactor = 1; // Adjust this value to change the aggressiveness of the color change
-                    return averageElevation * scalingFactor;
+                    // const averageElevation = totalElevation / objects.length;
+                    // const scalingFactor = 1; // Adjust this value to change the aggressiveness of the color change
+                    // return averageElevation * scalingFactor;
+                    return totalElevation
                 },
                 transitions: {
-                    getElevationValue: 500, // Transition duration in milliseconds
-                    getColorValue: 500, // Transition duration in milliseconds
+                    getElevationValue: 750, // Transition duration in milliseconds
+                    getColorValue: 750, // Transition duration in milliseconds
                 },
 
                 updateTriggers: {
@@ -117,45 +119,24 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
         setRadius(e.target.value);
     };
 
-    const getTooltip = async ({ object }) => {
+    const getTooltip = ({ object }) => {
         if (!object) {
             return null;
         }
+    
         const lat = object.position[1];
         const lng = object.position[0];
-        try {
-            const response = await fetch(
-                `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=pk.eyJ1IjoiZ2FtcHRvbiIsImEiOiJjbG9vZDhjOXkwMGZ6MnJsdGp2dHdkdThqIn0.kDtJQS1LFUfmqSE2GgYRbg&types=address`
-            );
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch place name');
-            }
-
-            const data = await response.json();
-            const locationName = data.features[0]?.place_name || 'Location not found';
-
-            return `${locationName}`;
-        } catch (error) {
-            console.error('Error fetching place name:', error);
-            return `
+        const elevation = object.elevationValue;
+    
+        // Get the geoLabel of the first point in the hexagon
+        const locationName = object.points[0]?.source?.geoLabel || 'Location not found';
+    
+        return `
+            Location: ${locationName}
             Latitude: ${Number.isFinite(lat) ? lat.toFixed(6) : ""}
             Longitude: ${Number.isFinite(lng) ? lng.toFixed(6) : ""}
-            Location: Error fetching place name`;
-        }
-    };
-
-    const handleHover = async ({ x, y, object }) => {
-            if (object && hover === true) {
-                const tooltipContent = await getTooltip({ object });
-                setHoveredHexagon({
-                    x,
-                    y,
-                    content: tooltipContent,
-                });
-            } else {
-                setHoveredHexagon(null);
-            }
+            Number of selected heating type: ${elevation}
+        `;
     };
     
     return (
@@ -165,7 +146,7 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
                 effects={[lightingEffect]}
                 initialViewState={INITIAL_VIEW_STATE}
                 controller={true}
-                getTooltip={handleHover}
+                getTooltip={getTooltip}
             >
                 <Map
                     className=""
