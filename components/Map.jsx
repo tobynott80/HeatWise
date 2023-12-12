@@ -4,9 +4,10 @@ import React, { useState, useEffect } from "react";
 import {LightingEffect} from '@deck.gl/core';
 import Map from "react-map-gl";
 import { HexagonLayer } from "@deck.gl/aggregation-layers";
-import { HeatmapLayer } from "deck.gl";
 import DeckGL from "@deck.gl/react";
 import "mapbox-gl/dist/mapbox-gl.css";
+import ReactLoading from 'react-loading';
+
 
 import {lightColorRange,darkColorRange,ambientLight,pointLight1,MAP_STYLE,pointLight2, material, INITIAL_VIEW_STATE} from '@/components/mapconfig';
 
@@ -21,7 +22,7 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
     const [hoveredHexagon, setHoveredHexagon] = useState(null);
     const [hover, setHover] = useState(false);
     const [darkMode, setDarkMode] = useState(true);
-    const [selectedHouseType, setSelectedHouseType] = useState('detached'); // default value
+    const [selectedHouseType, setSelectedHouseType] = useState('flats'); // default value
     const [selectedEnergyType, setSelectedEnergyType] = useState('gas'); // default value
     const [colorRange, setColorRange] = useState(darkColorRange)
     // console.log("DATA: ",data);
@@ -55,6 +56,11 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
                     const scalingFactor = 1; // Adjust this value to change the aggressiveness of the color change
                     return averageElevation * scalingFactor;
                 },
+                transitions: {
+                    getElevationValue: 500, // Transition duration in milliseconds
+                    getColorValue: 500, // Transition duration in milliseconds
+                },
+
                 updateTriggers: {
                     getElevationValue: [selectedHouseType, selectedEnergyType],
                     getColorValue: [selectedHouseType, selectedEnergyType]
@@ -76,21 +82,8 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
     // Show loading spinner if data is being loaded
     if (isLoading) {
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                <div style={{
-                    border: '16px solid #f3f3f3',
-                    borderRadius: '50%',
-                    borderTop: '16px solid #3498db',
-                    width: '120px',
-                    height: '120px',
-                    animation: 'spin 2s linear infinite'
-                }} />
-                <style jsx>{`
-                    @keyframes spin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
-                    }
-                `}</style>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: 'white' }}>
+                <ReactLoading type={'spin'} color={'#000'} height={'20%'} width={'20%'} />
             </div>
         );
     }

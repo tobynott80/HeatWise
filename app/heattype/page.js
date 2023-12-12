@@ -1,5 +1,4 @@
 'use client'
-
 import React, {useState,useEffect} from 'react'
 import LocationAggregatorMap from "@/components/Map";
 const HomePage = () => {
@@ -47,12 +46,11 @@ const HomePage = () => {
         };
         getData();
     }, []);
-    console.log(heatingData)
+    // console.log(heatingData)
 
 
     return (
         <div className="relative min-h-screen">
-            ;
             <LocationAggregatorMap data={heatingData} />
         </div>
     );
