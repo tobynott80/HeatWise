@@ -24,6 +24,24 @@ export default function Consumption() {
       low: 52
     }
   ];
+  useEffect(() => {
+    d3.json('api/data/heatConsumption').then((data) => {
+      const dataArray = Object.entries(data).map(([key, value]) => {
+        return {
+          HeatDate: key,
+          ...value
+        };
+      });
+      setGasConsumption(dataArray);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (gasDemand == null) return;
+    gasDemand.HeatDate.map((val) =>
+      Date.parse(val).toLocaleDateTimeString({ format: 'MM/dd/yyyy' })
+    );
+  });
 
   // Create the positional scales.
   const x = d3
