@@ -7,14 +7,10 @@ export default function Consumption() {
   // Specify the chart’s dimensions.
   const [width, setWidth] = useState(928);
   const [height, setHeight] = useState(600);
-  const [marginTop, setMarginTop] = useState(20);
-  const [marginRight, setMarginRight] = useState(30);
-  const [marginBottom, setMarginBottom] = useState(30);
-  const [marginLeft, setMarginLeft] = useState(40);
   const [gasDemand, setGasConsumption] = useState(null);
 
   useEffect(() => {
-    d3.json('api/data/consumption').then((data) => {
+    d3.json('api/data/heatConsumption').then((data) => {
       const dataArray = Object.entries(data).map(([key, value]) => {
         return {
           HeatDate: key,
@@ -26,30 +22,31 @@ export default function Consumption() {
   }, []);
 
   useEffect(() => {
+    if (gasDemand == null) return;
     // // Create the positional scales.
     const x = d3
       .scaleUtc()
       .domain(d3.extent(gasDemand, (d) => d.HeatDate))
-      .range([marginLeft, width - marginRight]);
+      .range([40, width - 30]);
     const y = d3
       .scaleLinear()
       .domain([
-        d3.min(gasDemand, (d) => d.Before_Efficiency)
-        // d3.max(gasDemand, (d) => d.high)
+        d3.min(gasDemand, (d) => d.Before_Efficiency),
+        d3.max(gasDemand, (d) => d.After_Efficiency)
       ])
       .nice(10)
-      .range([height - marginBottom, marginTop]);
+      .range([height - 30, 20]);
     // Create the area generator.
     const area = d3
       .area()
       .curve(d3.curveStep)
       .x((d) => x(d.HeatDate))
-      .y0((d) => y(d.Before_Efficiency));
-    // .y1((d) => y(d.high));
+      .y0((d) => y(d.Before_Efficiency))
+      .y1((d) => y(d.After_Efficiency));
     // // // Create the SVG container.
     const svg = d3.select(svgRef.current);
-    // const axisGenerator = d3.axisBottom(x);
-    // svg.append('g').call(axisGenerator);
+    const axisGenerator = d3.axisBottom(x);
+    svg.append('g').call(axisGenerator);
     svg
       .attr('width', width)
       .attr('height', height)
@@ -64,7 +61,7 @@ export default function Consumption() {
     // Add the horizontal axis.
     svg
       .append('g')
-      .attr('transform', `translate(0,${height - marginBottom})`)
+      .attr('transform', `translate(0,${height - 30})`)
       .call(
         d3
           .axisBottom(x)
@@ -75,26 +72,26 @@ export default function Consumption() {
     // Add the vertical axis, a grid and an axis label.
     svg
       .append('g')
-      .attr('transform', `translate(${marginLeft},0)`)
+      .attr('transform', `translate(${40},0)`)
       .call(d3.axisLeft(y))
       .call((g) => g.select('.domain').remove())
       .call((g) =>
         g
           .selectAll('.tick line')
           .clone()
-          .attr('x2', width - marginLeft - marginRight)
+          .attr('x2', width - 10)
           .attr('stroke-opacity', 0.1)
       )
       .call((g) =>
         g
           .append('text')
-          .attr('x', -marginLeft)
+          .attr('x', -40)
           .attr('y', 10)
           .attr('fill', 'currentColor')
           .attr('text-anchor', 'start')
-          .text('↑ Temperature (°F)')
+          .text('Efficiency')
       );
-  });
+  }, [gasDemand, height, width]);
 
   return (
     <div className='h-screen bg-gray-200 dark:bg-gray-700'>

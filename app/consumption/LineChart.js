@@ -93,7 +93,7 @@ export default function Consumption() {
   return (
     <div className='h-screen bg-gray-200 dark:bg-gray-700'>
       <h1 className='text-center text-2xl'>Heat Consumption Profile</h1>
-      <svg ref={svg}></svg>
+      <svg ref={svgRef}></svg>
     </div>
   );
 }
