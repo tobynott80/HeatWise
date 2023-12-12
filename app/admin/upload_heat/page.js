@@ -62,6 +62,9 @@ export default function Home() {
           </label>
 
           <br></br>
+          <h3 className='text-sm text-gray-500 font-normal mb-6 '>
+            CSV must be directly exported from 'HeatDemand' Table.
+          </h3>
 
           <div className='flex justify-center gap-2'>
             {' '}
