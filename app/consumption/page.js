@@ -16,6 +16,7 @@ export default function Consumption() {
         //const parseDate = d3.timeParse('%Y-%m-%d %H:%M:%S.%L');
 
         const dataArray = Object.entries(data).map(([key, value]) => {
+          //console.log(typeof value.HeatDate);
           return {
             HeatDate: new Date(key),
             ...value
