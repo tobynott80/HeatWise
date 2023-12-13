@@ -12,7 +12,7 @@ export default function Consumption() {
   useEffect(() => {
     let gd = [];
     const fetchData = async () => {
-      await d3.json('api/data/heatConsumption').then((data) => {
+      d3.json('api/data/heatConsumption').then((data) => {
         //const parseDate = d3.timeParse('%Y-%m-%d %H:%M:%S.%L');
 
         const dataArray = Object.entries(data).map(([key, value]) => {
@@ -33,7 +33,7 @@ export default function Consumption() {
       // // Create the positional scales.
       const x = d3
         .scaleUtc()
-        .domain(d3.extent(gd, (d) => d.HeatDate))
+        .domain(d3.extent(gd, (d) => new Date(d.HeatDate)))
         .range([40, width - 30]);
       const y = d3
         .scaleLinear()
@@ -47,7 +47,7 @@ export default function Consumption() {
       const area = d3
         .area()
         .curve(d3.curveStep)
-        .x((d) => x(d.HeatDate))
+        .x((d) => x(new Date(d.HeatDate)))
         .y0((d) => y(d.Before_Efficiency))
         .y1((d) => y(d.After_Efficiency));
       // // // Create the SVG container.
