@@ -7,6 +7,12 @@ const { defineConfig, devices } = require('@playwright/test');
  */
 // require('dotenv').config();
 
+// Use process.env.PORT by default and fallback to port 3000
+const PORT = process.env.PORT || 3000
+
+// Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
+const baseURL = `http://localhost:${PORT}`
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -22,13 +28,22 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  webServer: {
+    command: 'npm run dev',
+    url: baseURL,
+    timeout: 120 * 1000,
+    reuseExistingServer: !process.env.CI,
+  },
+
+
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL,
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    /* Retry a test if its failing with enabled tracing - analyze the DOM, console logs, network traffic etc. See https://playwright.dev/docs/trace-viewer */
+    trace: 'retry-with-trace',
   },
 
   /* Configure projects for major browsers */
