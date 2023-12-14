@@ -283,7 +283,6 @@ export default function LADMap() {
 
   return (
     <div className='px-2 pt-3'>
-      <InfoPopup />
       <div className='flex flex-col h-full justify-center items-center'>
         <div className='grid grid-cols-2 mb-4 w-full flex-nowrap items-center'>
           <div className='border-2 border-black dark:border-white rounded-md max-w-fit place-self-center'>
@@ -399,6 +398,7 @@ export default function LADMap() {
             >
               <ImageExport />
             </button>
+            <InfoPopup type={'heat-demand'} />
           </div>
         </section>
       </div>
