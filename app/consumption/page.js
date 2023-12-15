@@ -4,9 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Consumption() {
   const svgRef = useRef();
+  const tooltipRef = useRef();
   // Specify the chart’s dimensions.
   const [width, setWidth] = useState(928);
-  const [height, setHeight] = useState(600);
+  const [height, setHeight] = useState(500);
   //const [gasDemand1, setGasDemand] = useState([]);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function Consumption() {
     };
     function createGraph() {
       console.log('GD');
-      console.log(gd);
+      //console.log(gd);
       if (gd == null) return;
       // // Create the positional scales.
       const x = d3
