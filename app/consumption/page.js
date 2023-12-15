@@ -61,7 +61,7 @@ export default function Consumption() {
         .attr('viewBox', [0, 0, width, height])
         .attr('style', 'max-width: 100%; height: auto; height: intrinsic;');
       // Add the area path.
-      svg.append('path').datum(gd).attr('fill', 'steelblue').attr('d', area);
+      svg.append('path').datum(gd).attr('fill', '#FF4C00').attr('d', area);
       // Add the horizontal axis.
       svg
         .append('g')
