@@ -18,17 +18,18 @@ deploy_production:
     - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
 
 test:
+  image: mcr.microsoft.com/playwright:focal  # Use Playwright's official Docker image
   stage: test
   script:
     - npm ci
-    - npx playwright install --with-deps
     - npx playwright test
   artifacts:
-    paths: #assuming deafult playwright artifacts paths 
+    paths:
       - ./playwright-report/
       - ./Screenshot/
     when: always
-    expire_in: 4 days  #artifacts will purged after 4 days of test run
+    expire_in: 4 days
+
 
 pages:
   stage: deploy
