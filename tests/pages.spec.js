@@ -20,3 +20,16 @@ test('HomePage', async ({ page }) => {
   await expect(page.locator('text=Nick Jenkins')).toBeVisible();
   await expect(page.locator('text=Jianzhong Wu')).toBeVisible();
 });
+
+// Heat Demand Page
+test('HeatDemand Page Should Load Graph', async ({ page }) => {
+  await page.goto('/demand');
+  // Verify the tooltip has rendered
+  await expect(page.locator('text=Demand Before')).toBeVisible();
+  // Verify the legend has found the upper limit
+  await expect(page.locator('text=5,808,130,350 kW⋅h')).toBeVisible();
+
+  await page.click('text=Cardiff');
+  await expect(page).toHaveURL('/demand/lsoa/W06000015');
+
+});
