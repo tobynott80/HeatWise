@@ -16,3 +16,27 @@ deploy_production:
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
     - vercel build --prod --token=$VERCEL_TOKEN
     - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+test:
+  stage: test
+  script:
+    - npm ci
+    - npx playwright install --with-deps
+    - npx playwright test
+  artifacts:
+    paths: #assuming deafult playwright artifacts paths 
+      - ./playwright-report/
+      - ./Screenshot/
+    when: always
+    expire_in: 4 days  #artifacts will purged after 4 days of test run
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - mv playwright-report/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
