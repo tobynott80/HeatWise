@@ -217,16 +217,17 @@ export default function LADMap() {
       )
     );
 
-    g.selectAll('path')
+    const paths = g.selectAll('path')
       .data(ladTracs.features)
       .enter()
       .append('path')
       .attr('class', 'tract')
       .attr('d', path)
-      .attr('fill', 'silver')
-      .text(function (d) {
-        return d.properties.LAD13NM;
-      });
+      .attr('fill', 'silver');
+
+    // Append titles here after paths are created
+    paths.append('title')
+    .text(d => d.properties.LAD13NM);
   }, [g, height, ladTracs, width]);
 
   // Draw the heat demand data
