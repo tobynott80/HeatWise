@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import {LightingEffect} from '@deck.gl/core';
 import Map from "react-map-gl";
@@ -7,14 +7,14 @@ import { HexagonLayer } from "@deck.gl/aggregation-layers";
 import DeckGL from "@deck.gl/react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactLoading from 'react-loading';
-
+import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
 
 import {lightColorRange,darkColorRange,ambientLight,pointLight1,MAP_STYLE,pointLight2, material, INITIAL_VIEW_STATE} from '@/components/mapconfig';
 
 const lightingEffect = new LightingEffect({ambientLight, pointLight1, pointLight2});
 
 const LightMapStyle = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
-const DarkMapStyle = MAP_STYLE;
+const DarkMapStyle = MAP_STYLE; 
 
 const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => {
     const [radius, setRadius] = useState(400);
@@ -25,12 +25,39 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
     const [selectedHouseType, setSelectedHouseType] = useState('flats'); // default value
     const [selectedEnergyType, setSelectedEnergyType] = useState('gas'); // default value
     const [colorRange, setColorRange] = useState(darkColorRange)
+    const [searchValue, setSearchValue] = useState('');
+    const geocodingClient = mbxGeocoding({ accessToken: process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN });
     // console.log("DATA: ",data);
 
-
     const [layers, setLayers] = useState([]);
+    const [viewport, setViewport] = useState({
+        longitude: -122.4,
+        latitude: 37.8,
+        zoom: 12
+    });
 
     useEffect(() => {
+        const houseTypes = ['detached', 'flats', 'semiDetached', 'terraced'];
+        const energyTypes = ['biomass', 'gas', 'oil', 'resistance'];
+
+        let minElevation = Infinity;
+        let maxElevation = -Infinity;
+
+        for (const houseType of houseTypes) {
+            for (const energyType of energyTypes) {
+                const elevations = data.map(d => parseFloat(d[houseType][energyType]));
+                const localMinElevation = Math.min(...elevations);
+                const localMaxElevation = Math.max(...elevations);
+    
+                if (localMinElevation < minElevation) {
+                    minElevation = localMinElevation;
+                }
+    
+                if (localMaxElevation > maxElevation) {
+                    maxElevation = localMaxElevation;
+                }
+            }
+        }
         const newLayers = [
             new HexagonLayer({
                 id: "hexagon-layer",
@@ -42,8 +69,9 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
                 pickable: true,
                 extruded,
                 radius,
-                elevationScale: 45,
-                material,
+                elevationScale: 60,
+                material,   
+                elevationDomain: [minElevation, maxElevation],
                 getPosition: (d) => [parseFloat(d.yCoordinate), parseFloat(d.xCoordinate)],
                 getElevationValue: (objects) => {
                     const elevations = objects.map(d => parseFloat(d[selectedHouseType][selectedEnergyType]));
@@ -114,11 +142,6 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
         setExtruded(!extruded);
     };
 
-    const handleRadiusChange = (e) => {
-        // console.log(e.target.value);
-        setRadius(e.target.value);
-    };
-
     const getTooltip = ({ object }) => {
         if (!object) {
             return null;
@@ -145,6 +168,7 @@ const LocationAggregatorMap = ({upperPercentile = 100, coverage = 1, data,}) => 
                 layers={layers}
                 effects={[lightingEffect]}
                 initialViewState={INITIAL_VIEW_STATE}
+                onViewStateChange={(viewState) => setViewport(viewState)}
                 controller={true}
                 getTooltip={getTooltip}
             >
