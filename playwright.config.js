@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
 const baseURL = `http://localhost:${PORT}`
+// const baseURL = `https://heatwise.vercel.app`
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -29,7 +30,7 @@ module.exports = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run start',
     url: baseURL,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
