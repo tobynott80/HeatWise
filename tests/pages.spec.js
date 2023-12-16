@@ -28,8 +28,30 @@ test('HeatDemand Page Should Load Graph', async ({ page }) => {
   await expect(page.locator('text=Demand Before')).toBeVisible();
   // Verify the legend has found the upper limit
   await expect(page.locator('text=5,808,130,350 kW⋅h')).toBeVisible();
+});
+test('HeatDemand graph should be clickable and redirect', async ({ page }) => {
+  await page.goto('/demand');
+  
+  await page.getByAltText("Cardiff").last().click();
 
-  await page.click('text=Cardiff');
   await expect(page).toHaveURL('/demand/lsoa/W06000015');
+
+});
+// Efficiency Costs Page 
+test('Efficiency Costs Page Should Load Graph', async ({ page }) => {
+  await page.goto('/costs');
+  // Verify the tooltip has rendered
+  await expect(page.locator('text=Hover to view')).toBeVisible();
+  // Verify the legend has found the upper limit
+  await expect(page.locator('text=£1,233,483,676')).toBeVisible();
+});
+
+test('Efficiency Costs graph should be clickable and redirect', async ({ page }) => {
+  await page.goto('/costs');
+
+  await page.click('text=Barnet');
+  // Expect correct values for the Barnet LAD
+  await expect(page.locator('text=35,349')).toBeVisible();
+
 
 });
