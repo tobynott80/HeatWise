@@ -223,7 +223,9 @@ export default function LADMap() {
       .append('path')
       .attr('class', 'tract')
       .attr('d', path)
-      .attr('fill', 'silver');
+      .attr('fill', 'silver')
+      .attr('alt', (d) => {return d.properties.LAD13NM})
+      .attr('id', (d) => {return d.properties.LAD13NM});
 
     // Append titles here after paths are created
     paths.append('title')
