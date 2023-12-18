@@ -1,8 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# HeatWise - Group 6 CM6311
 
-## Getting Started
+![Badge](https://img.shields.io/badge/PlayWright_Tests-Passing-green)
+[Test Status (Connect to VPN)](https://c21048229.gitpages.cardiff.ac.uk/-/cm6311-group-6/-/jobs/136103/artifacts/playwright-report/index.html)
 
-First, run the development server:
+Heatwise is a project to visualise spatial-temporal heat demand across England and Wales, as gathered by The Centre for Integrated Renewable Energy Generation and Supply (CIREGS) at Cardiff University's School of Engineering. Details on how this data was gathered is available in [the research paper](https://www.nature.com/articles/s41597-022-01356-9)
+
+## Wiki
+
+Our [wiki](https://git.cardiff.ac.uk/c21048229/cm6311-group-6/-/wikis/home) is kept upto date with essential onboarding information and important links
+
+## Onboarding
+
+Please see the [onboarding page on our wiki](https://git.cardiff.ac.uk/c21048229/cm6311-group-6/-/wikis/Onboarding-Setup)
+
+### Development Server
+
+To run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +27,55 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Next.js will host the dev server at [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Production Server
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+We deploy Heatwise to Vercel. Details on best practice for this is available [here](https://nextjs.org/learn-pages-router/basics/deploying-nextjs-app/deploy). If you wish to deploy elsewhere:
 
-## Learn More
+1. Ensure Node.js is installed and the project is cloned.
+2. Run the build script once, which builds the production application in the .next folder
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    npm run build
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. After building, the start script starts a Node.js server that supports hybrid pages, serving both statically generated and server-side rendered pages, and API Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    ```bash
+    npm run start
+    ```
 
-## Deploy on Vercel
+## Tests
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We use [Playwright](https://playwright.dev/) for testing our frontend and api endpoints. All tests are located in the `/tests` folder and are run on every commit via our GitLab CICD
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To run tests locally, first install [playwright dependencies](https://playwright.dev/docs/browsers) and build the project:
+
+```bash
+npm run build
+npx playwright install
+```
+
+And then run the tests. Playwright will automatically run the build server and genereate a HTML report once completed:
+
+```bash
+npx playwright test
+```
+
+Optional: When writing new tests, playwright's UI mode has better debugging tools:
+
+```bash
+npx playwright test --ui
+```
+
+
+
+## Authors
+
+[Christopher Dixon](dixonc5@cardiff.ac.uk)
+[Tobiah Nott](NottTJ@cardiff.ac.uk)
+[Sanil Jalan](jalans1@cardiff.ac.uk)
+[Antonio De Rosa](derosaa@cardiff.ac.uk)
+[George Hampton](hamptong1@cardiff.ac.uk)
+[Laurie Maynard](maynardl1@cardiff.ac.uk)
