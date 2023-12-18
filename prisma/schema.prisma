@@ -61,7 +61,7 @@ model lsoa {
 }
 
 model gasConsumption {
-  HeatDate          DateTime @id
+  HeatDate          DateTime @id @db.Timestamp(0)
   Before_Efficiency Decimal  @db.Decimal
   After_Efficiency  Decimal  @db.Decimal
   AverageOAT        Decimal  @db.Decimal
