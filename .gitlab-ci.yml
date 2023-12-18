@@ -16,3 +16,29 @@ deploy_production:
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
     - vercel build --prod --token=$VERCEL_TOKEN
     - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+test:
+  image: mcr.microsoft.com/playwright:v1.40.0-jammy
+  stage: test
+  script:
+    - npm ci
+    - npm run build
+    - npx playwright test
+  artifacts:
+    paths:
+      - ./playwright-report/
+      - ./Screenshot/
+    when: always
+    expire_in: 4 days
+
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - mv playwright-report/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

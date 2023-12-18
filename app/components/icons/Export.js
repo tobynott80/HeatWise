@@ -2,7 +2,7 @@
 
 const ExportIcon = () => (
   <svg
-    class='w-4 h-4 text-gray-800 dark:text-white'
+  className='w-4 h-4 text-gray-800 dark:text-white'
     aria-hidden='true'
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
