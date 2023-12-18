@@ -8,6 +8,7 @@ import Export from '../components/icons/Export';
 import ImageExport from '../components/icons/ImageExport';
 import ArrowShuffle from '../components/icons/ArrowShuffle';
 import html2canvas from 'html2canvas';
+import InfoPopup from '../components/InfoPopup';
 
 export default function LADMap() {
   const ref = useRef();
@@ -217,19 +218,23 @@ export default function LADMap() {
       )
     );
 
-    const paths = g.selectAll('path')
+    const paths = g
+      .selectAll('path')
       .data(ladTracs.features)
       .enter()
       .append('path')
       .attr('class', 'tract')
       .attr('d', path)
       .attr('fill', 'silver')
-      .attr('alt', (d) => {return d.properties.LAD13NM})
-      .attr('id', (d) => {return d.properties.LAD13NM});
+      .attr('alt', (d) => {
+        return d.properties.LAD13NM;
+      })
+      .attr('id', (d) => {
+        return d.properties.LAD13NM;
+      });
 
     // Append titles here after paths are created
-    paths.append('title')
-    .text(d => d.properties.LAD13NM);
+    paths.append('title').text((d) => d.properties.LAD13NM);
   }, [g, height, ladTracs, width]);
 
   // Draw the heat demand data
@@ -287,22 +292,25 @@ export default function LADMap() {
     <div className='px-2 pt-3'>
       <div className='flex flex-col h-full justify-center items-center'>
         <div className='grid grid-cols-2 mb-4 w-full flex-nowrap items-center'>
-          <div className='border-2 border-black dark:border-white rounded-md max-w-fit place-self-center'>
-            <button
-              onClick={toggleDataState}
-              title='Toggle Before/After View'
-            >
-              <div className='flex flex-row items-center'>
-                <div className='mx-1'>
-                  <ArrowShuffle />
+          <div className='max-w-fit place-self-center flex'>
+            <div className='border-2 border-black dark:border-white rounded-md'>
+              <button
+                onClick={toggleDataState}
+                title='Toggle Before/After View'
+              >
+                <div className='flex flex-row items-center'>
+                  <div className='mx-1'>
+                    <ArrowShuffle />
+                  </div>
+                  <h3 className='mx-1 text-center'>
+                    {dataState === 'before'
+                      ? 'Before Energy Efficiency Measures'
+                      : 'After Energy Efficiency Measures'}
+                  </h3>
                 </div>
-                <h3 className='mx-1 text-center'>
-                  {dataState === 'before'
-                    ? 'Before Energy Efficiency Measures'
-                    : 'After Energy Efficiency Measures'}
-                </h3>
-              </div>
-            </button>
+              </button>
+            </div>
+            <InfoPopup type={'heat-demand'} />
           </div>
           <div className=''>
             <h3

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import ZoomIn from '../components/icons/ZoomIn';
 import ZoomOut from '../components/icons/ZoomOut';
 import Reset from '../components/icons/Reset';
+import InfoPopup from '../components/InfoPopup';
 
 export default function Map() {
   const mapRef = useRef();
@@ -179,7 +180,10 @@ export default function Map() {
   return (
     <>
       <section className='py-4 px-6 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg text-center space-y-2'>
-        <span>Total Energy Efficiency Improvement Costs</span>
+        <span>
+          Total Energy Efficiency Improvement Costs{' '}
+          <InfoPopup type={'energy-efficiency-costs'} />
+        </span>
         <div className='grid grid-cols-5 gap-1 mb-2'>
           <div className='h-3 w-full bg-amber-100' />
           <div className='h-3 w-full bg-amber-300' />

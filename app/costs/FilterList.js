@@ -112,7 +112,7 @@ export default function FilterList({ setFilter }) {
                   />
                   <label
                     className='font-medium text-gray-900 dark:text-gray-300'
-                    for={v.lad19cd}
+                    htmlFor={v.lad19cd}
                   >
                     {v.lad19nm}
                   </label>

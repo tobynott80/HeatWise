@@ -61,7 +61,7 @@ export default function Home() {
           <h1 className='text-2xl text-black font-semibold mb-6'>
             Choose Dataset
             <label
-              for='Dataset'
+              htmlFor='Dataset'
               class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
             >
               Select an option
