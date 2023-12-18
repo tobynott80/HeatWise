@@ -10,5 +10,9 @@ export const defaultGraphInfo = {
     "heat-consumption-profile": {
         title: "Heat Consumption Profile",
         description: "Shows half hourly heat production and electricity/gas consumption before and after energy efficiency measures."
+    },
+    "heat-type": {
+        title: "Heat Type Map",
+        description: "Shows distribution of different heating types and energy source by LSOA area."
     }
 }
