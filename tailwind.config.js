@@ -11,8 +11,11 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+      },
+      animation: {
+        'spin-once': 'spin 0.5s linear 2s'
       }
     }
   },
-  plugins: []
+  plugins: [require('tailwindcss-hero-patterns', 'headlessui/tailwindcss')]
 };

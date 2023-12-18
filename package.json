@@ -1,21 +1,31 @@
 {
   "name": "group6_new",
-  "version": "0.1.0",
+  "version": "0.4.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint && prettier . --check",
-    "prettier": "npx prettier . --write"
+    "prettier": "npx prettier . --write",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@observablehq/plot": "^0.6.11",
     "@prisma/client": "^5.5.1",
     "@vercel/postgres": "^0.5.0",
+    "bcryptjs": "^2.4.3",
+    "csv-parser": "^3.0.0",
+    "d3": "^7.8.5",
+    "html2canvas": "^1.4.1",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "next": "13.5.6",
     "prisma": "^5.5.1",
     "react": "^18",
     "react-dom": "^18",
+    "tailwindcss-hero-patterns": "^0.1.2",
     "vercel": "^32.5.0"
   },
   "devDependencies": {
