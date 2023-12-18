@@ -36,6 +36,28 @@ model HeatingType {
   lsoa                     lsoa     @relation(fields: [lsoa11cd], references: [lsoa11cd], onDelete: NoAction, onUpdate: NoAction, map: "lsoa11cd___fk")
 }
 
+model HeatingCost {
+  lad19nm                  String  @id
+  detached_Biomass         Decimal @db.Decimal
+  detached_Gas             Decimal @db.Decimal
+  detached_Oil             Decimal @db.Decimal
+  detached_Resistance      Decimal @db.Decimal
+  flats_Biomass            Decimal @db.Decimal
+  flats_Gas                Decimal @db.Decimal
+  flats_Oil                Decimal @db.Decimal
+  flats_Resistance         Decimal @db.Decimal
+  semi_detached_Biomass    Decimal @db.Decimal
+  semi_detached_Gas        Decimal @db.Decimal
+  semi_detached_Oil        Decimal @db.Decimal
+  semi_detached_Resistance Decimal @db.Decimal
+  terraced_Biomass         Decimal @db.Decimal
+  terraced_Gas             Decimal @db.Decimal
+  terraced_Oil             Decimal @db.Decimal
+  terraced_Resistance      Decimal @db.Decimal
+  total                    Decimal @db.Decimal
+  lad19                    lad19   @relation(fields: [lad19nm], references: [lad19nm], onDelete: NoAction, onUpdate: NoAction, map: "lad19cd___fk")
+}
+
 model admin {
   username String @id
   password String
@@ -53,11 +75,28 @@ model lsoa {
   lsoa11cd    String       @id
   lsoa11nm    String?
   lad17cd     String?
-  lad17nm     String?
   HeatDemands HeatDemand?
   HeatingType HeatingType?
 
-  @@index([lsoa11cd, lad17cd], map: "lsoa__index")
+  lad17 lad17? @relation(fields: [lad17cd], references: [lad17cd], onDelete: NoAction, onUpdate: NoAction, map: "lad17cd___fk")
+
+  @@index([lsoa11cd], map: "lsoa__index")
+}
+
+model lad17 {
+  lad17cd String @id
+  lad17nm String @unique
+  lsoa    lsoa[]
+
+  @@index([lad17cd], map: "lad__index")
+}
+
+model lad19 {
+  lad19cd     String       @id
+  lad19nm     String       @unique
+  HeatingCost HeatingCost?
+
+  @@index([lad19cd], map: "lad19__index")
 }
 
 model gasConsumption {
