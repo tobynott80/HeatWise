@@ -74,8 +74,13 @@ npx playwright test --ui
 ## Authors
 
 [Christopher Dixon](dixonc5@cardiff.ac.uk)
+
 [Tobiah Nott](NottTJ@cardiff.ac.uk)
+
 [Sanil Jalan](jalans1@cardiff.ac.uk)
+
 [Antonio De Rosa](derosaa@cardiff.ac.uk)
+
 [George Hampton](hamptong1@cardiff.ac.uk)
+
 [Laurie Maynard](maynardl1@cardiff.ac.uk)
