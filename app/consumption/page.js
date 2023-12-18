@@ -1,6 +1,7 @@
 'use client';
 import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
+import InfoPopup from '../components/InfoPopup';
 
 export default function Consumption() {
   const svgRef = useRef();
@@ -93,7 +94,9 @@ export default function Consumption() {
 
   return (
     <div className='h-screen bg-gray-200 dark:bg-gray-700'>
-      <h1 className='text-center text-2xl'>Heat Consumption Profile</h1>
+      <h1 className='text-center text-2xl'>
+        Heat Consumption Profile <InfoPopup type={'heat-consumption-profile'} />
+      </h1>
       <svg ref={svgRef}></svg>
     </div>
   );
