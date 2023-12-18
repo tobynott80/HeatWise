@@ -92,7 +92,7 @@ export default function FilterList({ setFilter }) {
         />
       </div>
 
-      <div className='space-y-1 p-2'>
+      <div className='space-y-1 p-2 flex flex-col'>
         {list
           .filter((v) => v.show)
           .map((v) => (
@@ -100,19 +100,23 @@ export default function FilterList({ setFilter }) {
               className='flex'
               key={v.lad19cd}
             >
-              <div className='flex items-center h-5'>
-                <input
-                  type='checkbox'
-                  value={v.lad19cd}
-                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-                  onChange={selectBox}
-                  checked={v.checked}
-                />
-              </div>
-              <div className='ms-2 text-sm'>
-                <label className='font-medium text-gray-900 dark:text-gray-300'>
-                  {v.lad19nm}
-                </label>
+              <div className='items-center h-5 py-1'>
+                <div className='text-sm'>
+                  <input
+                    type='checkbox'
+                    value={v.lad19cd}
+                    id={v.lad19cd}
+                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                    onChange={selectBox}
+                    checked={v.checked}
+                  />
+                  <label
+                    className='font-medium text-gray-900 dark:text-gray-300'
+                    for={v.lad19cd}
+                  >
+                    {v.lad19nm}
+                  </label>
+                </div>
               </div>
             </div>
           ))}
