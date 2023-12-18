@@ -83,4 +83,4 @@ npx playwright test --ui
 
 [George Hampton](hamptong1@cardiff.ac.uk)
 
-[Laurie Maynard](maynardl1@cardiff.ac.uk)
+[Laurence Maynard](maynardl1@cardiff.ac.uk)
