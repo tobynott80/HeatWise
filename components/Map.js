@@ -20,6 +20,108 @@ import {
   INITIAL_VIEW_STATE
 } from '@/components/mapconfig';
 import InfoPopup from '@/app/components/InfoPopup';
+import Export from '@/app/components/icons/Export';
+import ImageExport from '@/app/components/icons/ImageExport';
+import html2canvas from 'html2canvas';
+
+function convertDataToCSV(data) {
+  if (!data || data.length === 0) {
+    return '';
+  }
+
+  // Flatten nested objects
+  const flattenedData = data.map((item) => {
+    const flattenedItem = {};
+    Object.entries(item).forEach(([key, value]) => {
+      if (typeof value === 'object' && value !== null) {
+        // For each property of the nested object, create a new property in the flattened object
+        Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+          flattenedItem[`${key}_${nestedKey}`] = nestedValue;
+        });
+      } else {
+        flattenedItem[key] = value;
+      }
+    });
+    return flattenedItem;
+  });
+
+  // Extract column headers
+  const headers = Object.keys(flattenedData[0]).join(',');
+
+  // Extract rows
+  const rows = flattenedData
+    .map((row) =>
+      Object.values(row)
+        .map((value) =>
+          typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value
+        )
+        .join(',')
+    )
+    .join('\n');
+
+  // Combine headers and rows
+  return `${headers}\n${rows}`;
+}
+
+function exportData(data) {
+  const csvData = convertDataToCSV(data);
+  const blob = new Blob([csvData], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  download(url, 'Breakdown_Heat_Consumption.csv');
+}
+
+function download(href, fileName) {
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function exportDataImage() {
+  // Capture the current page
+  html2canvas(document.body).then((canvas) => {
+    // Sidebar width
+    const sidebarWidth = 0;
+
+    // Create a new canvas to draw the cropped image
+    const croppedCanvas = document.createElement('canvas');
+    const ctx = croppedCanvas.getContext('2d');
+
+    // Set dimensions for the new canvas
+    croppedCanvas.width = canvas.width - sidebarWidth;
+    croppedCanvas.height = canvas.height;
+
+    // Draw the cropped area onto the new canvas
+    ctx.drawImage(
+      canvas,
+      sidebarWidth,
+      0, // Start cropping from the end of the sidebar
+      canvas.width - sidebarWidth,
+      canvas.height, // Crop width and height
+      0,
+      0, // Place the cropped image at the top left corner of the new canvas
+      canvas.width - sidebarWidth,
+      canvas.height
+    );
+
+    // Convert the new canvas to a data URL (base64 encoded image)
+    const imageUrl = croppedCanvas.toDataURL('image/png');
+
+    // Trigger the download
+    download_image(imageUrl, 'Breakdown_Heat_Consumption.png');
+  });
+}
+
+function download_image(href, fileName) {
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
 const lightingEffect = new LightingEffect({
   ambientLight,
@@ -231,13 +333,31 @@ const LocationAggregatorMap = ({
           controller={true}
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
           mapStyle={darkMode ? DarkMapStyle : LightMapStyle}
+          preserveDrawingBuffer={true}
         />
 
         {/* FLOATING CONTROLLER */}
         <div className='absolute bg-slate-900 text-white min-h-[200px] h-auto w-[200px] top-10 left-5 rounded-lg p-4 text-sm z-50'>
           <div className='flex flex-col'>
             <h2 className='font-bold text-xl uppercase mb-1'>
-              Editor <InfoPopup type={'heat-type'} />
+              Editor
+              <div className='font-bold text-xl uppercase mb-1'>
+                <InfoPopup type={'heat-type'} />{' '}
+                <button
+                  onClick={() =>
+                    exportData(data, 'Breakdown_Heat_Consumption.csv')
+                  }
+                  className='m-2'
+                >
+                  <Export />
+                </button>
+                <button
+                  onClick={exportDataImage}
+                  className='m-2'
+                >
+                  <ImageExport />
+                </button>
+              </div>
             </h2>
             <h2 className='font-bold text-md mb-4'>LSOAs</h2>
 
