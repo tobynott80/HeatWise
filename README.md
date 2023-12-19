@@ -1,7 +1,7 @@
 # HeatWise - Group 6 CM6311
 
 ![Badge](https://img.shields.io/badge/PlayWright_Tests-Passing-green)
-[Test Status (Connect to VPN)](https://c21048229.gitpages.cardiff.ac.uk/-/cm6311-group-6/-/jobs/136103/artifacts/playwright-report/index.html)
+[Test Status (Connect to VPN)](https://c21048229.gitpages.cardiff.ac.uk/cm6311-group-6/)
 
 Heatwise is a project to visualise spatial-temporal heat demand across England and Wales, as gathered by The Centre for Integrated Renewable Energy Generation and Supply (CIREGS) at Cardiff University's School of Engineering. Details on how this data was gathered is available in [the research paper](https://www.nature.com/articles/s41597-022-01356-9)
 
@@ -36,15 +36,15 @@ We deploy Heatwise to Vercel. Details on best practice for this is available [he
 1. Ensure Node.js is installed and the project is cloned.
 2. Run the build script once, which builds the production application in the .next folder
 
-    ```bash
-    npm run build
-    ```
+   ```bash
+   npm run build
+   ```
 
 3. After building, the start script starts a Node.js server that supports hybrid pages, serving both statically generated and server-side rendered pages, and API Routes
 
-    ```bash
-    npm run start
-    ```
+   ```bash
+   npm run start
+   ```
 
 ## Tests
 
@@ -68,8 +68,6 @@ Optional: When writing new tests, playwright's UI mode has better debugging tool
 ```bash
 npx playwright test --ui
 ```
-
-
 
 ## Authors
 
