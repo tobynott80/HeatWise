@@ -38,5 +38,6 @@ pages:
   artifacts:
     paths:
       - artifacts
+  publish: artifacts
   only:
     - main
