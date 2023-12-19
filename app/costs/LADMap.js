@@ -6,6 +6,9 @@ import ZoomIn from '../components/icons/ZoomIn';
 import ZoomOut from '../components/icons/ZoomOut';
 import Reset from '../components/icons/Reset';
 import InfoPopup from '../components/InfoPopup';
+import Export from '../components/icons/Export';
+import ImageExport from '../components/icons/ImageExport';
+import html2canvas from 'html2canvas';
 
 export default function Map() {
   const mapRef = useRef();
@@ -177,6 +180,97 @@ export default function Map() {
       .append('title');
   }, [g, tooltip, energyCost, largestTotal, smallestTotal]);
 
+  function convertDataToCSV(data) {
+    if (!data || data.length === 0) {
+      return '';
+    }
+
+    // Extract column headers
+    const headers = Object.keys(data[0]).join(',');
+
+    // Extract rows
+    const rows = data
+      .map((row) => {
+        return Object.values(row)
+          .map((value) => {
+            // Check if the value is an object and handle it accordingly
+            if (value && typeof value === 'object') {
+              // Assuming you want to extract 'total' from 'HeatingCost' object
+              return value.total ? `"${value.total}"` : '';
+            } else {
+              return typeof value === 'string'
+                ? `"${value.replace(/"/g, '""')}"`
+                : value;
+            }
+          })
+          .join(',');
+      })
+      .join('\n');
+
+    // Combine headers and rows
+    return `${headers}\n${rows}`;
+  }
+
+  function exportData() {
+    const csvData = convertDataToCSV(energyCost);
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    download(url, 'Energy_Cost_Data.csv');
+  }
+
+  function download(href, fileName) {
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function exportDataImage() {
+    // Capture the current page
+    html2canvas(document.body).then((canvas) => {
+      // Sidebar width
+      const sidebarWidth = 0;
+
+      // Create a new canvas to draw the cropped image
+      const croppedCanvas = document.createElement('canvas');
+      const ctx = croppedCanvas.getContext('2d');
+
+      // Set dimensions for the new canvas
+      croppedCanvas.width = canvas.width - sidebarWidth;
+      croppedCanvas.height = canvas.height;
+
+      // Draw the cropped area onto the new canvas
+      ctx.drawImage(
+        canvas,
+        sidebarWidth,
+        0, // Start cropping from the end of the sidebar
+        canvas.width - sidebarWidth,
+        canvas.height, // Crop width and height
+        0,
+        0, // Place the cropped image at the top left corner of the new canvas
+        canvas.width - sidebarWidth,
+        canvas.height
+      );
+
+      // Convert the new canvas to a data URL (base64 encoded image)
+      const imageUrl = croppedCanvas.toDataURL('image/png');
+
+      // Trigger the download
+      download_image(imageUrl, 'Energy_Cost_Data.png');
+    });
+  }
+
+  function download_image(href, fileName) {
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
     <>
       <section className='py-4 px-6 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg text-center space-y-2'>
@@ -235,6 +329,18 @@ export default function Map() {
             className='m-2'
           >
             <Reset />
+          </button>
+          <button
+            onClick={exportData}
+            className='m-2'
+          >
+            <Export />
+          </button>
+          <button
+            onClick={exportDataImage}
+            className='m-2'
+          >
+            <ImageExport />
           </button>
         </div>
       </section>
