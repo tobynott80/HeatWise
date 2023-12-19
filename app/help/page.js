@@ -1,4 +1,4 @@
-"use client";
+'use client';
 export default function Home() {
   return (
     <div className='min-h-screen heropattern-topography-black bg-repeat dark:heropattern-topography-gray-400 dark:bg-black flex items-center justify-center'>
@@ -18,13 +18,21 @@ export default function Home() {
               <span className='text-blue-500 mr-2'>Q:</span> What is the purpose
               of this service?
               <p className='ml-8 text-gray-600'>
-                A: Our service is designed to...
+                A: This tool is specifically designed to address and enhance the
+                analysis and understanding of heating trends and decarbonization
+                efforts in England and Wales, focusing on data granularity at
+                the Lower Layer Super Output Area (LSOA) level.
               </p>
             </li>
             <li className='mb-2 text-black'>
-              <span className='text-blue-500 mr-2'>Q:</span> How can I get
-              started?
-              <p className='ml-8 text-gray-600'>A: To get started, simply...</p>
+              <span className='text-blue-500 mr-2'>Q:</span> What is the
+              methodology behind the data?
+              <p className='ml-8 text-gray-600'>
+                A: The data is based on the UK Government&apos;s National
+                Statistics Postcode Lookup (NSPL) data, which is updated
+                annually. The data is then processed and aggregated to the LSOA
+                level.
+              </p>
             </li>
             {/* Add more FAQs here */}
           </ul>
@@ -33,13 +41,13 @@ export default function Home() {
         <div>
           <h2 className='text-lg font-semibold mb-2 text-black'>Contact Us</h2>
           <p className='text-gray-600'>
-            If you couldn&apos;t find the answer to your question in our FAQ section,
-            feel free to contact us via email at{' '}
+            If you couldn&apos;t find the answer to your question in our FAQ
+            section, feel free to contact us via email at{' '}
             <a
-              href='mailto:support@example.com'
+              href='mailto:info@heatwise.com'
               className='text-blue-500'
             >
-              support@example.com
+              info@heatwise.com
             </a>
             .
           </p>
