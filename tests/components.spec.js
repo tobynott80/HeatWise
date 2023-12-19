@@ -42,6 +42,6 @@ test('Navbar breakdown heat consumption navigation redirect', async ({
 }) => {
   await page.goto('/');
   await page.click('text=Breakdown of Heat Consumption');
-  await page.waitForURL('/consumption');
-  await expect(page).toHaveURL('/consumption');
+  await page.waitForURL('/heattype');
+  await expect(page).toHaveURL('/heattype');
 });
