@@ -100,8 +100,8 @@ export default function FilterList({ setFilter }) {
               className='flex'
               key={v.lad19cd}
             >
-              <div className='items-center h-5 py-1'>
-                <div className='text-sm'>
+              <div className='items-center'>
+                <div className='text-sm space-x-1'>
                   <input
                     type='checkbox'
                     value={v.lad19cd}
