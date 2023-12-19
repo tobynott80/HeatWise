@@ -1,6 +1,6 @@
 'use client'
 import React, {useState,useEffect} from 'react'
-import LocationAggregatorMap from "@/components/Map";
+import LocationAggregatorMap from "./Map";
 const HomePage = () => {
     const [data, setData] = useState([]);
     const [heatingData, setHeatingData] = useState([]);

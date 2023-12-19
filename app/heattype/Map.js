@@ -18,7 +18,7 @@ import {
   pointLight2,
   material,
   INITIAL_VIEW_STATE
-} from '@/components/mapconfig';
+} from './mapconfig';
 import InfoPopup from '@/app/components/InfoPopup';
 
 const lightingEffect = new LightingEffect({
