@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
@@ -12,7 +13,7 @@ export default function LoginForm() {
     //fetch api route with username and password
     //if successful, redirect to admin page
     //else, display error message
-    const response = await fetch('/api/admin', {
+    const response = await fetch('/api/admin/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: {
@@ -26,6 +27,17 @@ export default function LoginForm() {
       router.push('/admin');
     }
   };
+
+  //checks if admin has cookies already and redirects to admin page
+
+  const checkCookies = async () => {
+    const token = Cookies.get('token');
+
+    if (token) {
+      router.push('/admin');
+    }
+  };
+  checkCookies();
 
   return (
     <div className='min-h-screen heropattern-topography-black bg-repeat dark:heropattern-topography-gray-400 dark:bg-black flex items-center justify-center'>

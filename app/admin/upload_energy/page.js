@@ -2,6 +2,7 @@
 import Cookies from 'js-cookie';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Signout from '@/app/components/icons/Signout';
 
 export default function Home() {
   const router = useRouter();
@@ -44,9 +45,31 @@ export default function Home() {
     }
   }, [router]);
 
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/admin/logout', { method: 'GET' });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Signout failed');
+      }
+
+      // Handle the UI change or redirection after successful signout
+      router.replace('/admin/login'); // Redirect to the login page
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className='min-h-screen heropattern-topography-black bg-repeat dark:heropattern-topography-gray-400 dark:bg-black flex items-center justify-center'>
       <div className='rounded lg shadow-md p-8 max-w-xl w-full bg-white'>
+        <button
+          onClick={handleSignout}
+          className='float-right text-gray-800 dark:text-black'
+        >
+          <Signout />
+        </button>
         <h1 className='text-2xl text-black font-semibold mb-6'>
           Energy Efficiency Costs
         </h1>
