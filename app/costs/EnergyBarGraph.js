@@ -2,6 +2,7 @@
 import * as d3 from 'd3';
 import * as Plot from '@observablehq/plot';
 import { useEffect, useRef, useState } from 'react';
+import Export from '../components/icons/Export';
 
 export default function EnergyBarGraph({ graph, filters }) {
   const ref = useRef();
@@ -102,11 +103,46 @@ export default function EnergyBarGraph({ graph, filters }) {
     }
   }, [filters, dwellingTotal, dwellingData]);
 
+  const convertToCSV = (data) => {
+    let csvContent = 'data:text/csv;charset=utf-8,';
+    csvContent += Object.keys(data[0]).join(',') + '\r\n'; // Add the header row
+
+    data.forEach((row) => {
+      let rowContent = Object.values(row).join(',');
+      csvContent += rowContent + '\r\n';
+    });
+
+    return csvContent;
+  };
+
+  // Function to trigger download
+  const exportData = () => {
+    // Use the 'current' state which holds the filtered data
+    const csvData = convertToCSV(current);
+    const encodedUri = encodeURI(csvData);
+    const fileName = `${type}_Energy_Efficiency_Improvement_Cost.csv`;
+
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', fileName); // Use the dynamic file name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <section className='rounded-md bg-white dark:bg-gray-800 shrink h-full text-center p-2'>
-      <span className='text-sm font-semibold'>
-        Breakdown of energy efficiency improvement costs by {type} type (£)
-      </span>
+      <div className='flex justify-between items-center text-sm font-semibold'>
+        <span>
+          Breakdown of energy efficiency improvement costs by {type} type (£)
+        </span>
+        <button
+          onClick={exportData}
+          className='m-2'
+        >
+          <Export />
+        </button>
+      </div>
       <svg
         className='m-2 rounded-md w-full h-3/4'
         ref={ref}

@@ -7,8 +7,8 @@ import PoundIcon from './icons/Pound';
 import GraphDown from './icons/GraphDown';
 import { usePathname } from 'next/navigation';
 import QuestionMark from './icons/Question';
-import flame from "@/app/components/icons/Flame";
-import FlameIcon from "@/app/components/icons/Flame";
+import flame from '@/app/components/icons/Flame';
+import FlameIcon from '@/app/components/icons/Flame';
 
 const MenuItem = ({ title, href, icon, isActive }) => {
   const classes = `flex items-center py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ${
@@ -71,16 +71,16 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           isActive={pathname.includes('/costs')}
         />
         <MenuItem
-          title={isSidebarOpen ? 'Heat Consumption Profile' : ''}
+          title={isSidebarOpen ? 'Breakdown of Heat Consumption' : ''}
+          href='/heattype'
+          icon={<FlameIcon />}
+          isActive={pathname == '/heattype'}
+        />
+        <MenuItem
+          title={isSidebarOpen ? 'Heat Consumption Over Time' : ''}
           href='/consumption'
           icon={<GraphDown />}
           isActive={pathname.includes('/consumption')}
-        />
-        <MenuItem
-            title={isSidebarOpen ? 'Heat Type Map' : ''}
-            href='/heattype'
-            icon={<FlameIcon/>}
-            isActive={pathname == '/heattype'}
         />
       </nav>
       <div className='flex items-center justify-between py-4 pr-4'>
