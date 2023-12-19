@@ -18,9 +18,6 @@ export default function Home() {
       case 'EN':
         router.push('/admin/upload_energy');
         break;
-      case 'HR':
-        router.push('/admin/upload_hourly');
-        break;
       default:
         alert('Please select a dataset');
         break;
@@ -96,7 +93,6 @@ export default function Home() {
               <option selected>Choose a Dataset</option>
               <option value='HE'>Annual Heat Demand</option>
               <option value='EN'>Energy Efficiency Improvement Costs</option>
-              <option value='HR'>Half Hourly Profiles Of Heating Tech</option>
             </select>
           </h1>
           <button
