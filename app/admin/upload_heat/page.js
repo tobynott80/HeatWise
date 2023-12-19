@@ -40,7 +40,7 @@ export default function Home() {
     const token = Cookies.get('token');
 
     if (!token) {
-      router.replace('/'); // If no token is found, redirect to login page
+      router.replace('/admin/login'); // If no token is found, redirect to login page
       return;
     }
   }, [router]);

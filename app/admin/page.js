@@ -31,7 +31,7 @@ export default function Home() {
     const token = Cookies.get('token');
 
     if (!token) {
-      router.replace('/'); // If no token is found, redirect to login page
+      router.replace('/admin/login'); // If no token is found, redirect to login page
       return;
     }
 
@@ -48,7 +48,6 @@ export default function Home() {
       } catch (error) {
         console.error(error);
         console.log('Token validation failed');
-        router.replace('/'); // Redirect to login if token validation fails
       }
     };
 
