@@ -76,12 +76,6 @@ export default function NavContainer({ isSidebarOpen, setSidebarOpen }) {
           icon={<FlameIcon />}
           isActive={pathname == '/heattype'}
         />
-        <MenuItem
-          title={isSidebarOpen ? 'Heat Consumption Over Time' : ''}
-          href='/consumption'
-          icon={<GraphDown />}
-          isActive={pathname.includes('/consumption')}
-        />
       </nav>
       <div className='flex items-center justify-between py-4 pr-4'>
         <div className='px-2 overflow-hidden'>
