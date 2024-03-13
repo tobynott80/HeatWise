@@ -75,9 +75,9 @@ npx playwright test --ui
 
 [Tobiah Nott](NottTJ@cardiff.ac.uk)
 
-[Sanil Jalan](jalans1@cardiff.ac.uk)
-
 [Antonio De Rosa](derosaa@cardiff.ac.uk)
+
+[Sanil Jalan](jalans1@cardiff.ac.uk)
 
 [George Hampton](hamptong1@cardiff.ac.uk)
 
