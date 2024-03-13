@@ -100,6 +100,22 @@ const tabsData = [
             <p>Nick Jenkins</p>
             <p>Jianzhong Wu</p>
           </div>
+
+          <div className='text-center'>
+            <h3 className='text-xl font-semibold'>Developers</h3>
+            <p>
+              <a href='https://tobynott.com'>Tobiah Nott</a>
+            </p>
+            <p>
+              <a href='https://github.com/sanil14'>Sanil Jalan</a>
+            </p>
+            <p>
+              <a href='https://github.com/ChrisD5'>Christoper Dixon</a>
+            </p>
+            <p>Antonio De Rosa</p>
+            <p>George Hampton</p>
+            <p>Laurence Maynard</p>
+          </div>
         </div>
       </div>
     )
