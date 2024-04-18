@@ -20,8 +20,14 @@ jobs:
     - name: Prisma generate
       run: npx prisma generate
     - name: Build App
+      env: 
+        POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
       run: npm run build
     - name: Run Playwright tests
+      env: 
+        POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
       run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
