@@ -37,21 +37,6 @@ export default function Home() {
             {/* Add more FAQs here */}
           </ul>
         </div>
-
-        <div>
-          <h2 className='text-lg font-semibold mb-2 text-black'>Contact Us</h2>
-          <p className='text-gray-600'>
-            If you couldn&apos;t find the answer to your question in our FAQ
-            section, feel free to contact us via email at{' '}
-            <a
-              href='mailto:info@heatwise.live'
-              className='text-blue-500'
-            >
-              info@heatwise.live
-            </a>
-            .
-          </p>
-        </div>
       </div>
     </div>
   );
