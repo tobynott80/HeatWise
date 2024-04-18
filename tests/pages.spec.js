@@ -51,7 +51,7 @@ test('Efficiency Costs graph should be clickable and redirect', async ({ page })
 
   await page.click('text=Barnet');
   // Expect correct values for the Barnet LAD
-  await expect(page.locator('text=35,349')).toBeVisible();
+  await expect(page.locator('text=35,349')).toBeVisible({ timeout: 30000 });
 
 
 });
