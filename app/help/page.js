@@ -44,10 +44,10 @@ export default function Home() {
             If you couldn&apos;t find the answer to your question in our FAQ
             section, feel free to contact us via email at{' '}
             <a
-              href='mailto:info@heatwise.com'
+              href='mailto:info@heatwise.live'
               className='text-blue-500'
             >
-              info@heatwise.com
+              info@heatwise.live
             </a>
             .
           </p>
