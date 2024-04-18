@@ -22,12 +22,12 @@ jobs:
     - name: Build App
       env: 
         POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }}
       run: npm run build
     - name: Run Playwright tests
       env: 
         POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }}
       run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
