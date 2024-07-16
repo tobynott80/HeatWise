@@ -19,7 +19,7 @@
     "@mapbox/mapbox-sdk": "^0.15.3",
     "@observablehq/plot": "^0.6.11",
     "@prisma/client": "^5.5.1",
-    "@vercel/postgres": "^0.5.0",
+    "@vercel/postgres": "^0.9.0",
     "bcryptjs": "^2.4.3",
     "csv-parser": "^3.0.0",
     "d3": "^7.8.5",
